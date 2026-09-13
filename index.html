@@ -574,7 +574,7 @@ h1 {
 }
 
 /* =====================================================
-   ФИНАЛ
+   ОКНО МЕЖДУ РАУНДАМИ / ФИНАЛ
 ===================================================== */
 
 #finish[hidden] {
@@ -639,7 +639,7 @@ h1 {
   line-height: 1.5;
 }
 
-#restart {
+#finishButton {
   margin-top: 31px;
 
   padding: 20px 36px;
@@ -667,7 +667,7 @@ h1 {
   cursor: pointer;
 }
 
-#restart:active {
+#finishButton:active {
   transform: translateY(3px);
 
   box-shadow:
@@ -705,7 +705,7 @@ h1 {
 
     <p class="subtitle">
       Лови картинки со звуком
-      <strong>С</strong>
+      <strong id="targetSound">С</strong>
     </p>
 
   </div>
@@ -769,22 +769,23 @@ h1 {
 
   <div class="finish-card">
 
-    <div class="finish-icon">
+    <div
+      id="finishIcon"
+      class="finish-icon"
+    >
       🎣 🐟
     </div>
 
-    <h2>
-      Отличный улов!
+    <h2 id="finishTitle">
+      Отлично порыбачили!
     </h2>
 
-    <p>
-      Все картинки со звуком С
-      <br>
-      пойманы!
+    <p id="finishText">
+      Продолжим?
     </p>
 
-    <button id="restart">
-      Рыбачить ещё раз
+    <button id="finishButton">
+      Продолжить
     </button>
 
   </div>
@@ -799,121 +800,139 @@ h1 {
 "use strict";
 
 /* =====================================================
-   КАРТИНКИ С
+   ВСЕ 8 КАРТИНОК С
 ===================================================== */
 
-const CORRECT_CARDS = [
+const S_CARDS = [
 
   {
     id: "bag",
     name: "Сумка",
-    image: "raund/bag.png",
-    correct: true
+    image: "raund/bag.png"
   },
 
   {
     id: "bus",
     name: "Автобус",
-    image: "raund/bus.png",
-    correct: true
+    image: "raund/bus.png"
   },
 
   {
     id: "cabbage",
     name: "Капуста",
-    image: "raund/cabbage.png",
-    correct: true
+    image: "raund/cabbage.png"
   },
 
   {
     id: "dog",
     name: "Собака",
-    image: "raund/dog.png",
-    correct: true
+    image: "raund/dog.png"
   },
 
   {
     id: "fox",
     name: "Лиса",
-    image: "raund/fox.png",
-    correct: true
+    image: "raund/fox.png"
   },
 
   {
     id: "pineapple",
     name: "Ананас",
-    image: "raund/pineapple.png",
-    correct: true
+    image: "raund/pineapple.png"
   },
 
   {
     id: "scooter",
     name: "Самокат",
-    image: "raund/scooter.png",
-    correct: true
+    image: "raund/scooter.png"
   },
 
   {
     id: "wasp",
     name: "Оса",
-    image: "raund/wasp.png",
-    correct: true
+    image: "raund/wasp.png"
   }
 
 ];
 
 /* =====================================================
-   КАРТИНКИ Ш
+   ВСЕ 8 КАРТИНОК Ш
 ===================================================== */
 
-const WRONG_CARDS = [
+const SH_CARDS = [
 
   {
     id: "cap",
     name: "Шапка",
-    image: "raund/cap.png",
-    correct: false
+    image: "raund/cap.png"
   },
 
   {
     id: "car",
     name: "Машина",
-    image: "raund/car.png",
-    correct: false
+    image: "raund/car.png"
   },
 
   {
     id: "cat",
     name: "Кошка",
-    image: "raund/cat.png",
-    correct: false
+    image: "raund/cat.png"
   },
 
   {
     id: "cherry",
     name: "Вишня",
-    image: "raund/cherry.png",
-    correct: false
+    image: "raund/cherry.png"
   },
 
   {
     id: "mouse",
     name: "Мышь",
-    image: "raund/mouse.png",
-    correct: false
+    image: "raund/mouse.png"
+  },
+
+  {
+    id: "pillow",
+    name: "Подушка",
+    image: "raund/pillow.png"
   },
 
   {
     id: "shower",
     name: "Душ",
-    image: "raund/shower.png",
-    correct: false
+    image: "raund/shower.png"
+  },
+
+  {
+    id: "tire",
+    name: "Шина",
+    image: "raund/tire.png"
   }
 
 ];
 
-const TOTAL_CORRECT =
-  CORRECT_CARDS.length;
+/* =====================================================
+   ДВА РАУНДА
+
+   1 — ловим С
+   2 — ловим Ш
+===================================================== */
+
+const ROUNDS = [
+
+  {
+    sound: "С",
+    correctCards: S_CARDS,
+    wrongCards: SH_CARDS
+  },
+
+  {
+    sound: "Ш",
+    correctCards: SH_CARDS,
+    wrongCards: S_CARDS
+  }
+
+];
 
 /* =====================================================
    ВИДЫ РЫБ
@@ -1005,17 +1024,33 @@ const score =
 const progressFill =
   document.getElementById("progressFill");
 
+const targetSound =
+  document.getElementById("targetSound");
+
 const finish =
   document.getElementById("finish");
 
-const restart =
-  document.getElementById("restart");
+const finishIcon =
+  document.getElementById("finishIcon");
+
+const finishTitle =
+  document.getElementById("finishTitle");
+
+const finishText =
+  document.getElementById("finishText");
+
+const finishButton =
+  document.getElementById("finishButton");
 
 /* =====================================================
    СОСТОЯНИЕ
 ===================================================== */
 
-let fishes = [];
+let currentRoundIndex =
+  0;
+
+let fishes =
+  [];
 
 let caughtCorrect =
   new Set();
@@ -1037,6 +1072,26 @@ let boatHeight =
 
 let spawnNumber =
   0;
+
+/* =====================================================
+   ТЕКУЩИЙ РАУНД
+===================================================== */
+
+function getRound() {
+
+  return ROUNDS[
+    currentRoundIndex
+  ];
+
+}
+
+function getTotalCorrect() {
+
+  return getRound()
+    .correctCards
+    .length;
+
+}
 
 /* =====================================================
    МАСШТАБ
@@ -1156,20 +1211,26 @@ function updateScore() {
   const caught =
     caughtCorrect.size;
 
+  const total =
+    getTotalCorrect();
+
   score.textContent =
-    `🐟 ${caught} / ${TOTAL_CORRECT}`;
+    `🐟 ${caught} / ${total}`;
 
   progressFill.style.width =
+
     `${
-      caught /
-      TOTAL_CORRECT *
-      100
+      total
+        ? caught /
+          total *
+          100
+        : 0
     }%`;
 
 }
 
 /* =====================================================
-   АКТИВНЫЕ С
+   АКТИВНЫЕ ПРАВИЛЬНЫЕ КАРТИНКИ
 ===================================================== */
 
 function getActiveCorrectIds() {
@@ -1200,17 +1261,24 @@ function getActiveCorrectIds() {
 }
 
 /* =====================================================
-   ВЫБОР С
+   ПРАВИЛЬНАЯ КАРТИНКА
+
+   Пойманные больше не появляются.
+   Одновременно одна правильная
+   картинка тоже не дублируется.
 ===================================================== */
 
 function getCorrectCard() {
+
+  const round =
+    getRound();
 
   const activeCorrect =
     getActiveCorrectIds();
 
   const available =
 
-    CORRECT_CARDS.filter(
+    round.correctCards.filter(
 
       card =>
 
@@ -1228,21 +1296,36 @@ function getCorrectCard() {
     return null;
   }
 
-  return randomItem(
-    available
-  );
+  const card =
+    randomItem(
+      available
+    );
+
+  return {
+
+    ...card,
+    correct: true
+
+  };
 
 }
 
 /* =====================================================
-   ВЫБОР Ш
+   НЕПРАВИЛЬНАЯ КАРТИНКА
+
+   Может повторяться,
+   но не ставим ту же самую
+   два раза подряд.
 ===================================================== */
 
 function getWrongCard() {
 
+  const round =
+    getRound();
+
   let available =
 
-    WRONG_CARDS.filter(
+    round.wrongCards.filter(
 
       card =>
         card.id !==
@@ -1253,19 +1336,24 @@ function getWrongCard() {
   if (!available.length) {
 
     available =
-      [...WRONG_CARDS];
+      [...round.wrongCards];
 
   }
 
-  const card =
+  const selected =
     randomItem(
       available
     );
 
   lastWrongId =
-    card.id;
+    selected.id;
 
-  return card;
+  return {
+
+    ...selected,
+    correct: false
+
+  };
 
 }
 
@@ -1288,6 +1376,11 @@ function getNextCard(
     return correct;
 
   }
+
+  /*
+    60% — правильная,
+    40% — отвлекающая.
+  */
 
   if (
     correct &&
@@ -1851,7 +1944,7 @@ function setFishEnabled(
 }
 
 /* =====================================================
-   ВЫБОР
+   ВЫБОР РЫБЫ
 ===================================================== */
 
 function selectFish(
@@ -2104,11 +2197,6 @@ function animateCorrectCatch(
 
     );
 
-    /*
-      Пока рыбка летит,
-      она полностью видима.
-    */
-
     fish.element.style.opacity =
       "1";
 
@@ -2149,12 +2237,6 @@ function animateCorrectCatch(
     if (
       t >= 1
     ) {
-
-      /*
-        Только теперь,
-        когда рыбка уже у ног мальчика,
-        начинается исчезновение.
-      */
 
       current.stage =
         "vanish";
@@ -2197,11 +2279,6 @@ function animateCorrectCatch(
         )
 
       );
-
-    /*
-      Рыбка больше никуда
-      не двигается.
-    */
 
     fish.x =
       current.vanishX;
@@ -2812,17 +2889,30 @@ function finishCatch(
 
   if (
     caughtCorrect.size ===
-    TOTAL_CORRECT
+    getTotalCorrect()
   ) {
 
-    setFishEnabled(
-      false
-    );
+    /*
+      РАУНД 1 ЗАКОНЧЕН
+    */
 
-    finish.hidden =
-      false;
+    if (
+      currentRoundIndex === 0
+    ) {
 
-    restart.focus();
+      showRoundComplete();
+
+    }
+
+    /*
+      РАУНД 2 ЗАКОНЧЕН
+    */
+
+    else {
+
+      showGameComplete();
+
+    }
 
     return;
 
@@ -2834,6 +2924,178 @@ function finishCatch(
 
   setFishEnabled(
     true
+  );
+
+}
+
+/* =====================================================
+   ОКНО ПОСЛЕ ПЕРВОГО РАУНДА
+===================================================== */
+
+function showRoundComplete() {
+
+  setFishEnabled(
+    false
+  );
+
+  finishIcon.textContent =
+    "🎣 🐟";
+
+  finishTitle.textContent =
+    "Отлично порыбачили!";
+
+  finishText.textContent =
+    "Продолжим?";
+
+  finishButton.textContent =
+    "Продолжить";
+
+  finishButton.dataset.action =
+    "next-round";
+
+  finish.hidden =
+    false;
+
+  finishButton.focus();
+
+}
+
+/* =====================================================
+   ФИНАЛ ВСЕЙ ИГРЫ
+===================================================== */
+
+function showGameComplete() {
+
+  setFishEnabled(
+    false
+  );
+
+  finishIcon.textContent =
+    "🏆 🎣 🐟";
+
+  finishTitle.textContent =
+    "Отличный улов!";
+
+  finishText.innerHTML =
+    "Все картинки со звуками С и Ш<br>пойманы!";
+
+  finishButton.textContent =
+    "Рыбачить ещё раз";
+
+  finishButton.dataset.action =
+    "restart";
+
+  finish.hidden =
+    false;
+
+  finishButton.focus();
+
+}
+
+/* =====================================================
+   УДАЛЯЕМ ТЕКУЩИХ РЫБ
+===================================================== */
+
+function clearFishes() {
+
+  for (
+    const fish
+    of fishes
+  ) {
+
+    fish.element.remove();
+
+  }
+
+  fishes =
+    [];
+
+}
+
+/* =====================================================
+   ЗАПУСК КОНКРЕТНОГО РАУНДА
+===================================================== */
+
+function startRound(
+  roundIndex
+) {
+
+  clearFishes();
+
+  currentRoundIndex =
+    roundIndex;
+
+  caughtCorrect =
+    new Set();
+
+  lastWrongId =
+    null;
+
+  action =
+    null;
+
+  spawnNumber =
+    0;
+
+  previousTime =
+    null;
+
+  finish.hidden =
+    true;
+
+  /*
+    Меняем букву сверху.
+  */
+
+  targetSound.textContent =
+    getRound().sound;
+
+  updateScore();
+
+  /*
+    На старте гарантируем,
+    что хотя бы одна правильная
+    рыбка уже есть на экране.
+  */
+
+  spawnFish(
+    0,
+    true,
+    true
+  );
+
+  spawnFish(
+    1,
+    true
+  );
+
+  spawnFish(
+    2,
+    true
+  );
+
+  const pose =
+    getBoatPose();
+
+  const tip =
+    drawRod(
+      pose
+    );
+
+  drawLine(
+
+    tip,
+
+    {
+
+      x:
+        tip.x + 6,
+
+      y:
+        tip.y + 58
+
+    }
+
   );
 
 }
@@ -3056,107 +3318,70 @@ document.addEventListener(
 );
 
 /* =====================================================
-   НОВАЯ ИГРА
+   КНОПКА ОКНА
 ===================================================== */
 
-function resetGame() {
-
-  for (
-    const fish
-    of fishes
-  ) {
-
-    fish.element.remove();
-
-  }
-
-  fishes =
-    [];
-
-  caughtCorrect =
-    new Set();
-
-  lastWrongId =
-    null;
-
-  action =
-    null;
-
-  clock =
-    0;
-
-  previousTime =
-    null;
-
-  spawnNumber =
-    0;
-
-  finish.hidden =
-    true;
-
-  updateScore();
-
-  moveWaves();
-
-  spawnFish(
-    0,
-    true,
-    true
-  );
-
-  spawnFish(
-    1,
-    true
-  );
-
-  spawnFish(
-    2,
-    true
-  );
-
-  const pose =
-    getBoatPose();
-
-  const tip =
-    drawRod(
-      pose
-    );
-
-  drawLine(
-
-    tip,
-
-    {
-
-      x:
-        tip.x + 6,
-
-      y:
-        tip.y + 58
-
-    }
-
-  );
-
-}
-
-/* =====================================================
-   ПОВТОР
-===================================================== */
-
-restart.addEventListener(
+finishButton.addEventListener(
 
   "click",
 
-  resetGame
+  () => {
+
+    const actionType =
+      finishButton.dataset.action;
+
+    /*
+      После первого раунда
+      запускаем второй.
+    */
+
+    if (
+      actionType ===
+      "next-round"
+    ) {
+
+      startRound(
+        1
+      );
+
+      return;
+
+    }
+
+    /*
+      После второго —
+      начинаем всю игру заново.
+    */
+
+    if (
+      actionType ===
+      "restart"
+    ) {
+
+      clock =
+        0;
+
+      moveWaves();
+
+      startRound(
+        0
+      );
+
+    }
+
+  }
 
 );
 
 /* =====================================================
-   СТАРТ
+   СТАРТ ИГРЫ
 ===================================================== */
 
-resetGame();
+moveWaves();
+
+startRound(
+  0
+);
 
 requestAnimationFrame(
   frame
