@@ -81,8 +81,6 @@ button {
 
 /* =====================================================
    ВОЛНЫ
-   Движение теперь делает JavaScript.
-   Нет перезапуска CSS-анимации.
 ===================================================== */
 
 .wave-track {
@@ -115,17 +113,13 @@ button {
 
 #wavesBack {
   top: 325px;
-
   z-index: 2;
-
   opacity: .60;
 }
 
 #wavesFront {
   top: 350px;
-
   z-index: 8;
-
   opacity: .82;
 }
 
@@ -448,8 +442,7 @@ h1 {
 }
 
 /* =====================================================
-   🔒 ХВОСТЫ — ЗАМОРОЖЕННЫЙ БЛОК
-   НЕ МЕНЯТЬ ПРИ СЛЕДУЮЩИХ ПРАВКАХ
+   🔒 ХВОСТЫ — НЕ МЕНЯТЬ
 ===================================================== */
 
 .fish-tail-image {
@@ -535,8 +528,6 @@ h1 {
 
   z-index: 4;
 
-  font-size: 43px;
-
   line-height: 1;
 
   pointer-events: none;
@@ -548,12 +539,15 @@ h1 {
 }
 
 .picture img {
+  display: block;
+
   width: 92%;
   height: 92%;
 
   object-fit: contain;
 
   pointer-events: none;
+  user-select: none;
 }
 
 /* =====================================================
@@ -725,9 +719,7 @@ h1 {
   draggable="false"
 >
 
-<!-- ===================================================
-     ЗАДНЯЯ ВОЛНА
-=================================================== -->
+<!-- ЗАДНИЕ ВОЛНЫ -->
 
 <div
   id="wavesBack"
@@ -775,7 +767,7 @@ h1 {
     </div>
 
     <div id="score">
-      🐟 0 / 6
+      🐟 0 / 8
     </div>
 
     <div class="progress">
@@ -792,9 +784,7 @@ h1 {
 
 <div id="boatShadow"></div>
 
-<!-- ===================================================
-     МАЛЬЧИК
-=================================================== -->
+<!-- МАЛЬЧИК -->
 
 <div id="boat">
 
@@ -807,9 +797,7 @@ h1 {
 
 </div>
 
-<!-- ===================================================
-     ПЕРЕДНЯЯ ВОЛНА
-=================================================== -->
+<!-- ПЕРЕДНИЕ ВОЛНЫ -->
 
 <div
   id="wavesFront"
@@ -830,9 +818,7 @@ h1 {
 
 </div>
 
-<!-- ===================================================
-     УДОЧКА
-=================================================== -->
+<!-- УДОЧКА -->
 
 <svg
   id="tackle"
@@ -841,20 +827,14 @@ h1 {
 >
 
   <path id="line"></path>
-
   <path id="rod"></path>
-
   <path id="rodLight"></path>
-
   <line id="rodHandle"></line>
-
   <path id="hook"></path>
 
 </svg>
 
-<!-- ===================================================
-     ФИНАЛ
-=================================================== -->
+<!-- ФИНАЛ -->
 
 <div
   id="finish"
@@ -874,9 +854,9 @@ h1 {
     </h2>
 
     <p>
-      Все рыбки со звуком С
+      Все картинки со звуком С
       <br>
-      оказались в лодке!
+      пойманы!
     </p>
 
     <button id="restart">
@@ -895,74 +875,128 @@ h1 {
 "use strict";
 
 /* =====================================================
-   КАРТОЧКИ
-   Пока оставляем тестовые.
-   Потом заменим на твои картинки С / Ш.
+   ПРАВИЛЬНЫЕ КАРТИНКИ — ЗВУК С
+
+   После поимки такая картинка
+   больше НЕ появляется.
 ===================================================== */
 
-const CARDS = [
+const CORRECT_CARDS = [
 
   {
-    name: "Сок",
-    emoji: "🧃",
-    correct: true
-  },
-
-  {
-    name: "Сова",
-    emoji: "🦉",
-    correct: true
-  },
-
-  {
-    name: "Сыр",
-    emoji: "🧀",
-    correct: true
-  },
-
-  {
+    id: "bag",
     name: "Сумка",
-    emoji: "👜",
+    image: "raund/bag.png",
     correct: true
   },
 
   {
+    id: "bus",
     name: "Автобус",
-    emoji: "🚌",
+    image: "raund/bus.png",
     correct: true
   },
 
   {
+    id: "cabbage",
+    name: "Капуста",
+    image: "raund/cabbage.png",
+    correct: true
+  },
+
+  {
+    id: "dog",
+    name: "Собака",
+    image: "raund/dog.png",
+    correct: true
+  },
+
+  {
+    id: "fox",
+    name: "Лиса",
+    image: "raund/fox.png",
+    correct: true
+  },
+
+  {
+    id: "pineapple",
     name: "Ананас",
-    emoji: "🍍",
+    image: "raund/pineapple.png",
     correct: true
   },
 
   {
-    name: "Мяч",
-    emoji: "⚽",
+    id: "scooter",
+    name: "Самокат",
+    image: "raund/scooter.png",
+    correct: true
+  },
+
+  {
+    id: "wasp",
+    name: "Оса",
+    image: "raund/wasp.png",
+    correct: true
+  }
+
+];
+
+/* =====================================================
+   НЕПРАВИЛЬНЫЕ КАРТИНКИ — ЗВУК Ш
+
+   Они могут появляться повторно,
+   но одна и та же картинка
+   не выбирается два раза подряд.
+===================================================== */
+
+const WRONG_CARDS = [
+
+  {
+    id: "cap",
+    name: "Шапка",
+    image: "raund/cap.png",
     correct: false
   },
 
   {
-    name: "Кот",
-    emoji: "🐱",
+    id: "car",
+    name: "Машина",
+    image: "raund/car.png",
     correct: false
   },
 
   {
-    name: "Дом",
-    emoji: "🏠",
+    id: "cat",
+    name: "Кошка",
+    image: "raund/cat.png",
     correct: false
   },
 
   {
-    name: "Жук",
-    emoji: "🐞",
+    id: "cherry",
+    name: "Вишня",
+    image: "raund/cherry.png",
+    correct: false
+  },
+
+  {
+    id: "mouse",
+    name: "Мышь",
+    image: "raund/mouse.png",
+    correct: false
+  },
+
+  {
+    id: "shower",
+    name: "Душ",
+    image: "raund/shower.png",
     correct: false
   }
 
 ];
+
+const TOTAL_CORRECT =
+  CORRECT_CARDS.length;
 
 /* =====================================================
    ТРИ ВИДА РЫБ
@@ -971,36 +1005,21 @@ const CARDS = [
 const FISH_TYPES = [
 
   {
-    type:
-      "type1",
-
-    body:
-      "fish/fish1_body.png",
-
-    tail:
-      "fish/fish1_tail.png"
+    type: "type1",
+    body: "fish/fish1_body.png",
+    tail: "fish/fish1_tail.png"
   },
 
   {
-    type:
-      "type2",
-
-    body:
-      "fish/fish2_body.png",
-
-    tail:
-      "fish/fish2_tail.png"
+    type: "type2",
+    body: "fish/fish2_body.png",
+    tail: "fish/fish2_tail.png"
   },
 
   {
-    type:
-      "type3",
-
-    body:
-      "fish/fish3_body.png",
-
-    tail:
-      "fish/fish3_tail.png"
+    type: "type3",
+    body: "fish/fish3_body.png",
+    tail: "fish/fish3_tail.png"
   }
 
 ];
@@ -1009,17 +1028,11 @@ const FISH_TYPES = [
    РАЗМЕРЫ
 ===================================================== */
 
-const WIDTH =
-  1920;
+const WIDTH = 1920;
+const HEIGHT = 1080;
 
-const HEIGHT =
-  1080;
-
-const FISH_WIDTH =
-  216;
-
-const FISH_HEIGHT =
-  134;
+const FISH_WIDTH = 216;
+const FISH_HEIGHT = 134;
 
 const LANES = [
   500,
@@ -1027,100 +1040,59 @@ const LANES = [
   855
 ];
 
-const BOAT_X =
-  625;
+const BOAT_X = 625;
+const BOAT_WIDTH = 670;
 
-const BOAT_WIDTH =
-  670;
-
-const WATER_Y =
-  390;
+const WATER_Y = 390;
 
 /* =====================================================
    ЭЛЕМЕНТЫ
 ===================================================== */
 
 const game =
-  document.getElementById(
-    "game"
-  );
+  document.getElementById("game");
 
 const viewport =
-  document.getElementById(
-    "viewport"
-  );
+  document.getElementById("viewport");
 
 const wavesBack =
-  document.getElementById(
-    "wavesBack"
-  );
+  document.getElementById("wavesBack");
 
 const wavesFront =
-  document.getElementById(
-    "wavesFront"
-  );
+  document.getElementById("wavesFront");
 
 const boat =
-  document.getElementById(
-    "boat"
-  );
+  document.getElementById("boat");
 
 const boyBase =
-  document.getElementById(
-    "boyBase"
-  );
+  document.getElementById("boyBase");
 
 const rod =
-  document.getElementById(
-    "rod"
-  );
+  document.getElementById("rod");
 
 const rodLight =
-  document.getElementById(
-    "rodLight"
-  );
+  document.getElementById("rodLight");
 
 const rodHandle =
-  document.getElementById(
-    "rodHandle"
-  );
+  document.getElementById("rodHandle");
 
 const line =
-  document.getElementById(
-    "line"
-  );
+  document.getElementById("line");
 
 const hook =
-  document.getElementById(
-    "hook"
-  );
+  document.getElementById("hook");
 
 const score =
-  document.getElementById(
-    "score"
-  );
+  document.getElementById("score");
 
 const progressFill =
-  document.getElementById(
-    "progressFill"
-  );
+  document.getElementById("progressFill");
 
 const finish =
-  document.getElementById(
-    "finish"
-  );
+  document.getElementById("finish");
 
 const restart =
-  document.getElementById(
-    "restart"
-  );
-
-const total =
-
-  CARDS.filter(
-    card =>
-      card.correct
-  ).length;
+  document.getElementById("restart");
 
 /* =====================================================
    СОСТОЯНИЕ
@@ -1128,10 +1100,11 @@ const total =
 
 let fishes = [];
 
-let queue = [];
+let caughtCorrect =
+  new Set();
 
-let caught =
-  0;
+let lastWrongId =
+  null;
 
 let action =
   null;
@@ -1155,7 +1128,6 @@ let spawnNumber =
 function resizeGame() {
 
   const scale =
-
     Math.min(
 
       document.documentElement.clientWidth /
@@ -1190,9 +1162,7 @@ resizeGame();
 
 function measureBoat() {
 
-  if (
-    !boyBase.naturalWidth
-  ) {
+  if (!boyBase.naturalWidth) {
     return;
   }
 
@@ -1214,57 +1184,24 @@ boyBase.addEventListener(
   measureBoat
 );
 
-if (
-  boyBase.complete
-) {
-
+if (boyBase.complete) {
   measureBoat();
-
 }
 
 /* =====================================================
    ВСПОМОГАТЕЛЬНЫЕ
 ===================================================== */
 
-function shuffle(
-  items
+function randomItem(
+  array
 ) {
 
-  const result =
-    [...items];
-
-  for (
-    let i =
-      result.length - 1;
-
-    i > 0;
-
-    i--
-  ) {
-
-    const j =
-
-      Math.floor(
-
-        Math.random() *
-        (i + 1)
-
-      );
-
-    [
-      result[i],
-      result[j]
-
-    ] = [
-
-      result[j],
-      result[i]
-
-    ];
-
-  }
-
-  return result;
+  return array[
+    Math.floor(
+      Math.random() *
+      array.length
+    )
+  ];
 
 }
 
@@ -1286,48 +1223,195 @@ function smooth(
 ) {
 
   return (
-
     t *
     t *
     (3 - 2 * t)
-
   );
 
 }
 
+/* =====================================================
+   СЧЁТ
+===================================================== */
+
 function updateScore() {
 
+  const caught =
+    caughtCorrect.size;
+
   score.textContent =
-    `🐟 ${caught} / ${total}`;
+    `🐟 ${caught} / ${TOTAL_CORRECT}`;
 
   progressFill.style.width =
-
     `${
-      total
-
-        ? caught /
-          total *
-          100
-
-        : 0
+      caught /
+      TOTAL_CORRECT *
+      100
     }%`;
 
 }
 
 /* =====================================================
-   БЕСШОВНОЕ ДВИЖЕНИЕ ВОЛН
+   КАКИЕ ПРАВИЛЬНЫЕ КАРТИНКИ
+   СЕЙЧАС УЖЕ ПЛЫВУТ
+===================================================== */
+
+function getActiveCorrectIds() {
+
+  const result =
+    new Set();
+
+  for (
+    const fish
+    of fishes
+  ) {
+
+    if (
+      !fish.removed &&
+      fish.card.correct
+    ) {
+
+      result.add(
+        fish.card.id
+      );
+
+    }
+
+  }
+
+  return result;
+
+}
+
+/* =====================================================
+   ВЫБОР ПРАВИЛЬНОЙ КАРТИНКИ
+===================================================== */
+
+function getCorrectCard() {
+
+  const activeCorrect =
+    getActiveCorrectIds();
+
+  const available =
+
+    CORRECT_CARDS.filter(
+
+      card =>
+
+        !caughtCorrect.has(
+          card.id
+        ) &&
+
+        !activeCorrect.has(
+          card.id
+        )
+
+    );
+
+  if (
+    !available.length
+  ) {
+
+    return null;
+
+  }
+
+  return randomItem(
+    available
+  );
+
+}
+
+/* =====================================================
+   ВЫБОР НЕПРАВИЛЬНОЙ КАРТИНКИ
+
+   Не повторяем одну и ту же Ш
+   непосредственно подряд.
+===================================================== */
+
+function getWrongCard() {
+
+  let available =
+
+    WRONG_CARDS.filter(
+
+      card =>
+        card.id !==
+        lastWrongId
+
+    );
+
+  if (
+    !available.length
+  ) {
+
+    available =
+      [...WRONG_CARDS];
+
+  }
+
+  const card =
+    randomItem(
+      available
+    );
+
+  lastWrongId =
+    card.id;
+
+  return card;
+
+}
+
+/* =====================================================
+   КАКАЯ КАРТИНКА ПОЯВИТСЯ СЛЕДУЮЩЕЙ
+===================================================== */
+
+function getNextCard(
+  forceCorrect = false
+) {
+
+  const correct =
+    getCorrectCard();
+
+  /*
+    Для самой первой рыбки
+    гарантируем правильную картинку,
+    чтобы ребёнку не пришлось ждать.
+  */
+
+  if (
+    forceCorrect &&
+    correct
+  ) {
+
+    return correct;
+
+  }
+
+  /*
+    Пока остались правильные картинки:
+    примерно 60% новых рыб будут С,
+    40% — Ш.
+  */
+
+  if (
+    correct &&
+    Math.random() < .60
+  ) {
+
+    return correct;
+
+  }
+
+  return getWrongCard();
+
+}
+
+/* =====================================================
+   БЕСШОВНЫЕ ВОЛНЫ
 ===================================================== */
 
 function moveWaves() {
-
-  /*
-    Каждая картинка волны имеет ширину WIDTH.
-
-    Мы используем две одинаковые копии.
-    Координата считается постоянно,
-    поэтому отсутствует момент
-    "анимация закончилась — началась заново".
-  */
 
   const backDistance =
 
@@ -1345,12 +1429,6 @@ function moveWaves() {
       12
     ) % WIDTH;
 
-
-  /*
-    Лёгкое естественное движение
-    вверх-вниз.
-  */
-
   const backBob =
 
     Math.sin(
@@ -1362,7 +1440,6 @@ function moveWaves() {
 
     ) * 4;
 
-
   const frontBob =
 
     Math.sin(
@@ -1373,11 +1450,6 @@ function moveWaves() {
       3
 
     ) * 3.5;
-
-
-  /*
-    Задние волны идут влево.
-  */
 
   wavesBack.style.transform = `
 
@@ -1392,11 +1464,6 @@ function moveWaves() {
     )
 
   `;
-
-
-  /*
-    Передние волны идут вправо.
-  */
 
   wavesFront.style.transform = `
 
@@ -1415,7 +1482,7 @@ function moveWaves() {
 }
 
 /* =====================================================
-   ЛОДКА + ТОЧКА РУК
+   ЛОДКА + УДОЧКА
 ===================================================== */
 
 function getBoatPose() {
@@ -1448,12 +1515,8 @@ function getBoatPose() {
 
     }deg)`;
 
-
   /*
-    🔒 ПОЛОЖЕНИЕ УДОЧКИ
-
-    Это положение, которое мы оставляем.
-    Немного левее и выше предыдущего.
+    🔒 УДОЧКУ НЕ МЕНЯЕМ
   */
 
   const handX =
@@ -1463,14 +1526,12 @@ function getBoatPose() {
     BOAT_WIDTH *
     .575;
 
-
   const handY =
 
     top +
 
     boatHeight *
     .445;
-
 
   return {
 
@@ -1515,7 +1576,7 @@ function getBoatPose() {
 }
 
 /* =====================================================
-   УДОЧКА
+   РИСУЕМ УДОЧКУ
 ===================================================== */
 
 function drawRod(
@@ -1528,13 +1589,11 @@ function drawRod(
     tip
   } = pose;
 
-
   const startX =
     hand.x + 3;
 
   const startY =
     hand.y - 5;
-
 
   const path = `
 
@@ -1549,7 +1608,6 @@ function drawRod(
 
   `;
 
-
   rod.setAttribute(
     "d",
     path
@@ -1560,45 +1618,25 @@ function drawRod(
     path
   );
 
-
-  /*
-    Рукоятка закреплена на той же
-    точке рук и при изгибе
-    не перемещается.
-  */
-
   rodHandle.setAttribute(
-
     "x1",
-
     hand.x - 8
-
   );
 
   rodHandle.setAttribute(
-
     "y1",
-
     hand.y + 15
-
   );
 
   rodHandle.setAttribute(
-
     "x2",
-
     hand.x + 5
-
   );
 
   rodHandle.setAttribute(
-
     "y2",
-
     hand.y - 6
-
   );
-
 
   return {
 
@@ -1638,7 +1676,6 @@ function drawLine(
 
     );
 
-
   line.setAttribute(
 
     "d",
@@ -1658,15 +1695,11 @@ function drawLine(
 
   );
 
-
   hook.style.display =
 
     showHook
-
       ? ""
-
       : "none";
-
 
   hook.setAttribute(
 
@@ -1702,24 +1735,23 @@ function drawLine(
 }
 
 /* =====================================================
-   СОЗДАНИЕ РЫБ
+   СОЗДАЁМ РЫБКУ
 ===================================================== */
 
 function spawnFish(
   lane,
-  initial = false
+  initial = false,
+  forceCorrect = false
 ) {
 
-  if (
-    !queue.length
-  ) {
+  const card =
+    getNextCard(
+      forceCorrect
+    );
+
+  if (!card) {
     return;
   }
-
-
-  const card =
-    queue.shift();
-
 
   const direction =
 
@@ -1730,20 +1762,11 @@ function spawnFish(
 
       : -1;
 
-
   const fishType =
 
-    FISH_TYPES[
-
-      Math.floor(
-
-        Math.random() *
-        FISH_TYPES.length
-
-      )
-
-    ];
-
+    randomItem(
+      FISH_TYPES
+    );
 
   const element =
 
@@ -1751,34 +1774,23 @@ function spawnFish(
       "button"
     );
 
-
   element.type =
     "button";
-
 
   element.className =
 
     `fish ${fishType.type}` +
 
     (
-
       direction === 1
-
         ? " right"
-
         : ""
-
     );
 
-
   element.setAttribute(
-
     "aria-label",
-
     card.name
-
   );
-
 
   element.innerHTML = `
 
@@ -1805,7 +1817,11 @@ function spawnFish(
         aria-hidden="true"
       >
 
-        ${card.emoji}
+        <img
+          src="${card.image}"
+          alt=""
+          draggable="false"
+        >
 
       </span>
 
@@ -1813,17 +1829,11 @@ function spawnFish(
 
   `;
 
-
   const initialPositions = [
-
     240,
-
     1230,
-
     700
-
   ];
-
 
   const fish = {
 
@@ -1834,7 +1844,6 @@ function spawnFish(
     lane,
 
     direction,
-
 
     x:
 
@@ -1852,13 +1861,11 @@ function spawnFish(
           : WIDTH +
             30,
 
-
     y:
 
       LANES[
         lane
       ],
-
 
     speed:
 
@@ -1867,19 +1874,16 @@ function spawnFish(
       Math.random() *
       24,
 
-
     phase:
 
       Math.random() *
       Math.PI *
       2,
 
-
     removed:
       false
 
   };
-
 
   element.disabled =
 
@@ -1888,7 +1892,6 @@ function spawnFish(
     ) ||
 
     !finish.hidden;
-
 
   element.addEventListener(
 
@@ -1901,16 +1904,13 @@ function spawnFish(
 
   );
 
-
   game.appendChild(
     element
   );
 
-
   fishes.push(
     fish
   );
-
 
   renderFish(
     fish
@@ -1951,7 +1951,7 @@ function renderFish(
 }
 
 /* =====================================================
-   ВКЛЮЧЕНИЕ / ОТКЛЮЧЕНИЕ
+   ВКЛЮЧЕНИЕ РЫБ
 ===================================================== */
 
 function setFishEnabled(
@@ -1971,7 +1971,7 @@ function setFishEnabled(
 }
 
 /* =====================================================
-   НАЖАТИЕ НА РЫБУ
+   НАЖАТИЕ
 ===================================================== */
 
 function selectFish(
@@ -1992,18 +1992,15 @@ function selectFish(
 
   }
 
-
   setFishEnabled(
     false
   );
 
-
   fish.element.style.zIndex =
     "10";
 
-
   /*
-    НЕПРАВИЛЬНЫЙ ОТВЕТ
+    Ш — неправильная.
   */
 
   if (
@@ -2035,9 +2032,8 @@ function selectFish(
 
   }
 
-
   /*
-    ПРАВИЛЬНЫЙ ОТВЕТ
+    С — правильная.
   */
 
   action = {
@@ -2078,14 +2074,10 @@ function animateCorrectCatch(
   const fish =
     current.fish;
 
-
   current.elapsed +=
     dt;
 
-
-  /* -------------------------
-     КРЮЧОК ИДЁТ К РЫБЕ
-  ------------------------- */
+  /* КРЮЧОК К РЫБКЕ */
 
   if (
     current.stage ===
@@ -2107,7 +2099,6 @@ function animateCorrectCatch(
 
       );
 
-
     const tip =
 
       drawRod(
@@ -2117,7 +2108,6 @@ function animateCorrectCatch(
         t * 12
 
       );
-
 
     drawLine(
 
@@ -2139,7 +2129,6 @@ function animateCorrectCatch(
 
           ),
 
-
         y:
 
           mix(
@@ -2157,7 +2146,6 @@ function animateCorrectCatch(
 
     );
 
-
     if (
       t >= 1
     ) {
@@ -2170,15 +2158,11 @@ function animateCorrectCatch(
 
     }
 
-
     return;
 
   }
 
-
-  /* -------------------------
-     ПОДНИМАЕМ РЫБКУ
-  ------------------------- */
+  /* ПОДЪЁМ */
 
   if (
     current.stage ===
@@ -2200,7 +2184,6 @@ function animateCorrectCatch(
 
       );
 
-
     fish.x =
 
       mix(
@@ -2214,7 +2197,6 @@ function animateCorrectCatch(
         t
 
       );
-
 
     fish.y =
 
@@ -2230,12 +2212,10 @@ function animateCorrectCatch(
 
       );
 
-
     const scale =
 
       1 -
       t * .23;
-
 
     renderFish(
 
@@ -2251,7 +2231,6 @@ function animateCorrectCatch(
       ) * 5
 
     );
-
 
     const tip =
 
@@ -2269,7 +2248,6 @@ function animateCorrectCatch(
         ) * 13
 
       );
-
 
     drawLine(
 
@@ -2292,7 +2270,6 @@ function animateCorrectCatch(
 
     );
 
-
     if (
       t >= 1
     ) {
@@ -2309,26 +2286,16 @@ function animateCorrectCatch(
       current.boatY =
         fish.y;
 
-
-      /*
-        Рыбка оказывается
-        позади переднего борта.
-      */
-
       fish.element.style.zIndex =
         "6";
 
     }
 
-
     return;
 
   }
 
-
-  /* -------------------------
-     ИСЧЕЗАЕТ В ЛОДКЕ
-  ------------------------- */
+  /* ИСЧЕЗАЕТ В ЛОДКЕ */
 
   const t =
 
@@ -2345,7 +2312,6 @@ function animateCorrectCatch(
 
     );
 
-
   fish.x =
 
     mix(
@@ -2359,7 +2325,6 @@ function animateCorrectCatch(
       t
 
     );
-
 
   fish.y =
 
@@ -2375,7 +2340,6 @@ function animateCorrectCatch(
 
     );
 
-
   const scale =
 
     mix(
@@ -2388,7 +2352,6 @@ function animateCorrectCatch(
 
     );
 
-
   renderFish(
 
     fish,
@@ -2398,7 +2361,6 @@ function animateCorrectCatch(
     t * 7
 
   );
-
 
   fish.element.style.opacity =
 
@@ -2413,7 +2375,6 @@ function animateCorrectCatch(
 
     );
 
-
   const tip =
 
     drawRod(
@@ -2424,7 +2385,6 @@ function animateCorrectCatch(
       12
 
     );
-
 
   drawLine(
 
@@ -2441,7 +2401,6 @@ function animateCorrectCatch(
     }
 
   );
-
 
   if (
     t >= 1
@@ -2470,14 +2429,10 @@ function animateWrongCatch(
   const fish =
     current.fish;
 
-
   current.elapsed +=
     dt;
 
-
-  /* -------------------------
-     КРЮЧОК К РЫБЕ
-  ------------------------- */
+  /* КРЮЧОК К РЫБКЕ */
 
   if (
     current.stage ===
@@ -2499,7 +2454,6 @@ function animateWrongCatch(
 
       );
 
-
     const tip =
 
       drawRod(
@@ -2509,7 +2463,6 @@ function animateWrongCatch(
         t * 9
 
       );
-
 
     drawLine(
 
@@ -2531,7 +2484,6 @@ function animateWrongCatch(
 
           ),
 
-
         y:
 
           mix(
@@ -2549,7 +2501,6 @@ function animateWrongCatch(
 
     );
 
-
     if (
       t >= 1
     ) {
@@ -2563,22 +2514,17 @@ function animateWrongCatch(
       current.pullStartY =
         fish.y;
 
-
       fish.element.classList.add(
         "wrong-pull"
       );
 
     }
 
-
     return;
 
   }
 
-
-  /* -------------------------
-     ТЯНЕТ УДОЧКУ
-  ------------------------- */
+  /* ТЯНЕТ ВНИЗ */
 
   if (
     current.stage ===
@@ -2600,7 +2546,6 @@ function animateWrongCatch(
 
       );
 
-
     fish.y =
 
       current.pullStartY +
@@ -2614,7 +2559,6 @@ function animateWrongCatch(
 
       ) * 7;
 
-
     fish.x +=
 
       fish.direction *
@@ -2623,11 +2567,9 @@ function animateWrongCatch(
 
       24;
 
-
     renderFish(
       fish
     );
-
 
     const bend =
 
@@ -2642,7 +2584,6 @@ function animateWrongCatch(
 
       ) * 6;
 
-
     const tip =
 
       drawRod(
@@ -2652,7 +2593,6 @@ function animateWrongCatch(
         bend
 
       );
-
 
     drawLine(
 
@@ -2675,7 +2615,6 @@ function animateWrongCatch(
 
     );
 
-
     if (
       t >= 1
     ) {
@@ -2692,22 +2631,17 @@ function animateWrongCatch(
       current.snapY =
         fish.y;
 
-
       fish.element.classList.remove(
         "wrong-pull"
       );
 
     }
 
-
     return;
 
   }
 
-
-  /* -------------------------
-     РЫБКА СРЫВАЕТСЯ
-  ------------------------- */
+  /* СРЫВАЕТСЯ */
 
   if (
     current.stage ===
@@ -2729,7 +2663,6 @@ function animateWrongCatch(
 
       );
 
-
     fish.x =
 
       current.snapX +
@@ -2740,13 +2673,11 @@ function animateWrongCatch(
 
       85;
 
-
     fish.y =
 
       current.snapY +
 
       t * 20;
-
 
     renderFish(
 
@@ -2758,7 +2689,6 @@ function animateWrongCatch(
       -t * 5
 
     );
-
 
     const bend =
 
@@ -2772,7 +2702,6 @@ function animateWrongCatch(
 
       );
 
-
     const tip =
 
       drawRod(
@@ -2782,7 +2711,6 @@ function animateWrongCatch(
         bend
 
       );
-
 
     const looseEnd = {
 
@@ -2801,7 +2729,6 @@ function animateWrongCatch(
 
         ),
 
-
       y:
 
         mix(
@@ -2818,7 +2745,6 @@ function animateWrongCatch(
 
     };
 
-
     drawLine(
 
       tip,
@@ -2826,7 +2752,6 @@ function animateWrongCatch(
       looseEnd
 
     );
-
 
     if (
       t >= 1
@@ -2840,15 +2765,11 @@ function animateWrongCatch(
 
     }
 
-
     return;
 
   }
 
-
-  /* -------------------------
-     УДОЧКА ВОЗВРАЩАЕТСЯ
-  ------------------------- */
+  /* ВОЗВРАЩАЕТСЯ ПУСТОЙ */
 
   const t =
 
@@ -2865,7 +2786,6 @@ function animateWrongCatch(
 
     );
 
-
   fish.x +=
 
     fish.direction *
@@ -2873,7 +2793,6 @@ function animateWrongCatch(
     fish.speed *
 
     dt;
-
 
   fish.y +=
 
@@ -2884,11 +2803,9 @@ function animateWrongCatch(
 
     ) * .5;
 
-
   renderFish(
     fish
   );
-
 
   const bend =
 
@@ -2902,7 +2819,6 @@ function animateWrongCatch(
 
     );
 
-
   const tip =
 
     drawRod(
@@ -2912,7 +2828,6 @@ function animateWrongCatch(
       bend
 
     );
-
 
   drawLine(
 
@@ -2933,7 +2848,6 @@ function animateWrongCatch(
 
         ) * 4,
 
-
       y:
 
         tip.y +
@@ -2942,7 +2856,6 @@ function animateWrongCatch(
     }
 
   );
-
 
   if (
     t >= 1
@@ -2963,19 +2876,29 @@ function animateWrongCatch(
 }
 
 /* =====================================================
-   РЫБКА ПОЙМАНА
+   ПРАВИЛЬНАЯ РЫБКА ПОЙМАНА
 ===================================================== */
 
 function finishCatch(
   fish
 ) {
 
+  /*
+    Запоминаем правильную картинку.
+
+    Например поймали "Собаку" —
+    dog больше никогда не появится
+    до перезапуска игры.
+  */
+
+  caughtCorrect.add(
+    fish.card.id
+  );
+
   fish.removed =
     true;
 
-
   fish.element.remove();
-
 
   fishes =
 
@@ -2986,19 +2909,18 @@ function finishCatch(
 
     );
 
-
-  caught++;
-
-
   updateScore();
-
 
   action =
     null;
 
+  /*
+    СОБРАЛИ ВСЕ 8 С.
+  */
 
   if (
-    caught === total
+    caughtCorrect.size ===
+    TOTAL_CORRECT
   ) {
 
     setFishEnabled(
@@ -3014,11 +2936,14 @@ function finishCatch(
 
   }
 
+  /*
+    На освободившуюся дорожку
+    приходит новая рыбка.
+  */
 
   spawnFish(
     fish.lane
   );
-
 
   setFishEnabled(
     true
@@ -3027,7 +2952,7 @@ function finishCatch(
 }
 
 /* =====================================================
-   ДВИЖЕНИЕ РЫБ
+   ОБЫЧНОЕ ДВИЖЕНИЕ РЫБ
 ===================================================== */
 
 function moveFishes(
@@ -3052,7 +2977,6 @@ function moveFishes(
 
     }
 
-
     fish.x +=
 
       fish.direction *
@@ -3060,7 +2984,6 @@ function moveFishes(
       fish.speed *
 
       dt;
-
 
     fish.y =
 
@@ -3077,11 +3000,9 @@ function moveFishes(
 
       ) * 11;
 
-
     renderFish(
       fish
     );
-
 
     const outside =
 
@@ -3095,6 +3016,14 @@ function moveFishes(
           -FISH_WIDTH -
           35;
 
+    /*
+      Ушла за край экрана.
+
+      Если это была С,
+      но ребёнок её не поймал —
+      она НЕ считается пойманной
+      и сможет появиться снова позже.
+    */
 
     if (
       outside
@@ -3103,9 +3032,7 @@ function moveFishes(
       fish.removed =
         true;
 
-
       fish.element.remove();
-
 
       fishes =
 
@@ -3115,12 +3042,6 @@ function moveFishes(
             item !== fish
 
         );
-
-
-      queue.push(
-        fish.card
-      );
-
 
       spawnFish(
         fish.lane
@@ -3159,10 +3080,8 @@ function frame(
 
         );
 
-
   previousTime =
     timestamp;
-
 
   if (
 
@@ -3175,23 +3094,14 @@ function frame(
     clock +=
       dt;
 
-
-    /*
-      Волны обновляются
-      непрерывно каждый кадр.
-    */
-
     moveWaves();
-
 
     const pose =
       getBoatPose();
 
-
     moveFishes(
       dt
     );
-
 
     if (
       action
@@ -3236,7 +3146,6 @@ function frame(
           pose
         );
 
-
       drawLine(
 
         tip,
@@ -3256,7 +3165,6 @@ function frame(
 
             ) * 4,
 
-
           y:
 
             tip.y +
@@ -3269,7 +3177,6 @@ function frame(
     }
 
   }
-
 
   requestAnimationFrame(
     frame
@@ -3309,84 +3216,65 @@ function resetGame() {
 
   }
 
-
   fishes =
     [];
 
+  caughtCorrect =
+    new Set();
 
-  queue =
-
-    shuffle(
-      CARDS
-    );
-
-
-  caught =
-    0;
-
+  lastWrongId =
+    null;
 
   action =
     null;
 
-
   clock =
     0;
-
 
   previousTime =
     null;
 
-
   spawnNumber =
     0;
-
 
   finish.hidden =
     true;
 
-
   updateScore();
-
-
-  /*
-    Ставим волны
-    в начальную позицию.
-  */
 
   moveWaves();
 
+  /*
+    Первая дорожка:
+    гарантированно С.
 
-  for (
+    Две остальные:
+    случайные.
+  */
 
-    let lane = 0;
+  spawnFish(
+    0,
+    true,
+    true
+  );
 
-    lane <
-    LANES.length;
+  spawnFish(
+    1,
+    true
+  );
 
-    lane++
-
-  ) {
-
-    spawnFish(
-
-      lane,
-
-      true
-
-    );
-
-  }
-
+  spawnFish(
+    2,
+    true
+  );
 
   const pose =
     getBoatPose();
-
 
   const tip =
     drawRod(
       pose
     );
-
 
   drawLine(
 
@@ -3407,7 +3295,7 @@ function resetGame() {
 }
 
 /* =====================================================
-   КНОПКА ПОВТОРА
+   ПОВТОР
 ===================================================== */
 
 restart.addEventListener(
