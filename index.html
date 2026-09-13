@@ -1440,7 +1440,10 @@ function getBoatPose() {
     },
 
     /*
-      Точка внутри лодки.
+      ИЗМЕНЕНО ТОЛЬКО ЭТО:
+
+      Рыбка исчезает НИЖЕ,
+      у ног мальчика.
     */
 
     landing: {
@@ -1453,7 +1456,7 @@ function getBoatPose() {
       y:
         top +
         boatHeight *
-        .55
+        .66
 
     }
 
@@ -2028,7 +2031,7 @@ function animateCorrectCatch(
   }
 
   /* -----------------------------------
-     2. ТЯНЕМ ПРЯМО ВНУТРЬ ЛОДКИ
+     2. ТЯНЕМ В ЛОДКУ
   ----------------------------------- */
 
   if (
@@ -2047,10 +2050,6 @@ function animateCorrectCatch(
         )
 
       );
-
-    /*
-      Конечная точка уже внутри лодки.
-    */
 
     const targetX =
 
@@ -2147,11 +2146,6 @@ function animateCorrectCatch(
       t >= 1
     ) {
 
-      /*
-        Рыбка уже в лодке.
-        Запоминаем эту точку.
-      */
-
       current.stage =
         "vanish";
 
@@ -2164,10 +2158,6 @@ function animateCorrectCatch(
       current.vanishY =
         fish.y;
 
-      /*
-        Прячем её за передний борт.
-      */
-
       fish.element.style.zIndex =
         "6";
 
@@ -2179,8 +2169,6 @@ function animateCorrectCatch(
 
   /* -----------------------------------
      3. ИСЧЕЗАЕТ НА МЕСТЕ
-
-     X и Y БОЛЬШЕ НЕ МЕНЯЮТСЯ.
   ----------------------------------- */
 
   if (
@@ -2223,10 +2211,6 @@ function animateCorrectCatch(
       0
 
     );
-
-    /*
-      Исчезает прямо на месте.
-    */
 
     fish.element.style.opacity =
 
@@ -2523,11 +2507,6 @@ function animateWrongCatch(
       t *
       70;
 
-    /*
-      После срыва слегка идёт вверх,
-      а не ещё глубже вниз.
-    */
-
     fish.y =
 
       current.snapY -
@@ -2605,10 +2584,6 @@ function animateWrongCatch(
       t >= 1
     ) {
 
-      /*
-        Начинаем плавное возвращение.
-      */
-
       current.stage =
         "recover";
 
@@ -2652,10 +2627,6 @@ function animateWrongCatch(
         rawT
       );
 
-    /*
-      Рыбка продолжает плыть вперёд.
-    */
-
     fish.x =
 
       current.recoverX +
@@ -2665,17 +2636,6 @@ function animateWrongCatch(
       fish.speed *
 
       current.elapsed;
-
-    /*
-      Вот где главное исправление.
-
-      normalY — это НЕ фиксированная
-      высота дорожки.
-
-      Это то место, где рыбка должна быть
-      прямо сейчас с учётом её обычного
-      плавного покачивания.
-    */
 
     const normalY =
 
@@ -2691,11 +2651,6 @@ function animateWrongCatch(
         fish.phase
 
       ) * 11;
-
-    /*
-      Плавно возвращаемся
-      к этой движущейся точке.
-    */
 
     fish.y =
 
@@ -2726,11 +2681,6 @@ function animateWrongCatch(
       rotation
 
     );
-
-    /*
-      Удочка тоже плавно
-      распрямляется.
-    */
 
     const bend =
 
@@ -2776,12 +2726,6 @@ function animateWrongCatch(
     if (
       rawT >= 1
     ) {
-
-      /*
-        Перед возвратом к обычному движению
-        ставим рыбку ТОЧНО на формулу,
-        которую использует moveFishes().
-      */
 
       fish.y =
 
