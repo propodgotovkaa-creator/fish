@@ -47,12 +47,8 @@ body {
 
 button {
   font: inherit;
-
-  -webkit-tap-highlight-color:
-    transparent;
-
-  touch-action:
-    manipulation;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 
@@ -78,8 +74,7 @@ button {
 
   isolation: isolate;
 
-  transform-origin:
-    top left;
+  transform-origin: top left;
 
   background: #148aaf;
 }
@@ -169,13 +164,11 @@ button {
 @keyframes wavesBackMove {
 
   from {
-    transform:
-      translateX(0);
+    transform: translateX(0);
   }
 
   to {
-    transform:
-      translateX(-50%);
+    transform: translateX(-50%);
   }
 
 }
@@ -184,13 +177,11 @@ button {
 @keyframes wavesFrontMove {
 
   from {
-    transform:
-      translateX(-50%);
+    transform: translateX(-50%);
   }
 
   to {
-    transform:
-      translateX(0);
+    transform: translateX(0);
   }
 
 }
@@ -225,7 +216,7 @@ button {
 
 
 /* =====================================================
-   ВЕРХНЯЯ ПАНЕЛЬ
+   ПАНЕЛЬ
 ===================================================== */
 
 header {
@@ -249,8 +240,7 @@ header {
 .title-card {
   padding: 20px 30px;
 
-  border:
-    2px solid #ffffffb3;
+  border: 2px solid #ffffffb3;
 
   border-radius: 30px;
 
@@ -267,8 +257,7 @@ header {
 
 
 h1 {
-  margin:
-    0 0 7px;
+  margin: 0 0 7px;
 
   font-size: 41px;
 
@@ -306,8 +295,7 @@ h1 {
 
   padding: 18px 25px;
 
-  border:
-    2px solid #ffffffb3;
+  border: 2px solid #ffffffb3;
 
   border-radius: 28px;
 
@@ -363,17 +351,12 @@ h1 {
       #80d7a2
     );
 
-  transition:
-    width .4s ease;
+  transition: width .4s ease;
 }
 
 
 /* =====================================================
    МАЛЬЧИК + ЛОДКА
-
-   ВАЖНО:
-   boy_base и три картинки глаз лежат
-   в ОДНОЙ И ТОЙ ЖЕ системе координат.
 ===================================================== */
 
 #boat {
@@ -395,7 +378,7 @@ h1 {
 }
 
 
-/* База */
+/* БАЗА */
 
 #boyBase {
   display: block;
@@ -409,34 +392,27 @@ h1 {
 
 
 /* =====================================================
-   СЛОИ ГЛАЗ
+   ОТКРЫТЫЕ ГЛАЗА
 
-   Они занимают ровно тот же прямоугольник,
-   что и boy_base.
+   ПОКА ЭТО ТЕСТОВАЯ ПОЗИЦИЯ.
+   После скрина подгоним точно.
 ===================================================== */
 
-.eye-layer {
+#eyesOpen {
   position: absolute;
 
   left: 0;
   top: 0;
 
   width: 100%;
-  height: auto;
+  height: 100%;
+
+  object-fit: contain;
 
   pointer-events: none;
   user-select: none;
 
-  opacity: 0;
-
-  z-index: 3;
-}
-
-
-/* По умолчанию видны открытые глаза */
-
-#eyesOpen {
-  opacity: 1;
+  z-index: 5;
 }
 
 
@@ -457,8 +433,7 @@ h1 {
 
   background: #075e7938;
 
-  filter:
-    blur(8px);
+  filter: blur(8px);
 
   z-index: 3;
 
@@ -590,8 +565,7 @@ h1 {
 
 
 .fish.right .fish-art {
-  transform:
-    scaleX(-1);
+  transform: scaleX(-1);
 }
 
 
@@ -635,11 +609,9 @@ h1 {
   border-radius:
     60% 70% 0 0;
 
-  background:
-    var(--color);
+  background: var(--color);
 
-  transform:
-    rotate(-10deg);
+  transform: rotate(-10deg);
 }
 
 
@@ -803,13 +775,11 @@ h1 {
 @keyframes wobble {
 
   25% {
-    transform:
-      rotate(-10deg);
+    transform: rotate(-10deg);
   }
 
   75% {
-    transform:
-      rotate(10deg);
+    transform: rotate(10deg);
   }
 
 }
@@ -839,8 +809,7 @@ h1 {
 
   border-radius: 30px;
 
-  background:
-    #fffdf0ef;
+  background: #fffdf0ef;
 
   box-shadow:
     0 7px 24px #12445c24;
@@ -856,45 +825,12 @@ h1 {
 
 
 /* =====================================================
-   ОШИБКИ
+   ФИНАЛ
 ===================================================== */
 
-#assetError {
-  position: absolute;
-
-  bottom: 108px;
-  left: 50%;
-
-  transform:
-    translateX(-50%);
-
-  z-index: 30;
-
-  max-width: 1200px;
-
-  padding: 18px 26px;
-
-  border-radius: 18px;
-
-  background: #fff1e4;
-
-  color: #823c25;
-
-  font-size: 23px;
-
-  text-align: center;
-}
-
-
-#assetError[hidden],
 #finish[hidden] {
   display: none;
 }
-
-
-/* =====================================================
-   ФИНАЛ
-===================================================== */
 
 #finish {
   position: absolute;
@@ -1009,9 +945,7 @@ h1 {
 <main id="game">
 
 
-<!-- =====================================================
-     ФОН
-===================================================== -->
+<!-- ФОН -->
 
 <img
   id="background"
@@ -1021,9 +955,7 @@ h1 {
 >
 
 
-<!-- =====================================================
-     ЗАДНИЕ ВОЛНЫ
-===================================================== -->
+<!-- ЗАДНИЕ ВОЛНЫ -->
 
 <div
   id="wavesBack"
@@ -1045,9 +977,7 @@ h1 {
 </div>
 
 
-<!-- =====================================================
-     ПАНЕЛЬ
-===================================================== -->
+<!-- ПАНЕЛЬ -->
 
 <header>
 
@@ -1081,11 +1011,7 @@ h1 {
     </div>
 
     <div class="progress">
-
-      <div
-        id="progressFill"
-      ></div>
-
+      <div id="progressFill"></div>
     </div>
 
   </div>
@@ -1093,23 +1019,16 @@ h1 {
 </header>
 
 
-<!-- =====================================================
-     ТЕНЬ
-===================================================== -->
+<!-- ТЕНЬ -->
 
-<div
-  id="boatShadow"
-></div>
+<div id="boatShadow"></div>
 
 
 <!-- =====================================================
-     МАЛЬЧИК И ГЛАЗА
+     МАЛЬЧИК
 ===================================================== -->
 
 <div id="boat">
-
-
-  <!-- БАЗА -->
 
   <img
     id="boyBase"
@@ -1119,45 +1038,17 @@ h1 {
   >
 
 
-  <!-- ОТКРЫТЫЕ -->
-
   <img
     id="eyesOpen"
-    class="eye-layer"
     src="eyes_open.png"
     alt=""
     draggable="false"
   >
 
-
-  <!-- ПОЛУЗАКРЫТЫЕ -->
-
-  <img
-    id="eyesHalf"
-    class="eye-layer"
-    src="eyes_half.png"
-    alt=""
-    draggable="false"
-  >
-
-
-  <!-- ЗАКРЫТЫЕ -->
-
-  <img
-    id="eyesClosed"
-    class="eye-layer"
-    src="eyes_closed.png"
-    alt=""
-    draggable="false"
-  >
-
-
 </div>
 
 
-<!-- =====================================================
-     ПЕРЕДНИЕ ВОЛНЫ
-===================================================== -->
+<!-- ПЕРЕДНИЕ ВОЛНЫ -->
 
 <div
   id="wavesFront"
@@ -1179,9 +1070,7 @@ h1 {
 </div>
 
 
-<!-- =====================================================
-     УДОЧКА
-===================================================== -->
+<!-- УДОЧКА -->
 
 <svg
   id="tackle"
@@ -1202,9 +1091,7 @@ h1 {
 </svg>
 
 
-<!-- =====================================================
-     СООБЩЕНИЕ
-===================================================== -->
+<!-- СООБЩЕНИЕ -->
 
 <div
   id="message"
@@ -1216,16 +1103,7 @@ h1 {
 </div>
 
 
-<div
-  id="assetError"
-  role="alert"
-  hidden
-></div>
-
-
-<!-- =====================================================
-     ФИНАЛ
-===================================================== -->
+<!-- ФИНАЛ -->
 
 <div
   id="finish"
@@ -1317,7 +1195,6 @@ const CARDS = [
     correct: true
   },
 
-
   {
     name: "Мяч",
     emoji: "⚽",
@@ -1388,38 +1265,22 @@ const PALETTES = [
    РАЗМЕРЫ
 ===================================================== */
 
-const WIDTH =
-  1920;
+const WIDTH = 1920;
+const HEIGHT = 1080;
 
-const HEIGHT =
-  1080;
-
-const FISH_WIDTH =
-  216;
-
-const FISH_HEIGHT =
-  134;
-
+const FISH_WIDTH = 216;
+const FISH_HEIGHT = 134;
 
 const LANES = [
-
   500,
-
   690,
-
   855
-
 ];
 
+const BOAT_X = 625;
+const BOAT_WIDTH = 670;
 
-const BOAT_X =
-  625;
-
-const BOAT_WIDTH =
-  670;
-
-const WATER_Y =
-  390;
+const WATER_Y = 390;
 
 
 /* =====================================================
@@ -1427,109 +1288,51 @@ const WATER_Y =
 ===================================================== */
 
 const game =
-  document.getElementById(
-    "game"
-  );
+  document.getElementById("game");
 
 const viewport =
-  document.getElementById(
-    "viewport"
-  );
+  document.getElementById("viewport");
 
 const boat =
-  document.getElementById(
-    "boat"
-  );
+  document.getElementById("boat");
 
 const boyBase =
-  document.getElementById(
-    "boyBase"
-  );
-
-
-const eyesOpen =
-  document.getElementById(
-    "eyesOpen"
-  );
-
-const eyesHalf =
-  document.getElementById(
-    "eyesHalf"
-  );
-
-const eyesClosed =
-  document.getElementById(
-    "eyesClosed"
-  );
-
-
-const background =
-  document.getElementById(
-    "background"
-  );
-
+  document.getElementById("boyBase");
 
 const rod =
-  document.getElementById(
-    "rod"
-  );
+  document.getElementById("rod");
 
 const rodLight =
-  document.getElementById(
-    "rodLight"
-  );
+  document.getElementById("rodLight");
 
 const rodHandle =
-  document.getElementById(
-    "rodHandle"
-  );
+  document.getElementById("rodHandle");
 
 const line =
-  document.getElementById(
-    "line"
-  );
+  document.getElementById("line");
 
 const hook =
-  document.getElementById(
-    "hook"
-  );
-
+  document.getElementById("hook");
 
 const score =
-  document.getElementById(
-    "score"
-  );
+  document.getElementById("score");
 
 const progressFill =
-  document.getElementById(
-    "progressFill"
-  );
+  document.getElementById("progressFill");
 
 const message =
-  document.getElementById(
-    "message"
-  );
+  document.getElementById("message");
 
 const finish =
-  document.getElementById(
-    "finish"
-  );
+  document.getElementById("finish");
 
 const restart =
-  document.getElementById(
-    "restart"
-  );
-
-const assetError =
-  document.getElementById(
-    "assetError"
-  );
+  document.getElementById("restart");
 
 
 const total =
   CARDS.filter(
-    card =>
-      card.correct
+    card => card.correct
   ).length;
 
 
@@ -1538,7 +1341,6 @@ const total =
 ===================================================== */
 
 let fishes = [];
-
 let queue = [];
 
 let caught = 0;
@@ -1557,7 +1359,7 @@ let spawnNumber = 0;
 
 
 /* =====================================================
-   МАСШТАБ
+   МАСШТАБИРОВАНИЕ
 ===================================================== */
 
 function resizeGame() {
@@ -1597,14 +1399,12 @@ resizeGame();
 
 
 /* =====================================================
-   РАЗМЕР МАЛЬЧИКА
+   РАЗМЕР ЛОДКИ
 ===================================================== */
 
 function measureBoat() {
 
-  if (
-    !boyBase.naturalWidth
-  ) {
+  if (!boyBase.naturalWidth) {
     return;
   }
 
@@ -1630,337 +1430,31 @@ boyBase.addEventListener(
 );
 
 
-if (
-  boyBase.complete
-) {
-
+if (boyBase.complete) {
   measureBoat();
-
 }
 
 
 /* =====================================================
-   МОРГАНИЕ
-
-   Это теперь настоящая кадровая анимация.
-
-   OPEN
-    ↓
-   HALF
-    ↓
-   CLOSED
-    ↓
-   HALF
-    ↓
-   OPEN
+   ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 ===================================================== */
 
-let blinkTimer =
-  null;
-
-let blinkInProgress =
-  false;
-
-
-/* Показываем только один слой */
-
-function showEyes(
-  state
-) {
-
-  eyesOpen.style.opacity =
-    state === "open"
-      ? "1"
-      : "0";
-
-
-  eyesHalf.style.opacity =
-    state === "half"
-      ? "1"
-      : "0";
-
-
-  eyesClosed.style.opacity =
-    state === "closed"
-      ? "1"
-      : "0";
-
-}
-
-
-/* Пауза между морганиями */
-
-function scheduleBlink() {
-
-  clearTimeout(
-    blinkTimer
-  );
-
-
-  /*
-     Примерно от 2.7 до 6 секунд.
-     Поэтому мальчик не моргает,
-     как робот.
-  */
-
-  const delay =
-
-    2700 +
-
-    Math.random() *
-    3300;
-
-
-  blinkTimer =
-    setTimeout(
-
-      blinkOnce,
-
-      delay
-
-    );
-
-}
-
-
-/* Один цикл моргания */
-
-function blinkOnce() {
-
-  if (
-    blinkInProgress
-  ) {
-
-    return;
-
-  }
-
-
-  blinkInProgress =
-    true;
-
-
-  /* 1. Полузакрытые */
-
-  showEyes(
-    "half"
-  );
-
-
-  setTimeout(
-    () => {
-
-      /* 2. Закрытые */
-
-      showEyes(
-        "closed"
-      );
-
-
-      setTimeout(
-        () => {
-
-          /* 3. Снова половина */
-
-          showEyes(
-            "half"
-          );
-
-
-          setTimeout(
-            () => {
-
-              /* 4. Открыты */
-
-              showEyes(
-                "open"
-              );
-
-
-              blinkInProgress =
-                false;
-
-
-              /*
-                 Иногда через очень короткую
-                 паузу делаем второе моргание.
-              */
-
-              if (
-                Math.random() <
-                .13
-              ) {
-
-                setTimeout(
-                  () => {
-
-                    blinkOnce();
-
-                  },
-
-                  150
-                );
-
-              } else {
-
-                scheduleBlink();
-
-              }
-
-            },
-
-            50
-
-          );
-
-        },
-
-        75
-
-      );
-
-    },
-
-    55
-
-  );
-
-}
-
-
-/* Начальное состояние */
-
-showEyes(
-  "open"
-);
-
-
-scheduleBlink();
-
-
-/* =====================================================
-   ПРОВЕРКА ФАЙЛОВ
-===================================================== */
-
-const missingAssets =
-  new Set();
-
-
-function reportAssetError(
-  name
-) {
-
-  missingAssets.add(
-    name
-  );
-
-
-  assetError.hidden =
-    false;
-
-
-  assetError.textContent =
-
-    "Не удалось загрузить: " +
-
-    [...missingAssets]
-      .join(", ") +
-
-    ". Проверь названия файлов.";
-
-}
-
-
-boyBase.addEventListener(
-
-  "error",
-
-  () =>
-    reportAssetError(
-      "boy_base.png"
-    )
-
-);
-
-
-eyesOpen.addEventListener(
-
-  "error",
-
-  () =>
-    reportAssetError(
-      "eyes_open.png"
-    )
-
-);
-
-
-eyesHalf.addEventListener(
-
-  "error",
-
-  () =>
-    reportAssetError(
-      "eyes_half.png"
-    )
-
-);
-
-
-eyesClosed.addEventListener(
-
-  "error",
-
-  () =>
-    reportAssetError(
-      "eyes_closed.png"
-    )
-
-);
-
-
-background.addEventListener(
-
-  "error",
-
-  () =>
-    reportAssetError(
-      "fon_game.png"
-    )
-
-);
-
-
-/* =====================================================
-   ВСПОМОГАТЕЛЬНЫЕ
-===================================================== */
-
-function shuffle(
-  items
-) {
+function shuffle(items) {
 
   const result =
     [...items];
 
 
   for (
-
-    let i =
-      result.length - 1;
-
+    let i = result.length - 1;
     i > 0;
-
     i--
-
   ) {
 
     const j =
-
       Math.floor(
-
         Math.random() *
         (i + 1)
-
       );
 
 
@@ -1980,38 +1474,21 @@ function shuffle(
 }
 
 
-function mix(
-  a,
-  b,
-  t
-) {
+function mix(a, b, t) {
 
   return (
-
     a +
-
-    (b - a) *
-    t
-
+    (b - a) * t
   );
 
 }
 
 
-function smooth(
-  t
-) {
+function smooth(t) {
 
   return (
-
-    t *
-    t *
-
-    (
-      3 -
-      2 * t
-    )
-
+    t * t *
+    (3 - 2 * t)
   );
 
 }
@@ -2020,7 +1497,6 @@ function smooth(
 function updateScore() {
 
   score.textContent =
-
     `🐟 ${caught} / ${total}`;
 
 
@@ -2051,13 +1527,12 @@ function showMessage(
 
 
 /* =====================================================
-   ЛОДКА И РУКА
+   ЛОДКА
 ===================================================== */
 
 function getBoatPose() {
 
   const bob =
-
     Math.sin(
       clock * 1.5
     ) * 3;
@@ -2088,49 +1563,29 @@ function getBoatPose() {
   return {
 
 
-    /* ТОЧКА ХВАТА УДОЧКИ */
-
     hand: {
 
       x:
-
         BOAT_X +
-
-        BOAT_WIDTH *
-        .595,
-
+        BOAT_WIDTH * .595,
 
       y:
-
         top +
-
-        boatHeight *
-        .465
+        boatHeight * .465
 
     },
 
 
-    /* КОНЧИК УДОЧКИ */
-
     tip: {
 
       x:
-
         BOAT_X +
-
-        BOAT_WIDTH *
-        .595 +
-
+        BOAT_WIDTH * .595 +
         300,
 
-
       y:
-
         top +
-
-        boatHeight *
-        .465 -
-
+        boatHeight * .465 -
         145
 
     },
@@ -2139,19 +1594,12 @@ function getBoatPose() {
     landing: {
 
       x:
-
         BOAT_X +
-
-        BOAT_WIDTH *
-        .70,
-
+        BOAT_WIDTH * .70,
 
       y:
-
         top +
-
-        boatHeight *
-        .73
+        boatHeight * .73
 
     }
 
@@ -2177,12 +1625,10 @@ function drawRod(
 
   const path = `
 
-    M
-      ${hand.x - 8}
+    M ${hand.x - 8}
       ${hand.y + 12}
 
-    Q
-      ${hand.x + 125}
+    Q ${hand.x + 125}
       ${hand.y - 185}
 
       ${tip.x}
@@ -2226,11 +1672,9 @@ function drawRod(
 
   return {
 
-    x:
-      tip.x,
+    x: tip.x,
 
-    y:
-      tip.y + bend
+    y: tip.y + bend
 
   };
 
@@ -2263,12 +1707,10 @@ function drawLine(
 
     `
 
-    M
-      ${tip.x}
+    M ${tip.x}
       ${tip.y}
 
-    Q
-      ${tip.x + curve}
+    Q ${tip.x + curve}
       ${(tip.y + end.y) / 2}
 
       ${end.x}
@@ -2292,30 +1734,25 @@ function drawLine(
 
     `
 
-    M
-      ${end.x}
+    M ${end.x}
       ${end.y - 24}
 
-    L
-      ${end.x}
+    L ${end.x}
       ${end.y - 8}
 
-    Q
-      ${end.x}
+    Q ${end.x}
       ${end.y + 1}
 
       ${end.x - 8}
       ${end.y}
 
-    Q
-      ${end.x - 18}
+    Q ${end.x - 18}
       ${end.y - 1}
 
       ${end.x - 16}
       ${end.y - 12}
 
-    L
-      ${end.x - 11}
+    L ${end.x - 11}
       ${end.y - 7}
 
     `
@@ -2334,9 +1771,7 @@ function spawnFish(
   initial = false
 ) {
 
-  if (
-    !queue.length
-  ) {
+  if (!queue.length) {
     return;
   }
 
@@ -2363,7 +1798,6 @@ function spawnFish(
 
 
   const element =
-
     document.createElement(
       "button"
     );
@@ -2439,45 +1873,10 @@ function spawnFish(
     card.emoji;
 
 
-  if (
-    card.image
-  ) {
-
-    const image =
-      new Image();
-
-
-    image.alt =
-      "";
-
-
-    image.draggable =
-      false;
-
-
-    image.onload =
-
-      () =>
-
-        picture.replaceChildren(
-          image
-        );
-
-
-    image.src =
-      card.image;
-
-  }
-
-
   const initialPositions = [
-
     240,
-
     1230,
-
     700
-
   ];
 
 
@@ -2492,43 +1891,25 @@ function spawnFish(
     direction,
 
     x:
-
       initial
-
-        ? initialPositions[
-            lane
-          ]
-
+        ? initialPositions[lane]
         : direction === 1
-
           ? -FISH_WIDTH - 30
-
           : WIDTH + 30,
-
 
     y:
       LANES[lane],
 
-
     speed:
-
       78 +
-
-      Math.random() *
-      24,
-
+      Math.random() * 24,
 
     phase:
-
       Math.random() *
-
-      Math.PI *
-      2,
-
+      Math.PI * 2,
 
     boostUntil:
       0,
-
 
     removed:
       false
@@ -2537,11 +1918,7 @@ function spawnFish(
 
 
   element.disabled =
-
-    Boolean(
-      action
-    ) ||
-
+    Boolean(action) ||
     !finish.hidden;
 
 
@@ -2550,9 +1927,7 @@ function spawnFish(
     "click",
 
     () =>
-      selectFish(
-        fish
-      )
+      selectFish(fish)
 
   );
 
@@ -2575,7 +1950,7 @@ function spawnFish(
 
 
 /* =====================================================
-   РЕНДЕР РЫБ
+   ПОКАЗ РЫБЫ
 ===================================================== */
 
 function renderFish(
@@ -2604,10 +1979,6 @@ function renderFish(
 }
 
 
-/* =====================================================
-   ДОСТУПНОСТЬ РЫБ
-===================================================== */
-
 function setFishEnabled(
   enabled
 ) {
@@ -2634,13 +2005,9 @@ function selectFish(
 ) {
 
   if (
-
     action ||
-
     fish.removed ||
-
     !finish.hidden
-
   ) {
 
     return;
@@ -2652,23 +2019,17 @@ function selectFish(
     !fish.card.correct
   ) {
 
-    fish.element
-      .classList
-      .remove(
-        "wrong"
-      );
+    fish.element.classList.remove(
+      "wrong"
+    );
 
 
-    void
-      fish.element
-        .offsetWidth;
+    void fish.element.offsetWidth;
 
 
-    fish.element
-      .classList
-      .add(
-        "wrong"
-      );
+    fish.element.classList.add(
+      "wrong"
+    );
 
 
     fish.boostUntil =
@@ -2765,7 +2126,6 @@ function animateCatch(
 
 
     const tip =
-
       drawRod(
         pose,
         t * 11
@@ -2779,7 +2139,6 @@ function animateCatch(
       {
 
         x:
-
           mix(
 
             tip.x + 6,
@@ -2791,9 +2150,7 @@ function animateCatch(
 
           ),
 
-
         y:
-
           mix(
 
             tip.y + 58,
@@ -2816,7 +2173,6 @@ function animateCatch(
       current.stage =
         "lift";
 
-
       current.elapsed =
         0;
 
@@ -2838,21 +2194,15 @@ function animateCatch(
       smooth(
 
         Math.min(
-
-          current.elapsed /
-          1.65,
-
+          current.elapsed / 1.65,
           1
-
         )
 
       );
 
 
     const scale =
-
-      1 -
-      t * .35;
+      1 - t * .35;
 
 
     fish.x =
@@ -2896,7 +2246,6 @@ function animateCatch(
         pose,
 
         11 +
-
         Math.sin(
           t * Math.PI
         ) * 12
@@ -2911,13 +2260,10 @@ function animateCatch(
       {
 
         x:
-
           fish.x +
           FISH_WIDTH / 2,
 
-
         y:
-
           fish.y +
           18
 
@@ -2933,22 +2279,16 @@ function animateCatch(
       current.stage =
         "drop";
 
-
       current.elapsed =
         0;
-
 
       current.dropX =
         fish.x;
 
-
       current.dropY =
         fish.y;
 
-
-      fish.element
-        .style
-        .zIndex =
+      fish.element.style.zIndex =
         "6";
 
     }
@@ -2962,12 +2302,8 @@ function animateCatch(
   const t =
 
     Math.min(
-
-      current.elapsed /
-      .6,
-
+      current.elapsed / .6,
       1
-
     );
 
 
@@ -3031,7 +2367,6 @@ function animateCatch(
 
 
   const tip =
-
     drawRod(
 
       pose,
@@ -3161,12 +2496,8 @@ function moveFishes(
   ) {
 
     if (
-
       action &&
-
-      action.fish ===
-      fish
-
+      action.fish === fish
     ) {
 
       continue;
@@ -3196,14 +2527,11 @@ function moveFishes(
 
     fish.y =
 
-      LANES[
-        fish.lane
-      ] +
+      LANES[fish.lane] +
 
       Math.sin(
 
-        clock *
-        1.7 +
+        clock * 1.7 +
 
         fish.phase
 
@@ -3282,8 +2610,7 @@ function frame(
           (
             timestamp -
             previousTime
-          ) /
-          1000,
+          ) / 1000,
 
           .05
 
@@ -3295,11 +2622,8 @@ function frame(
 
 
   if (
-
     finish.hidden &&
-
     !document.hidden
-
   ) {
 
     clock +=
@@ -3339,18 +2663,13 @@ function frame(
         {
 
           x:
-
             tip.x +
-
             6 +
-
             Math.sin(
               clock * 1.8
             ) * 4,
 
-
           y:
-
             tip.y +
             58
 
@@ -3362,12 +2681,9 @@ function frame(
 
 
     if (
-
       !action &&
-
       clock >
       messageUntil
-
     ) {
 
       message.textContent =
@@ -3385,10 +2701,6 @@ function frame(
 
 }
 
-
-/* =====================================================
-   ВОЗВРАЩЕНИЕ НА ВКЛАДКУ
-===================================================== */
 
 document.addEventListener(
 
@@ -3425,7 +2737,6 @@ function resetGame() {
 
 
   queue =
-
     shuffle(
       CARDS
     );
@@ -3459,14 +2770,9 @@ function resetGame() {
 
 
   for (
-
     let lane = 0;
-
-    lane <
-    LANES.length;
-
+    lane < LANES.length;
     lane++
-
   ) {
 
     spawnFish(
@@ -3515,10 +2821,6 @@ function resetGame() {
 }
 
 
-/* =====================================================
-   КНОПКА ЗАНОВО
-===================================================== */
-
 restart.addEventListener(
 
   "click",
@@ -3537,7 +2839,6 @@ restart.addEventListener(
 ===================================================== */
 
 resetGame();
-
 
 requestAnimationFrame(
   frame
