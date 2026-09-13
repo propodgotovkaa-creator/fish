@@ -476,8 +476,6 @@ h1 {
     );
 }
 
-/* ТЕЛО */
-
 .fish1-body {
   position: absolute;
 
@@ -495,15 +493,8 @@ h1 {
   z-index: 2;
 }
 
-/* ХВОСТ */
-
 .fish1-tail {
   position: absolute;
-
-  /*
-     Это точка, которую при необходимости
-     будем подгонять после первого теста.
-  */
 
   left: 157px;
   top: 34px;
@@ -535,11 +526,6 @@ h1 {
   }
 
 }
-
-/*
-   Если рыбка плывёт в другую сторону,
-   разворачиваем ВСЮ конструкцию целиком.
-*/
 
 .fish-type-1.right .fish-art {
   transform: scaleX(-1);
@@ -694,7 +680,7 @@ h1 {
 }
 
 /* =====================================================
-   КАРТИНКА НА РЫБКЕ
+   КАРТИНКИ НА СТАРЫХ РЫБКАХ
 ===================================================== */
 
 .picture {
@@ -730,13 +716,39 @@ h1 {
   left: 65px;
 }
 
+/* =====================================================
+   КАРТИНКА НА НОВОЙ РЫБКЕ
+
+   ВАЖНО:
+   белого окна здесь НЕТ.
+   Используем окно, уже нарисованное на fish1_body.png.
+===================================================== */
+
+.fish-type-1 .picture,
+.fish-type-1.right .picture {
+  left: 67px;
+  top: 34px;
+
+  width: 84px;
+  height: 76px;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+
+  box-shadow: none;
+
+  font-size: 51px;
+
+  z-index: 5;
+}
+
 .picture img {
   width: 90%;
   height: 90%;
 
   object-fit: contain;
-
-  border-radius: 15px;
 }
 
 .fish.wrong .picture {
@@ -933,9 +945,7 @@ h1 {
 
   <div class="title-card">
 
-    <h1>
-      Весёлая рыбалка
-    </h1>
+    <h1>Весёлая рыбалка</h1>
 
     <p class="subtitle">
       Лови картинки со звуком
@@ -964,9 +974,7 @@ h1 {
 
 <div id="boatShadow"></div>
 
-<!-- ===================================================
-     МАЛЬЧИК
-=================================================== -->
+<!-- ТОЛЬКО ЦЕЛЬНЫЙ МАЛЬЧИК -->
 
 <div id="boat">
 
@@ -1241,11 +1249,6 @@ let boatHeight = 450;
 
 let spawnNumber = 0;
 
-/*
-   Только первая появившаяся рыбка
-   будет нашей новой тестовой рыбкой.
-*/
-
 let testFishCreated = false;
 
 /* =====================================================
@@ -1388,7 +1391,7 @@ function showMessage(
 }
 
 /* =====================================================
-   ЛОДКА
+   ЛОДКА + ТОЧКА РУК
 ===================================================== */
 
 function getBoatPose() {
@@ -1413,31 +1416,35 @@ function getBoatPose() {
       ) * .5
     }deg)`;
 
+  /*
+     Точку начала удочки подняли
+     и сдвинули к ладоням мальчика.
+  */
+
+  const handX =
+    BOAT_X +
+    BOAT_WIDTH * .565;
+
+  const handY =
+    top +
+    boatHeight * .425;
+
   return {
 
     hand: {
 
-      x:
-        BOAT_X +
-        BOAT_WIDTH * .595,
-
-      y:
-        top +
-        boatHeight * .465
+      x: handX,
+      y: handY
 
     },
 
     tip: {
 
       x:
-        BOAT_X +
-        BOAT_WIDTH * .595 +
-        300,
+        handX + 315,
 
       y:
-        top +
-        boatHeight * .465 -
-        145
+        handY - 150
 
     },
 
@@ -1473,10 +1480,10 @@ function drawRod(
 
   const path = `
 
-    M ${hand.x - 8}
-      ${hand.y + 12}
+    M ${hand.x - 5}
+      ${hand.y + 7}
 
-    Q ${hand.x + 125}
+    Q ${hand.x + 130}
       ${hand.y - 185}
 
       ${tip.x}
@@ -1494,24 +1501,28 @@ function drawRod(
     path
   );
 
+  /*
+     Ручка проходит через область рук.
+  */
+
   rodHandle.setAttribute(
     "x1",
-    hand.x - 12
+    hand.x - 8
   );
 
   rodHandle.setAttribute(
     "y1",
-    hand.y + 18
+    hand.y + 12
   );
 
   rodHandle.setAttribute(
     "x2",
-    hand.x + 8
+    hand.x + 13
   );
 
   rodHandle.setAttribute(
     "y2",
-    hand.y - 11
+    hand.y - 18
   );
 
   return {
@@ -1544,6 +1555,7 @@ function drawLine(
   line.setAttribute(
     "d",
     `
+
     M ${tip.x}
       ${tip.y}
 
@@ -1552,6 +1564,7 @@ function drawLine(
 
       ${end.x}
       ${end.y}
+
     `
   );
 
@@ -1563,6 +1576,7 @@ function drawLine(
   hook.setAttribute(
     "d",
     `
+
     M ${end.x}
       ${end.y - 24}
 
@@ -1583,6 +1597,7 @@ function drawLine(
 
     L ${end.x - 11}
       ${end.y - 7}
+
     `
   );
 
@@ -1608,11 +1623,6 @@ function spawnFish(
     spawnNumber++ % 2 === 0
       ? 1
       : -1;
-
-  /*
-     Для теста только ОДНА рыбка
-     получает новую графику.
-  */
 
   const isTestFish =
     !testFishCreated;
@@ -1647,9 +1657,7 @@ function spawnFish(
     card.name
   );
 
-  /*
-     НОВАЯ РЫБКА
-  */
+  /* НОВАЯ РЫБКА */
 
   if (isTestFish) {
 
@@ -1682,9 +1690,7 @@ function spawnFish(
 
   }
 
-  /*
-     СТАРАЯ РЫБКА
-  */
+  /* СТАРЫЕ РЫБКИ */
 
   else {
 
@@ -1732,6 +1738,11 @@ function spawnFish(
     element.querySelector(
       ".picture"
     );
+
+  /*
+     Только предмет.
+     Для новой рыбки фон прозрачный.
+  */
 
   picture.textContent =
     card.emoji;
@@ -1960,6 +1971,7 @@ function animateCatch(
     drawLine(
       tip,
       {
+
         x:
           mix(
             tip.x + 6,
@@ -1974,6 +1986,7 @@ function animateCatch(
             fish.y + 18,
             t
           )
+
       }
     );
 
@@ -2039,6 +2052,7 @@ function animateCatch(
     drawLine(
       tip,
       {
+
         x:
           fish.x +
           FISH_WIDTH / 2,
@@ -2046,6 +2060,7 @@ function animateCatch(
         y:
           fish.y +
           18
+
       }
     );
 
@@ -2120,11 +2135,13 @@ function animateCatch(
   drawLine(
     tip,
     {
+
       x:
         tip.x + 6,
 
       y:
         tip.y + 58
+
     }
   );
 
@@ -2195,7 +2212,7 @@ function finishCatch(
 }
 
 /* =====================================================
-   ДВИЖЕНИЕ
+   ДВИЖЕНИЕ РЫБ
 ===================================================== */
 
 function moveFishes(
@@ -2272,7 +2289,7 @@ function moveFishes(
 }
 
 /* =====================================================
-   ЦИКЛ
+   ГЛАВНЫЙ ЦИКЛ
 ===================================================== */
 
 function frame(
@@ -2325,6 +2342,7 @@ function frame(
       drawLine(
         tip,
         {
+
           x:
             tip.x +
             6 +
@@ -2335,6 +2353,7 @@ function frame(
           y:
             tip.y +
             58
+
         }
       );
 
@@ -2362,8 +2381,10 @@ function frame(
 document.addEventListener(
   "visibilitychange",
   () => {
+
     previousTime =
       null;
+
   }
 );
 
@@ -2437,11 +2458,13 @@ function resetGame() {
   drawLine(
     tip,
     {
+
       x:
         tip.x + 6,
 
       y:
         tip.y + 58
+
     }
   );
 
@@ -2455,7 +2478,9 @@ function resetGame() {
 restart.addEventListener(
   "click",
   () => {
+
     resetGame();
+
   }
 );
 
