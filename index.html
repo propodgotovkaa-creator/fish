@@ -1,8 +1,14 @@
+На скриншоте рыбак называется **`ribak.png`** — в коде использую именно это имя и **`fon.png`**.
+
+Замени всё содержимое `index.html` кодом ниже. Рыбки пока с эмодзи; свои картинки потом добавишь в список `CARDS`.
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 <title>Весёлая рыбалка</title>
 
 <style>
@@ -10,518 +16,546 @@
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  background: #083b56;
   font-family: "Trebuchet MS", Arial, sans-serif;
-  color: #164766;
-  background: #83dbef;
+  color: #194965;
 }
 
 button {
   font: inherit;
-  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+button:focus-visible {
+  outline: 3px solid #fff1a4;
+  outline-offset: 5px;
+}
+
+/* Сохраняем пропорции фона на любом экране. */
+#viewport {
+  position: relative;
+  overflow: hidden;
 }
 
 #game {
-  position: relative;
-  width: 100%;
-  height: 100svh;
-  min-height: 560px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1600px;
+  height: 900px;
   overflow: hidden;
   isolation: isolate;
-  background: linear-gradient(#92dfff, #e4f8ff 40%);
+  transform-origin: top left;
+  background: #148aaf;
 }
 
-.sun {
-  position: absolute;
-  top: 100px;
-  right: 9%;
-  width: 74px;
-  height: 74px;
-  border-radius: 50%;
-  background: #ffe797;
-  box-shadow: 0 0 0 15px #ffe79733;
-}
-
-.cloud {
-  position: absolute;
-  width: 130px;
-  height: 35px;
-  border-radius: 60px;
-  background: #ffffffb8;
-}
-
-.cloud::before,
-.cloud::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  background: inherit;
-}
-
-.cloud::before {
-  width: 60px;
-  height: 60px;
-  left: 20px;
-  bottom: 0;
-}
-
-.cloud::after {
-  width: 45px;
-  height: 45px;
-  right: 17px;
-  bottom: 0;
-}
-
-.cloud.one { top: 140px; left: 8%; }
-.cloud.two { top: 205px; right: 24%; transform: scale(.7); }
-
-header {
-  position: absolute;
-  top: 18px;
-  left: 16px;
-  right: 16px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.title,
-#score {
-  padding: 12px 20px;
-  border: 2px solid #ffffffb5;
-  border-radius: 24px;
-  background: #ffffffdf;
-  box-shadow: 0 5px 20px #23677b12;
-}
-
-h1 {
-  margin: 0 0 4px;
-  font-size: clamp(22px, 3vw, 34px);
-}
-
-.subtitle {
-  margin: 0;
-  font-size: clamp(13px, 1.7vw, 18px);
-}
-
-#score {
-  white-space: nowrap;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-#sea {
-  position: absolute;
-  inset: 39% 0 0;
-  background: linear-gradient(
-    #39c7dc 0%,
-    #1caaca 30%,
-    #138ab8 68%,
-    #126f9c 100%
-  );
-  border-top: 5px solid #a4f2ef;
-}
-
-#sea::before {
-  content: "";
-  position: absolute;
-  inset: 10px 0 0;
-  background: repeating-linear-gradient(
-    115deg,
-    transparent 0 110px,
-    #ffffff09 110px 170px,
-    transparent 170px 260px
-  );
-  pointer-events: none;
-}
-
-.ripple {
-  position: absolute;
-  top: 41%;
-  width: 80px;
-  height: 7px;
-  border-radius: 50%;
-  background: #d2ffff70;
-}
-
-.ripple.a { left: 7%; }
-.ripple.b { right: 10%; width: 120px; top: 43%; }
-.ripple.c { left: 27%; width: 55px; top: 45%; }
-
-#boat {
-  position: absolute;
-  width: clamp(245px, 34vw, 390px);
-  height: auto;
-  left: 50%;
-  top: 39%;
-  transform: translate(-50%, -84%);
-  z-index: 4;
-  overflow: visible;
-}
-
-/* Леска располагается поверх моря и рыб. */
-#fishingLayer {
+#background {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: fill;
   pointer-events: none;
+  user-select: none;
+}
+
+header {
+  position: absolute;
+  top: 25px;
+  left: 35px;
+  right: 35px;
+  z-index: 15;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.title-card {
+  padding: 17px 25px;
+  border: 2px solid #ffffffb3;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #fffffff2, #effbffe0);
+  box-shadow: 0 8px 24px #1354711c;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 34px;
+  letter-spacing: -.7px;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 19px;
+}
+
+.subtitle strong {
+  display: inline-grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  margin-left: 3px;
+  border-radius: 9px;
+  background: #ffdc7e;
+  color: #755022;
+}
+
+.score-card {
+  min-width: 160px;
+  padding: 15px 21px;
+  border: 2px solid #ffffffb3;
+  border-radius: 23px;
+  background: #ffffffed;
+  box-shadow: 0 8px 24px #1354711c;
+}
+
+.score-label {
+  margin-bottom: 6px;
+  color: #618293;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#score {
+  font-size: 29px;
+  font-weight: bold;
+}
+
+.progress {
+  height: 7px;
+  margin-top: 11px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #dfedf0;
+}
+
+#progressFill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #35b9ba, #80d7a2);
+  transition: width .4s ease;
+}
+
+/* ЛОДКА С РЫБАКОМ */
+#boat {
+  position: absolute;
+  width: 430px;
+  height: auto;
+  left: 585px;
+  top: 45px;
   z-index: 6;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+#boatShadow {
+  position: absolute;
+  left: 620px;
+  top: 295px;
+  width: 365px;
+  height: 20px;
+  border-radius: 50%;
+  background: #075e7942;
+  filter: blur(6px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Удочка и леска рисуются отдельно от картинки. */
+#tackle {
+  position: absolute;
+  inset: 0;
+  width: 1600px;
+  height: 900px;
+  z-index: 9;
+  overflow: visible;
+  pointer-events: none;
+}
+
+#rod {
+  fill: none;
+  stroke: #73472c;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+#rodLight {
+  fill: none;
+  stroke: #d7a05c;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+#rodHandle {
+  stroke: #3d4248;
+  stroke-width: 10;
+  stroke-linecap: round;
 }
 
 #line {
   fill: none;
-  stroke: #f4ffff;
+  stroke: #ffffffdf;
   stroke-width: 2;
   stroke-linecap: round;
 }
 
 #hook {
   fill: none;
-  stroke: #3e5262;
-  stroke-width: 3;
+  stroke: #dce9ee;
+  stroke-width: 4;
   stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 1px #174760);
 }
 
+/* РЫБКИ */
 .fish {
   position: absolute;
   left: 0;
   top: 0;
-  width: clamp(112px, 14vw, 170px);
-  height: clamp(76px, 9vw, 106px);
-  border: 0;
+  width: 180px;
+  height: 112px;
   padding: 0;
+  border: 0;
   background: transparent;
   cursor: pointer;
-  z-index: 3;
+  z-index: 4;
   will-change: transform;
 }
 
-.fish:focus-visible {
-  outline: 3px dashed white;
-  outline-offset: 5px;
-  border-radius: 45%;
+.fish:disabled {
+  cursor: default;
 }
 
-.fish-body {
+.fish-art {
   position: absolute;
-  inset: 8% 16% 8% 4%;
-  border-radius: 49% 53% 48% 50%;
-  background: var(--color);
-  box-shadow:
-    inset 0 -9px 0 #0000000d,
-    inset 0 6px 0 #ffffff25;
+  inset: 0;
+  filter: drop-shadow(0 6px 4px #064d6b22);
 }
 
-.fish-tail {
+.fish.right .fish-art {
+  transform: scaleX(-1);
+}
+
+.tail {
   position: absolute;
   right: 0;
-  top: 20%;
-  width: 30%;
-  height: 60%;
-  background: var(--color);
-  clip-path: polygon(0 50%, 100% 0, 85% 50%, 100% 100%);
+  top: 24px;
+  width: 57px;
+  height: 68px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, var(--light), var(--color));
+  clip-path: polygon(0 50%, 100% 0, 86% 50%, 100% 100%);
 }
 
-.fish-fin {
+.fin-top {
   position: absolute;
-  left: 34%;
-  top: 0;
-  width: 31%;
-  height: 28%;
+  left: 58px;
+  top: 1px;
+  width: 60px;
+  height: 36px;
+  border-radius: 60% 70% 0 0;
   background: var(--color);
-  clip-path: polygon(0 100%, 55% 0, 100% 100%);
+  transform: rotate(-10deg);
 }
 
-.fish-eye {
+.fin-bottom {
   position: absolute;
-  left: 12%;
-  top: 29%;
-  width: 13px;
-  height: 16px;
+  left: 63px;
+  bottom: 3px;
+  width: 42px;
+  height: 27px;
+  border-radius: 0 0 75% 35%;
+  background: var(--color);
+}
+
+.body {
+  position: absolute;
+  left: 3px;
+  top: 14px;
+  width: 145px;
+  height: 91px;
+  border-radius: 49% 53% 48% 50%;
+  background: linear-gradient(
+    160deg,
+    var(--light),
+    var(--color) 68%
+  );
+  box-shadow:
+    inset 0 5px 4px #ffffff45,
+    inset 0 -8px 7px #85452915;
+}
+
+.eye {
+  position: absolute;
+  left: 19px;
+  top: 39px;
+  width: 19px;
+  height: 23px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px #37495a20;
+}
+
+.eye::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 9px;
+  height: 12px;
+  border-radius: 50%;
+  background: #254459;
+}
+
+.eye::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 7px;
+  width: 3px;
+  height: 4px;
   border-radius: 50%;
   background: white;
 }
 
-.fish-eye::after {
-  content: "";
+.mouth {
   position: absolute;
-  left: 3px;
-  top: 5px;
-  width: 6px;
-  height: 7px;
-  background: #173e55;
+  left: 9px;
+  top: 71px;
+  width: 16px;
+  height: 8px;
+  border-bottom: 2px solid #87573d80;
   border-radius: 50%;
 }
 
-.fish-picture {
+.picture {
   position: absolute;
-  left: 32%;
-  top: 22%;
-  width: 43%;
-  height: 57%;
+  left: 57px;
+  top: 28px;
+  width: 69px;
+  height: 64px;
   display: grid;
   place-items: center;
-  background: #fff9e9;
-  border-radius: 17px;
-  font-size: clamp(28px, 4vw, 44px);
+  border: 2px solid #ffffffba;
+  border-radius: 21px;
+  background: #fffdf0;
+  box-shadow: 0 3px 5px #71532915;
+  font-size: 45px;
+  line-height: 1;
 }
 
-.fish-picture img {
-  display: block;
-  width: 88%;
-  height: 88%;
+.fish.right .picture {
+  left: 54px;
+}
+
+.picture img {
+  width: 90%;
+  height: 90%;
   object-fit: contain;
+  border-radius: 13px;
 }
 
-/* Разворачиваем рыбу, но сохраняем положение картинки. */
-.fish.right .fish-shape {
-  transform: scaleX(-1);
+.fish.wrong .picture {
+  animation: wobble .4s ease;
 }
 
-.fish-shape {
-  position: absolute;
-  inset: 0;
-}
-
-.fish.right .fish-picture {
-  left: 25%;
-}
-
-.fish.wrong .fish-picture {
-  animation: wiggle .35s ease;
-}
-
-@keyframes wiggle {
-  25% { transform: rotate(-12deg); }
-  75% { transform: rotate(12deg); }
-}
-
-#sand {
-  position: absolute;
-  bottom: -24px;
-  left: -5%;
-  width: 110%;
-  height: 65px;
-  border-radius: 50% 50% 0 0;
-  background: #e9cf98;
-  z-index: 2;
-}
-
-.plant {
-  position: absolute;
-  bottom: 28px;
-  width: 12px;
-  height: 85px;
-  border-radius: 100% 0 0 0;
-  border-left: 9px solid #55bd9c;
-  transform: rotate(12deg);
-  transform-origin: bottom;
-}
-
-.plant::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 8px;
-  height: 60px;
-  width: 18px;
-  border-right: 8px solid #77d0a7;
-  border-radius: 0 100% 0 0;
+@keyframes wobble {
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
 }
 
 #message {
   position: absolute;
-  bottom: 14px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 8;
-  width: max-content;
-  max-width: 92%;
-  padding: 10px 18px;
-  border-radius: 22px;
-  background: #ffffffed;
+  z-index: 15;
+  max-width: 1100px;
+  padding: 14px 26px;
+  border: 2px solid #ffffffa6;
+  border-radius: 25px;
+  background: #fffdf0ef;
+  box-shadow: 0 6px 20px #12445c24;
   text-align: center;
-  font-size: clamp(14px, 2vw, 19px);
+  font-size: 21px;
+  white-space: nowrap;
   pointer-events: none;
+}
+
+#assetError {
+  position: absolute;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  max-width: 1000px;
+  padding: 15px 22px;
+  border-radius: 15px;
+  background: #fff1e4;
+  color: #823c25;
+  font-size: 19px;
+  text-align: center;
+}
+
+#assetError[hidden],
+#finish[hidden] {
+  display: none;
 }
 
 #finish {
   position: absolute;
   inset: 0;
-  z-index: 20;
+  z-index: 40;
   display: grid;
   place-items: center;
-  background: #123e6670;
-  backdrop-filter: blur(6px);
-}
-
-#finish[hidden] {
-  display: none;
+  background: #063a5875;
+  backdrop-filter: blur(7px);
 }
 
 .finish-card {
-  width: min(420px, 90%);
-  padding: 32px;
+  width: 490px;
+  padding: 38px;
+  border: 5px solid #fff;
+  border-radius: 36px;
+  background: linear-gradient(#fffef5, #fff2d6);
+  box-shadow: 0 25px 80px #052c554a;
   text-align: center;
-  background: #fffbee;
-  border: 5px solid white;
-  border-radius: 32px;
-  box-shadow: 0 20px 60px #12334a40;
+}
+
+.finish-icon {
+  font-size: 75px;
 }
 
 .finish-card h2 {
-  font-size: 30px;
-  margin: 12px 0;
+  margin: 17px 0 12px;
+  font-size: 39px;
 }
 
 .finish-card p {
-  font-size: 19px;
+  margin: 0;
+  font-size: 23px;
   line-height: 1.5;
 }
 
 #restart {
-  margin-top: 10px;
-  padding: 15px 24px;
-  border: 0;
-  border-radius: 18px;
-  background: #ffcc69;
-  color: #654718;
+  margin-top: 26px;
+  padding: 17px 30px;
+  border: 2px solid #ffe7ab;
+  border-radius: 19px;
+  background: linear-gradient(#ffdc82, #ffc15d);
+  color: #694619;
+  box-shadow: 0 5px 0 #da9b3e;
+  font-size: 23px;
   font-weight: bold;
   cursor: pointer;
 }
 
-@media (max-width: 600px) {
-  header { top: 10px; left: 10px; right: 10px; gap: 7px; }
-  .title { padding: 10px 12px; }
-  #score { padding: 12px 10px; font-size: 16px; }
-  .subtitle { max-width: 215px; }
-  .sun { right: 8%; top: 155px; width: 50px; height: 50px; }
+#restart:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #da9b3e;
 }
 </style>
 </head>
 
 <body>
-<main id="game">
-  <div class="sun"></div>
-  <div class="cloud one"></div>
-  <div class="cloud two"></div>
 
-  <header>
-    <div class="title">
-      <h1>Весёлая рыбалка</h1>
-      <p class="subtitle">Лови рыбок с картинками на звук С</p>
+<div id="viewport">
+  <main id="game">
+
+    <img id="background" src="fon.png" alt="" draggable="false">
+
+    <header>
+      <div class="title-card">
+        <h1>Весёлая рыбалка</h1>
+        <p class="subtitle">
+          Лови картинки со звуком <strong>С</strong>
+        </p>
+      </div>
+
+      <div class="score-card">
+        <div class="score-label">Наш улов</div>
+        <div id="score" aria-live="polite">🐟 0 / 6</div>
+        <div class="progress">
+          <div id="progressFill"></div>
+        </div>
+      </div>
+    </header>
+
+    <div id="boatShadow"></div>
+
+    <img id="boat"
+         src="ribak.png"
+         alt="Рыбак в лодке"
+         draggable="false">
+
+    <svg id="tackle" viewBox="0 0 1600 900" aria-hidden="true">
+      <path id="line"></path>
+      <path id="rod"></path>
+      <path id="rodLight"></path>
+      <line id="rodHandle"></line>
+      <path id="hook"></path>
+    </svg>
+
+    <div id="message" role="status">
+      Найди рыбку с картинкой на звук С
     </div>
-    <div id="score" aria-live="polite">🐟 0 / 6</div>
-  </header>
 
-  <div id="sea"></div>
-  <div class="ripple a"></div>
-  <div class="ripple b"></div>
-  <div class="ripple c"></div>
+    <div id="assetError" role="alert" hidden></div>
 
-  <!-- ЛОДКА, РЫБАК И УДОЧКА -->
-  <svg id="boat" viewBox="0 0 400 250" aria-hidden="true">
-    <!-- Удочка -->
-    <path d="M211 115 Q273 17 351 45"
-          fill="none" stroke="#735135"
-          stroke-width="6" stroke-linecap="round"/>
-
-    <!-- Кончик удочки: используется для положения лески -->
-    <circle id="rodTip" cx="351" cy="45" r="3" fill="#735135"/>
-
-    <!-- Ноги -->
-    <path d="M169 161 L196 169 L209 197 M188 155 L220 167 L229 193"
-          fill="none" stroke="#365c88"
-          stroke-width="17" stroke-linecap="round"/>
-
-    <!-- Тело -->
-    <path d="M146 112 Q165 99 184 115 L193 159 L144 159 Z"
-          fill="#f28a63"/>
-
-    <!-- Рука -->
-    <path d="M177 124 L197 140 L217 113"
-          fill="none" stroke="#ffd4a6"
-          stroke-width="13" stroke-linecap="round"/>
-
-    <!-- Голова -->
-    <circle cx="166" cy="83" r="25" fill="#ffd4a6"/>
-    <circle cx="188" cy="88" r="6" fill="#ffd4a6"/>
-    <circle cx="175" cy="80" r="2.7" fill="#24455a"/>
-    <path d="M173 96 Q180 100 185 94"
-          fill="none" stroke="#b7704d"
-          stroke-width="2.5" stroke-linecap="round"/>
-
-    <!-- Шляпа -->
-    <path d="M139 68 L146 42 Q164 34 183 43 L190 68"
-          fill="#edc16d"/>
-    <path d="M133 69 Q168 60 199 70"
-          fill="none" stroke="#d6a04c"
-          stroke-width="11" stroke-linecap="round"/>
-    <path d="M145 56 L186 56" stroke="#ae7e43" stroke-width="7"/>
-
-    <!-- Сиденье -->
-    <path d="M118 172 L231 172" stroke="#815035" stroke-width="10"/>
-
-    <!-- Внутренняя часть лодки -->
-    <ellipse cx="181" cy="185" rx="145" ry="20" fill="#8b5337"/>
-
-    <!-- Точка, в которую попадает пойманная рыба -->
-    <circle id="boatTarget" cx="254" cy="185" r="2" fill="#8b5337"/>
-
-    <!-- Корпус -->
-    <path d="M30 184 Q177 214 335 180 L303 222
-             Q182 252 66 223 Z"
-          fill="#d88b48" stroke="#995b33" stroke-width="4"/>
-    <path d="M57 202 Q181 230 315 199"
-          fill="none" stroke="#f7ba70" stroke-width="5"/>
-    <path d="M87 216 L102 235 M150 225 L154 244 M220 223 L216 242"
-          stroke="#b5703c" stroke-width="3"/>
-  </svg>
-
-  <svg id="fishingLayer" aria-hidden="true">
-    <path id="line"/>
-    <path id="hook"/>
-  </svg>
-
-  <div id="sand">
-    <div class="plant" style="left: 8%"></div>
-    <div class="plant" style="left: 15%; height: 60px"></div>
-    <div class="plant" style="left: 84%; height: 100px"></div>
-    <div class="plant" style="left: 91%; height: 70px"></div>
-  </div>
-
-  <div id="message" role="status">Нажми на рыбку с подходящей картинкой</div>
-
-  <div id="finish" hidden>
-    <div class="finish-card">
-      <div style="font-size: 64px">🎣 🐟</div>
-      <h2>Отличный улов!</h2>
-      <p>Все рыбки со звуком С<br>оказались в лодке!</p>
-      <button id="restart">Рыбачить ещё раз</button>
+    <div id="finish"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="finishTitle"
+         hidden>
+      <div class="finish-card">
+        <div class="finish-icon">🎣 🐟</div>
+        <h2 id="finishTitle">Отличный улов!</h2>
+        <p>
+          Все рыбки со звуком С<br>
+          оказались в лодке!
+        </p>
+        <button id="restart">Рыбачить ещё раз</button>
+      </div>
     </div>
-  </div>
-</main>
+
+  </main>
+</div>
 
 <script>
+"use strict";
+
 /* =====================================================
    КАРТИНКИ НА РЫБКАХ
 
-   name — название картинки.
-   emoji — временная картинка.
-   image — путь к твоей картинке.
-   correct: true — эту рыбу нужно поймать.
-   correct: false — эту рыбу ловить не нужно.
+   image: "" — показываем эмодзи.
 
-   Пример замены:
-   { name: "Сок", emoji: "🧃", image: "sok.png", correct: true }
+   Чтобы поставить свою картинку:
+   image: "sok.png"
 
-   Картинка sok.png должна лежать рядом с HTML-файлом.
-   Можно указать папку: "images/sok.png".
+   Или картинку из папки:
+   image: "images/sok.png"
+
+   correct: true — ловим.
+   correct: false — не ловим.
+
+   Правильность задаётся вручную, именно по звуку.
 ===================================================== */
 
 const CARDS = [
@@ -538,32 +572,115 @@ const CARDS = [
   { name: "Жук",     emoji: "🐞", image: "", correct: false }
 ];
 
-const COLORS = [
-  "#ffc46c", "#ff9290", "#c4a1ef",
-  "#80d7bd", "#ffaf78", "#f4a6cd"
+const PALETTES = [
+  { color: "#f4aa51", light: "#ffe29b" },
+  { color: "#f18b8c", light: "#ffc5af" },
+  { color: "#a992db", light: "#ddc7ff" },
+  { color: "#64c4ad", light: "#b1efd1" },
+  { color: "#ef9ec1", light: "#ffd1e6" },
+  { color: "#70badf", light: "#bceeff" }
 ];
 
+/* Постоянная система координат.
+   Игра целиком масштабируется под экран. */
+const WIDTH = 1600;
+const HEIGHT = 900;
+
+const FISH_WIDTH = 180;
+const FISH_HEIGHT = 112;
+const LANES = [405, 565, 710];
+
+const BOAT_X = 585;
+const BOAT_WIDTH = 430;
+
+/* Поверхность воды на нашем фоне. */
+const WATER_Y = 306;
+
 const game = document.getElementById("game");
+const viewport = document.getElementById("viewport");
 const boat = document.getElementById("boat");
-const rodTip = document.getElementById("rodTip");
-const boatTarget = document.getElementById("boatTarget");
+const background = document.getElementById("background");
+
+const rod = document.getElementById("rod");
+const rodLight = document.getElementById("rodLight");
+const rodHandle = document.getElementById("rodHandle");
 const line = document.getElementById("line");
 const hook = document.getElementById("hook");
+
 const score = document.getElementById("score");
+const progressFill = document.getElementById("progressFill");
 const message = document.getElementById("message");
 const finish = document.getElementById("finish");
+const restart = document.getElementById("restart");
+const assetError = document.getElementById("assetError");
+
+const total = CARDS.filter(card => card.correct).length;
 
 let fishes = [];
 let queue = [];
 let caught = 0;
 let action = null;
 let previousTime = null;
+let clock = 0;
 let messageUntil = 0;
+let boatHeight = BOAT_WIDTH * 2 / 3;
+let spawnNumber = 0;
 
-const total = CARDS.filter(card => card.correct).length;
+function resizeGame() {
+  const scale = Math.min(
+    document.documentElement.clientWidth / WIDTH,
+    document.documentElement.clientHeight / HEIGHT
+  );
 
-/* Одновременно на экране три рыбки — по одной на глубину. */
-const LANES = 3;
+  viewport.style.width = `${WIDTH * scale}px`;
+  viewport.style.height = `${HEIGHT * scale}px`;
+  game.style.transform = `scale(${scale})`;
+}
+
+window.addEventListener("resize", resizeGame);
+resizeGame();
+
+/* =====================================================
+   ЗАГРУЗКА ФОНА И РЫБАКА
+===================================================== */
+
+const missingAssets = new Set();
+
+function reportAssetError(name) {
+  missingAssets.add(name);
+  assetError.hidden = false;
+  assetError.textContent =
+    "Не удалось загрузить: " +
+    [...missingAssets].join(", ") +
+    ". Проверь названия файлов рядом с index.html.";
+}
+
+function measureBoat() {
+  if (boat.naturalWidth) {
+    boatHeight =
+      BOAT_WIDTH * boat.naturalHeight / boat.naturalWidth;
+  }
+}
+
+boat.addEventListener("load", measureBoat);
+boat.addEventListener("error", () => reportAssetError("ribak.png"));
+background.addEventListener(
+  "error",
+  () => reportAssetError("fon.png")
+);
+
+if (boat.complete) {
+  if (boat.naturalWidth) measureBoat();
+  else reportAssetError("ribak.png");
+}
+
+if (background.complete && !background.naturalWidth) {
+  reportAssetError("fon.png");
+}
+
+/* =====================================================
+   ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+===================================================== */
 
 function shuffle(items) {
   const result = [...items];
@@ -576,102 +693,182 @@ function shuffle(items) {
   return result;
 }
 
-function svgPoint(element) {
-  const point = boat.createSVGPoint();
-  point.x = element.cx.baseVal.value;
-  point.y = element.cy.baseVal.value;
-
-  const screenPoint = point.matrixTransform(element.getScreenCTM());
-  const rect = game.getBoundingClientRect();
-
-  return {
-    x: screenPoint.x - rect.left,
-    y: screenPoint.y - rect.top
-  };
+function mix(a, b, t) {
+  return a + (b - a) * t;
 }
 
-function laneY(lane, height) {
-  const top = game.clientHeight * .47;
-  const bottom = game.clientHeight - 95 - height;
-  return top + (bottom - top) * lane / (LANES - 1);
-}
-
-function showMessage(text, duration = 2300) {
-  message.textContent = text;
-  messageUntil = performance.now() + duration;
+function smooth(t) {
+  return t * t * (3 - 2 * t);
 }
 
 function updateScore() {
   score.textContent = `🐟 ${caught} / ${total}`;
+  progressFill.style.width =
+    `${total ? caught / total * 100 : 0}%`;
 }
+
+function showMessage(text, seconds = 2.8) {
+  message.textContent = text;
+  messageUntil = clock + seconds;
+}
+
+/* =====================================================
+   ЛОДКА И ПОЛОЖЕНИЕ РУКИ
+
+   Координаты руки подобраны под ribak.png.
+   Лодка и удочка покачиваются вместе.
+===================================================== */
+
+function getBoatPose() {
+  const bob = Math.sin(clock * 1.5) * 2.5;
+  const top = WATER_Y - boatHeight * .915 + bob;
+
+  boat.style.top = `${top}px`;
+
+  return {
+    hand: {
+      x: BOAT_X + BOAT_WIDTH * .62,
+      y: top + boatHeight * .38
+    },
+    tip: {
+      x: BOAT_X + BOAT_WIDTH * .62 + 200,
+      y: top + boatHeight * .38 - 92
+    },
+    landing: {
+      x: BOAT_X + BOAT_WIDTH * .77,
+      y: top + boatHeight * .665
+    }
+  };
+}
+
+function drawRod(pose, bend = 0) {
+  const { hand, tip } = pose;
+
+  const path = `
+    M ${hand.x - 8} ${hand.y + 17}
+    Q ${hand.x + 83} ${hand.y - 126}
+      ${tip.x} ${tip.y + bend}
+  `;
+
+  rod.setAttribute("d", path);
+  rodLight.setAttribute("d", path);
+
+  rodHandle.setAttribute("x1", hand.x - 9);
+  rodHandle.setAttribute("y1", hand.y + 18);
+  rodHandle.setAttribute("x2", hand.x + 5);
+  rodHandle.setAttribute("y2", hand.y - 7);
+
+  return {
+    x: tip.x,
+    y: tip.y + bend
+  };
+}
+
+function drawLine(tip, end, showHook = true) {
+  const curve = Math.min(25, Math.abs(end.y - tip.y) * .08);
+
+  line.setAttribute("d", `
+    M ${tip.x} ${tip.y}
+    Q ${tip.x + curve} ${(tip.y + end.y) / 2}
+      ${end.x} ${end.y}
+  `);
+
+  hook.style.display = showHook ? "" : "none";
+
+  /* Нижняя точка крючка совпадает с точкой end. */
+  hook.setAttribute("d", `
+    M ${end.x} ${end.y - 20}
+    L ${end.x} ${end.y - 7}
+    Q ${end.x} ${end.y + 1} ${end.x - 7} ${end.y}
+    Q ${end.x - 15} ${end.y - 1} ${end.x - 13} ${end.y - 10}
+    L ${end.x - 9} ${end.y - 6}
+  `);
+}
+
+/* =====================================================
+   СОЗДАНИЕ РЫБОК
+===================================================== */
 
 function spawnFish(lane, initial = false) {
   if (!queue.length) return;
 
   const card = queue.shift();
+  const direction = spawnNumber++ % 2 === 0 ? 1 : -1;
+  const palette =
+    PALETTES[Math.floor(Math.random() * PALETTES.length)];
+
   const element = document.createElement("button");
-
-  /* Направления чередуются при каждом появлении в очереди. */
-  const direction = Math.random() > .5 ? 1 : -1;
-
+  element.type = "button";
   element.className = "fish" + (direction === 1 ? " right" : "");
   element.setAttribute("aria-label", card.name);
-  element.style.setProperty(
-    "--color",
-    COLORS[Math.floor(Math.random() * COLORS.length)]
-  );
+  element.style.setProperty("--color", palette.color);
+  element.style.setProperty("--light", palette.light);
 
   element.innerHTML = `
-    <span class="fish-shape">
-      <span class="fish-tail"></span>
-      <span class="fish-fin"></span>
-      <span class="fish-body"></span>
-      <span class="fish-eye"></span>
+    <span class="fish-art">
+      <span class="tail"></span>
+      <span class="fin-top"></span>
+      <span class="fin-bottom"></span>
+      <span class="body"></span>
+      <span class="eye"></span>
+      <span class="mouth"></span>
     </span>
-    <span class="fish-picture"></span>
+    <span class="picture" aria-hidden="true"></span>
   `;
 
-  const picture = element.querySelector(".fish-picture");
+  const picture = element.querySelector(".picture");
   picture.textContent = card.emoji;
 
   if (card.image) {
-    const img = new Image();
-    img.alt = card.name;
-    img.onload = () => picture.replaceChildren(img);
-    img.src = card.image;
+    const image = new Image();
+    image.alt = "";
+    image.draggable = false;
+    image.onload = () => picture.replaceChildren(image);
+    image.src = card.image;
   }
 
-  game.appendChild(element);
-
-  const width = element.offsetWidth;
-  const height = element.offsetHeight;
+  const initialPositions = [200, 1020, 580];
 
   const fish = {
     card,
     element,
     lane,
     direction,
-    width,
-    height,
     x: initial
-      ? (game.clientWidth - width) * (.15 + lane * .3)
-      : direction === 1 ? -width - 15 : game.clientWidth + 15,
-    y: laneY(lane, height),
-    speed: 23 + Math.random() * 13,
+      ? initialPositions[lane]
+      : direction === 1 ? -FISH_WIDTH - 25 : WIDTH + 25,
+    y: LANES[lane],
+    speed: 65 + Math.random() * 20,
     phase: Math.random() * Math.PI * 2,
-    removed: false,
-    feedbackUntil: 0
+    boostUntil: 0,
+    removed: false
   };
 
-  fishes.push(fish);
+  element.disabled = Boolean(action) || !finish.hidden;
   element.addEventListener("click", () => selectFish(fish));
+
+  game.appendChild(element);
+  fishes.push(fish);
   renderFish(fish);
 }
 
 function renderFish(fish, scale = 1, rotation = 0) {
-  fish.element.style.transform =
-    `translate(${fish.x}px, ${fish.y}px) rotate(${rotation}deg) scale(${scale})`;
+  fish.element.style.transform = `
+    translate(${fish.x}px, ${fish.y}px)
+    rotate(${rotation}deg)
+    scale(${scale})
+  `;
 }
+
+function setFishEnabled(enabled) {
+  for (const fish of fishes) {
+    fish.element.disabled = !enabled;
+  }
+}
+
+/* =====================================================
+   ВЫБОР РЫБКИ
+===================================================== */
 
 function selectFish(fish) {
   if (action || fish.removed || !finish.hidden) return;
@@ -680,8 +877,12 @@ function selectFish(fish) {
     fish.element.classList.remove("wrong");
     void fish.element.offsetWidth;
     fish.element.classList.add("wrong");
-    fish.feedbackUntil = performance.now() + 450;
-    showMessage("В этом слове нет звука С. Попробуй другую рыбку!");
+    fish.boostUntil = clock + .55;
+
+    showMessage(
+      `«${fish.card.name}» — здесь нет звука С. Ищем другую рыбку!`
+    );
+
     return;
   }
 
@@ -693,57 +894,36 @@ function selectFish(fish) {
     startY: fish.y
   };
 
-  fish.element.style.zIndex = "7";
-  fishes.forEach(item => item.element.disabled = true);
-  showMessage("Есть клёв! Поднимаем рыбку…", 10000);
+  fish.element.style.zIndex = "8";
+  setFishEnabled(false);
+
+  showMessage(`«${fish.card.name}» — есть звук С! Ловим!`, 10);
 }
 
-function drawLine(start, end, visibleHook = true) {
-  const bend = Math.min(28, Math.abs(end.y - start.y) * .09);
+/* =====================================================
+   АНИМАЦИЯ ПОИМКИ
 
-  line.setAttribute(
-    "d",
-    `M ${start.x} ${start.y}
-     Q ${start.x + bend} ${(start.y + end.y) / 2}
-       ${end.x} ${end.y}`
-  );
+   1. Крючок опускается к рыбке.
+   2. Рыбка поднимается над лодкой.
+   3. Рыбка падает за передний борт.
+===================================================== */
 
-  hook.style.display = visibleHook ? "" : "none";
-  hook.setAttribute(
-    "d",
-    `M ${end.x} ${end.y - 5}
-     v 10
-     q 0 9 -7 9
-     q -7 0 -7 -7
-     l 3 3`
-  );
-}
-
-function mix(a, b, t) {
-  return a + (b - a) * t;
-}
-
-function smooth(t) {
-  return t * t * (3 - 2 * t);
-}
-
-function animateCatch(dt) {
+function animateCatch(dt, pose) {
   const current = action;
   const fish = current.fish;
-  const tip = svgPoint(rodTip);
-  const target = svgPoint(boatTarget);
 
   current.elapsed += dt;
 
   if (current.stage === "lower") {
-    const t = smooth(Math.min(current.elapsed / .7, 1));
+    const t = smooth(Math.min(current.elapsed / .75, 1));
+    const tip = drawRod(pose, t * 9);
 
     drawLine(tip, {
-      x: mix(tip.x, fish.x + fish.width / 2, t),
-      y: mix(tip.y + 30, fish.y + 8, t)
+      x: mix(tip.x + 5, fish.x + FISH_WIDTH / 2, t),
+      y: mix(tip.y + 48, fish.y + 15, t)
     });
 
-    if (t === 1) {
+    if (t >= 1) {
       current.stage = "lift";
       current.elapsed = 0;
     }
@@ -752,145 +932,211 @@ function animateCatch(dt) {
   }
 
   if (current.stage === "lift") {
-    const t = smooth(Math.min(current.elapsed / 1.45, 1));
+    const t = smooth(Math.min(current.elapsed / 1.65, 1));
+    const scale = 1 - t * .35;
 
-    fish.x = mix(current.startX, target.x - fish.width / 2, t);
-    fish.y = mix(current.startY, target.y - 95, t);
+    fish.x = mix(
+      current.startX,
+      pose.landing.x - FISH_WIDTH / 2,
+      t
+    );
 
-    renderFish(fish, 1 - .22 * t, Math.sin(t * Math.PI * 4) * 8);
+    fish.y = mix(
+      current.startY,
+      pose.landing.y - 120,
+      t
+    );
+
+    renderFish(fish, scale);
+
+    const tip = drawRod(pose, 9 + Math.sin(t * Math.PI) * 10);
+
     drawLine(tip, {
-      x: fish.x + fish.width / 2,
-      y: fish.y + 8
+      x: fish.x + FISH_WIDTH / 2,
+      y: fish.y + FISH_HEIGHT / 2
+        + (15 - FISH_HEIGHT / 2) * scale
     });
 
-    if (t === 1) {
+    if (t >= 1) {
       current.stage = "drop";
       current.elapsed = 0;
       current.dropX = fish.x;
       current.dropY = fish.y;
 
-      /* Теперь рыбка ныряет за передний борт лодки. */
-      fish.element.style.zIndex = "3";
+      /* Рыбка теперь позади изображения лодки. */
+      fish.element.style.zIndex = "5";
     }
 
     return;
   }
 
-  const t = Math.min(current.elapsed / .55, 1);
+  const t = Math.min(current.elapsed / .6, 1);
 
-  fish.x = mix(current.dropX, target.x - fish.width / 2, t);
-  fish.y = mix(current.dropY, target.y - fish.height / 2 + 15, t * t);
-  fish.element.style.opacity = String(1 - t);
+  fish.x = mix(
+    current.dropX,
+    pose.landing.x - FISH_WIDTH / 2,
+    t
+  );
 
-  renderFish(fish, .78 - .5 * t, 12 * t);
-  drawLine(tip, { x: tip.x, y: tip.y + 30 });
+  fish.y = mix(
+    current.dropY,
+    pose.landing.y - FISH_HEIGHT / 2 + 26,
+    t * t
+  );
 
-  if (t === 1) {
-    fish.removed = true;
-    fish.element.remove();
-    fishes = fishes.filter(item => item !== fish);
-    caught++;
-    updateScore();
-    action = null;
+  renderFish(fish, .65 - t * .25, t * 12);
 
-    fishes.forEach(item => item.element.disabled = false);
+  fish.element.style.opacity =
+    String(1 - Math.max(0, (t - .45) / .55));
 
-    if (caught === total) {
-      finish.hidden = false;
-      document.getElementById("restart").focus();
-    } else {
-      showMessage("Рыбка в лодке! Ищем следующую.");
+  const tip = drawRod(pose, (1 - t) * 9);
+  drawLine(tip, { x: tip.x + 5, y: tip.y + 48 });
+
+  if (t >= 1) {
+    finishCatch(fish);
+  }
+}
+
+function finishCatch(fish) {
+  fish.removed = true;
+  fish.element.remove();
+  fishes = fishes.filter(item => item !== fish);
+
+  caught++;
+  updateScore();
+  action = null;
+
+  if (caught === total) {
+    setFishEnabled(false);
+    finish.hidden = false;
+    restart.focus();
+    return;
+  }
+
+  spawnFish(fish.lane);
+  setFishEnabled(true);
+  showMessage("Рыбка в лодке! Продолжаем рыбалку.");
+}
+
+/* =====================================================
+   ДВИЖЕНИЕ РЫБ
+===================================================== */
+
+function moveFishes(dt) {
+  for (const fish of [...fishes]) {
+    if (action && action.fish === fish) continue;
+
+    const boost = clock < fish.boostUntil ? 2.2 : 1;
+
+    fish.x += fish.direction * fish.speed * dt * boost;
+    fish.y =
+      LANES[fish.lane] +
+      Math.sin(clock * 1.7 + fish.phase) * 9;
+
+    renderFish(fish);
+
+    const outside = fish.direction === 1
+      ? fish.x > WIDTH + 30
+      : fish.x < -FISH_WIDTH - 30;
+
+    if (outside) {
+      fish.removed = true;
+      fish.element.remove();
+      fishes = fishes.filter(item => item !== fish);
+
+      /* Пропущенные картинки возвращаются в очередь. */
+      queue.push(fish.card);
       spawnFish(fish.lane);
     }
   }
 }
 
-function frame(now) {
+/* =====================================================
+   ОБЩИЙ ЦИКЛ
+===================================================== */
+
+function frame(timestamp) {
   const dt = previousTime === null
     ? 0
-    : Math.min((now - previousTime) / 1000, .05);
+    : Math.min((timestamp - previousTime) / 1000, .05);
 
-  previousTime = now;
+  previousTime = timestamp;
 
-  if (finish.hidden) {
-    for (const fish of [...fishes]) {
-      if (action && action.fish === fish) continue;
+  if (finish.hidden && !document.hidden) {
+    clock += dt;
 
-      const boost = now < fish.feedbackUntil ? 2 : 1;
-      fish.x += fish.direction * fish.speed * dt * boost;
-      fish.y = laneY(fish.lane, fish.height)
-        + Math.sin(now / 950 + fish.phase) * 7;
+    const pose = getBoatPose();
 
-      renderFish(fish);
-
-      const outside = fish.direction === 1
-        ? fish.x > game.clientWidth + 20
-        : fish.x < -fish.width - 20;
-
-      if (outside) {
-        fish.removed = true;
-        fish.element.remove();
-        fishes = fishes.filter(item => item !== fish);
-
-        /* Пропущенная рыбка позже приплывёт снова. */
-        queue.push(fish.card);
-        spawnFish(fish.lane);
-
-        if (action) {
-          fishes.forEach(item => item.element.disabled = true);
-        }
-      }
-    }
+    moveFishes(dt);
 
     if (action) {
-      animateCatch(dt);
+      animateCatch(dt, pose);
     } else {
-      const tip = svgPoint(rodTip);
-      drawLine(tip, { x: tip.x, y: tip.y + 30 });
+      const tip = drawRod(pose);
+
+      drawLine(tip, {
+        x: tip.x + 5 + Math.sin(clock * 1.8) * 3,
+        y: tip.y + 48
+      });
     }
 
-    if (now > messageUntil && !action) {
-      message.textContent = "Нажми на рыбку с подходящей картинкой";
+    if (!action && clock > messageUntil) {
+      message.textContent =
+        "Найди рыбку с картинкой, в названии которой есть звук С";
     }
   }
 
   requestAnimationFrame(frame);
 }
 
+/* Возвращение на вкладку не ускоряет игру. */
+document.addEventListener("visibilitychange", () => {
+  previousTime = null;
+});
+
+/* =====================================================
+   НОВАЯ ИГРА
+===================================================== */
+
 function resetGame() {
-  fishes.forEach(fish => fish.element.remove());
+  for (const fish of fishes) {
+    fish.element.remove();
+  }
+
   fishes = [];
   queue = shuffle(CARDS);
   caught = 0;
   action = null;
+  clock = 0;
   previousTime = null;
+  spawnNumber = 0;
   finish.hidden = true;
+
   updateScore();
 
-  for (let lane = 0; lane < LANES; lane++) {
+  for (let lane = 0; lane < LANES.length; lane++) {
     spawnFish(lane, true);
   }
 
-  showMessage("Найди картинки, в названии которых есть звук С!");
+  const pose = getBoatPose();
+  const tip = drawRod(pose);
+  drawLine(tip, { x: tip.x + 5, y: tip.y + 48 });
+
+  showMessage(
+    "Нажми на рыбку с картинкой, в названии которой есть звук С",
+    4
+  );
 }
 
-window.addEventListener("resize", () => {
-  for (const fish of fishes) {
-    fish.width = fish.element.offsetWidth;
-    fish.height = fish.element.offsetHeight;
-    if (!action || action.fish !== fish) {
-      fish.x = Math.max(
-        -fish.width,
-        Math.min(fish.x, game.clientWidth)
-      );
-    }
-  }
+restart.addEventListener("click", () => {
+  resetGame();
+  fishes[0]?.element.focus({ preventScroll: true });
 });
-
-document.getElementById("restart").addEventListener("click", resetGame);
 
 resetGame();
 requestAnimationFrame(frame);
 </script>
+
 </body>
 </html>
+```
