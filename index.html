@@ -160,27 +160,22 @@ header {
     0 10px 30px #1354711c;
 }
 
-h1 {
-  margin: 0 0 7px;
-  font-size: 41px;
-  letter-spacing: -.7px;
-}
-
 .subtitle {
   margin: 0;
-  font-size: 23px;
+  font-size: 27px;
+  font-weight: bold;
 }
 
 .subtitle strong {
   display: inline-grid;
   place-items: center;
 
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
 
-  margin-left: 4px;
+  margin-left: 5px;
 
-  border-radius: 10px;
+  border-radius: 11px;
 
   background: #ffdc7e;
   color: #755022;
@@ -371,7 +366,6 @@ h1 {
   height: 134px;
 
   padding: 0;
-
   border: 0;
 
   background: transparent;
@@ -401,7 +395,7 @@ h1 {
 }
 
 /* =====================================================
-   🔒 ТЕЛО — НЕ МЕНЯТЬ
+   🔒 ТЕЛО РЫБ — НЕ МЕНЯТЬ
 ===================================================== */
 
 .fish-body-image {
@@ -488,7 +482,7 @@ h1 {
 }
 
 /* =====================================================
-   КАРТИНКА В ОКОШКЕ
+   КАРТИНКА В РЫБКЕ
 ===================================================== */
 
 .picture {
@@ -574,7 +568,52 @@ h1 {
 }
 
 /* =====================================================
-   ОКНО МЕЖДУ РАУНДАМИ / ФИНАЛ
+   ПУЗЫРЬ
+===================================================== */
+
+#bubble {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 105px;
+  height: 105px;
+
+  padding: 0;
+  border: 0;
+
+  background: transparent;
+
+  z-index: 9;
+
+  cursor: pointer;
+
+  display: none;
+
+  will-change: transform, opacity;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+#bubble img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+#bubble.popping {
+  pointer-events: none;
+}
+
+/* =====================================================
+   ФИНАЛ
 ===================================================== */
 
 #finish[hidden] {
@@ -591,11 +630,9 @@ h1 {
   display: grid;
   place-items: center;
 
-  background:
-    #063a5875;
+  background: #063a5875;
 
-  backdrop-filter:
-    blur(7px);
+  backdrop-filter: blur(7px);
 }
 
 .finish-card {
@@ -603,9 +640,7 @@ h1 {
 
   padding: 46px;
 
-  border:
-    6px solid #fff;
-
+  border: 6px solid #fff;
   border-radius: 43px;
 
   background:
@@ -625,8 +660,7 @@ h1 {
 }
 
 .finish-card h2 {
-  margin:
-    20px 0 14px;
+  margin: 20px 0 14px;
 
   font-size: 47px;
 }
@@ -639,14 +673,12 @@ h1 {
   line-height: 1.5;
 }
 
-#finishButton {
+#restart {
   margin-top: 31px;
 
   padding: 20px 36px;
 
-  border:
-    2px solid #ffe7ab;
-
+  border: 2px solid #ffe7ab;
   border-radius: 23px;
 
   background:
@@ -661,13 +693,12 @@ h1 {
     0 6px 0 #da9b3e;
 
   font-size: 28px;
-
   font-weight: bold;
 
   cursor: pointer;
 }
 
-#finishButton:active {
+#restart:active {
   transform: translateY(3px);
 
   box-shadow:
@@ -699,13 +730,9 @@ h1 {
 
   <div class="title-card">
 
-    <h1>
-      Весёлая рыбалка
-    </h1>
-
     <p class="subtitle">
-      Лови картинки со звуком
-      <strong id="targetSound">С</strong>
+      Лови рыбок со звуком
+      <strong>С</strong>
     </p>
 
   </div>
@@ -760,6 +787,21 @@ h1 {
 
 </svg>
 
+<!-- ПУЗЫРЬ -->
+
+<button
+  id="bubble"
+  type="button"
+  aria-label="Лопнуть пузырь"
+>
+  <img
+    id="bubbleImage"
+    src="bubble_yellow.png"
+    alt=""
+    draggable="false"
+  >
+</button>
+
 <div
   id="finish"
   role="dialog"
@@ -769,23 +811,22 @@ h1 {
 
   <div class="finish-card">
 
-    <div
-      id="finishIcon"
-      class="finish-icon"
-    >
+    <div class="finish-icon">
       🎣 🐟
     </div>
 
-    <h2 id="finishTitle">
-      Отлично порыбачили!
+    <h2>
+      Отличный улов!
     </h2>
 
-    <p id="finishText">
-      Продолжим?
+    <p>
+      Все картинки со звуком С
+      <br>
+      пойманы!
     </p>
 
-    <button id="finishButton">
-      Продолжить
+    <button id="restart">
+      Рыбачить ещё раз
     </button>
 
   </div>
@@ -800,139 +841,135 @@ h1 {
 "use strict";
 
 /* =====================================================
-   ВСЕ 8 КАРТИНОК С
+   КАРТИНКИ С
 ===================================================== */
 
-const S_CARDS = [
+const CORRECT_CARDS = [
 
   {
     id: "bag",
     name: "Сумка",
-    image: "raund/bag.png"
+    image: "raund/bag.png",
+    correct: true
   },
 
   {
     id: "bus",
     name: "Автобус",
-    image: "raund/bus.png"
+    image: "raund/bus.png",
+    correct: true
   },
 
   {
     id: "cabbage",
     name: "Капуста",
-    image: "raund/cabbage.png"
+    image: "raund/cabbage.png",
+    correct: true
   },
 
   {
     id: "dog",
     name: "Собака",
-    image: "raund/dog.png"
+    image: "raund/dog.png",
+    correct: true
   },
 
   {
     id: "fox",
     name: "Лиса",
-    image: "raund/fox.png"
+    image: "raund/fox.png",
+    correct: true
   },
 
   {
     id: "pineapple",
     name: "Ананас",
-    image: "raund/pineapple.png"
+    image: "raund/pineapple.png",
+    correct: true
   },
 
   {
     id: "scooter",
     name: "Самокат",
-    image: "raund/scooter.png"
+    image: "raund/scooter.png",
+    correct: true
   },
 
   {
     id: "wasp",
     name: "Оса",
-    image: "raund/wasp.png"
+    image: "raund/wasp.png",
+    correct: true
   }
 
 ];
 
 /* =====================================================
-   ВСЕ 8 КАРТИНОК Ш
+   КАРТИНКИ Ш
 ===================================================== */
 
-const SH_CARDS = [
+const WRONG_CARDS = [
 
   {
     id: "cap",
     name: "Шапка",
-    image: "raund/cap.png"
+    image: "raund/cap.png",
+    correct: false
   },
 
   {
     id: "car",
     name: "Машина",
-    image: "raund/car.png"
+    image: "raund/car.png",
+    correct: false
   },
 
   {
     id: "cat",
     name: "Кошка",
-    image: "raund/cat.png"
+    image: "raund/cat.png",
+    correct: false
   },
 
   {
     id: "cherry",
     name: "Вишня",
-    image: "raund/cherry.png"
+    image: "raund/cherry.png",
+    correct: false
   },
 
   {
     id: "mouse",
     name: "Мышь",
-    image: "raund/mouse.png"
-  },
-
-  {
-    id: "pillow",
-    name: "Подушка",
-    image: "raund/pillow.png"
+    image: "raund/mouse.png",
+    correct: false
   },
 
   {
     id: "shower",
     name: "Душ",
-    image: "raund/shower.png"
+    image: "raund/shower.png",
+    correct: false
+  },
+
+  {
+    id: "pillow",
+    name: "Подушка",
+    image: "raund/pillow.png",
+    correct: false
   },
 
   {
     id: "tire",
     name: "Шина",
-    image: "raund/tire.png"
+    image: "raund/tire.png",
+    correct: false
   }
 
 ];
 
-/* =====================================================
-   ДВА РАУНДА
-
-   1 — ловим С
-   2 — ловим Ш
-===================================================== */
-
-const ROUNDS = [
-
-  {
-    sound: "С",
-    correctCards: S_CARDS,
-    wrongCards: SH_CARDS
-  },
-
-  {
-    sound: "Ш",
-    correctCards: SH_CARDS,
-    wrongCards: S_CARDS
-  }
-
-];
+const TOTAL_CORRECT =
+  CORRECT_CARDS.length;
 
 /* =====================================================
    ВИДЫ РЫБ
@@ -1024,33 +1061,23 @@ const score =
 const progressFill =
   document.getElementById("progressFill");
 
-const targetSound =
-  document.getElementById("targetSound");
-
 const finish =
   document.getElementById("finish");
 
-const finishIcon =
-  document.getElementById("finishIcon");
+const restart =
+  document.getElementById("restart");
 
-const finishTitle =
-  document.getElementById("finishTitle");
+const bubble =
+  document.getElementById("bubble");
 
-const finishText =
-  document.getElementById("finishText");
-
-const finishButton =
-  document.getElementById("finishButton");
+const bubbleImage =
+  document.getElementById("bubbleImage");
 
 /* =====================================================
    СОСТОЯНИЕ
 ===================================================== */
 
-let currentRoundIndex =
-  0;
-
-let fishes =
-  [];
+let fishes = [];
 
 let caughtCorrect =
   new Set();
@@ -1074,24 +1101,34 @@ let spawnNumber =
   0;
 
 /* =====================================================
-   ТЕКУЩИЙ РАУНД
+   СОСТОЯНИЕ ПУЗЫРЯ
 ===================================================== */
 
-function getRound() {
+let bubbleState = {
 
-  return ROUNDS[
-    currentRoundIndex
-  ];
+  active: false,
 
-}
+  popping: false,
 
-function getTotalCorrect() {
+  x: 0,
 
-  return getRound()
-    .correctCards
-    .length;
+  y: 0,
 
-}
+  startY: 1110,
+
+  endY: 430,
+
+  speed: 58,
+
+  phase: 0,
+
+  size: 105,
+
+  nextSpawn: 2.5,
+
+  popTimer: 0
+
+};
 
 /* =====================================================
    МАСШТАБ
@@ -1211,20 +1248,14 @@ function updateScore() {
   const caught =
     caughtCorrect.size;
 
-  const total =
-    getTotalCorrect();
-
   score.textContent =
-    `🐟 ${caught} / ${total}`;
+    `🐟 ${caught} / ${TOTAL_CORRECT}`;
 
   progressFill.style.width =
-
     `${
-      total
-        ? caught /
-          total *
-          100
-        : 0
+      caught /
+      TOTAL_CORRECT *
+      100
     }%`;
 
 }
@@ -1261,24 +1292,17 @@ function getActiveCorrectIds() {
 }
 
 /* =====================================================
-   ПРАВИЛЬНАЯ КАРТИНКА
-
-   Пойманные больше не появляются.
-   Одновременно одна правильная
-   картинка тоже не дублируется.
+   ВЫБОР С
 ===================================================== */
 
 function getCorrectCard() {
-
-  const round =
-    getRound();
 
   const activeCorrect =
     getActiveCorrectIds();
 
   const available =
 
-    round.correctCards.filter(
+    CORRECT_CARDS.filter(
 
       card =>
 
@@ -1296,36 +1320,21 @@ function getCorrectCard() {
     return null;
   }
 
-  const card =
-    randomItem(
-      available
-    );
-
-  return {
-
-    ...card,
-    correct: true
-
-  };
+  return randomItem(
+    available
+  );
 
 }
 
 /* =====================================================
-   НЕПРАВИЛЬНАЯ КАРТИНКА
-
-   Может повторяться,
-   но не ставим ту же самую
-   два раза подряд.
+   ВЫБОР Ш
 ===================================================== */
 
 function getWrongCard() {
 
-  const round =
-    getRound();
-
   let available =
 
-    round.wrongCards.filter(
+    WRONG_CARDS.filter(
 
       card =>
         card.id !==
@@ -1336,24 +1345,19 @@ function getWrongCard() {
   if (!available.length) {
 
     available =
-      [...round.wrongCards];
+      [...WRONG_CARDS];
 
   }
 
-  const selected =
+  const card =
     randomItem(
       available
     );
 
   lastWrongId =
-    selected.id;
+    card.id;
 
-  return {
-
-    ...selected,
-    correct: false
-
-  };
+  return card;
 
 }
 
@@ -1376,11 +1380,6 @@ function getNextCard(
     return correct;
 
   }
-
-  /*
-    60% — правильная,
-    40% — отвлекающая.
-  */
 
   if (
     correct &&
@@ -1462,6 +1461,309 @@ function moveWaves() {
 }
 
 /* =====================================================
+   ПУЗЫРИ
+===================================================== */
+
+function scheduleNextBubble() {
+
+  bubbleState.active =
+    false;
+
+  bubbleState.popping =
+    false;
+
+  bubble.style.display =
+    "none";
+
+  bubble.classList.remove(
+    "popping"
+  );
+
+  /*
+    Следующий появляется
+    через 1.5–3.5 секунды.
+  */
+
+  bubbleState.nextSpawn =
+
+    1.5 +
+    Math.random() *
+    2;
+
+}
+
+function spawnBubble() {
+
+  /*
+    Пузырь либо слева,
+    либо справа.
+  */
+
+  const leftSide =
+    Math.random() < .5;
+
+  if (leftSide) {
+
+    bubbleState.x =
+
+      130 +
+      Math.random() *
+      360;
+
+  } else {
+
+    bubbleState.x =
+
+      WIDTH -
+      490 +
+      Math.random() *
+      330;
+
+  }
+
+  bubbleState.startY =
+    HEIGHT + 40;
+
+  bubbleState.y =
+    bubbleState.startY;
+
+  /*
+    Доходит примерно
+    до линии волн.
+  */
+
+  bubbleState.endY =
+    405 +
+    Math.random() *
+    35;
+
+  /*
+    Очень небольшая
+    разница в размере.
+  */
+
+  bubbleState.size =
+
+    95 +
+    Math.random() *
+    25;
+
+  bubbleState.speed =
+
+    55 +
+    Math.random() *
+    15;
+
+  bubbleState.phase =
+
+    Math.random() *
+    Math.PI *
+    2;
+
+  /*
+    Случайно жёлтый
+    или зелёный.
+  */
+
+  bubbleImage.src =
+
+    Math.random() < .5
+
+      ? "bubble_yellow.png"
+
+      : "bubble_green.png";
+
+  bubble.style.width =
+    `${bubbleState.size}px`;
+
+  bubble.style.height =
+    `${bubbleState.size}px`;
+
+  bubble.style.opacity =
+    "1";
+
+  bubble.style.display =
+    "block";
+
+  bubbleState.active =
+    true;
+
+  bubbleState.popping =
+    false;
+
+}
+
+function moveBubble(
+  dt
+) {
+
+  /*
+    Если пузыря сейчас нет,
+    считаем паузу до следующего.
+  */
+
+  if (
+    !bubbleState.active
+  ) {
+
+    bubbleState.nextSpawn -=
+      dt;
+
+    if (
+      bubbleState.nextSpawn <= 0 &&
+      finish.hidden
+    ) {
+
+      spawnBubble();
+
+    }
+
+    return;
+
+  }
+
+  /*
+    Анимация лопания.
+  */
+
+  if (
+    bubbleState.popping
+  ) {
+
+    bubbleState.popTimer +=
+      dt;
+
+    const t =
+
+      Math.min(
+        bubbleState.popTimer /
+        .30,
+        1
+      );
+
+    const scale =
+
+      1 +
+      t * .28;
+
+    bubble.style.transform = `
+
+      translate(
+        ${bubbleState.x}px,
+        ${bubbleState.y}px
+      )
+
+      scale(
+        ${scale}
+      )
+
+    `;
+
+    bubble.style.opacity =
+
+      String(
+        1 - t
+      );
+
+    if (
+      t >= 1
+    ) {
+
+      scheduleNextBubble();
+
+    }
+
+    return;
+
+  }
+
+  /*
+    Поднимается снизу вверх.
+  */
+
+  bubbleState.y -=
+
+    bubbleState.speed *
+    dt;
+
+  /*
+    Очень лёгкое покачивание
+    вправо-влево.
+  */
+
+  const sway =
+
+    Math.sin(
+
+      clock *
+      2 +
+
+      bubbleState.phase
+
+    ) * 16;
+
+  bubble.style.transform = `
+
+    translate(
+      ${bubbleState.x + sway}px,
+      ${bubbleState.y}px
+    )
+
+  `;
+
+  /*
+    Дошёл до поверхности воды —
+    мягко исчезает.
+  */
+
+  if (
+    bubbleState.y <=
+    bubbleState.endY
+  ) {
+
+    scheduleNextBubble();
+
+  }
+
+}
+
+function popBubble() {
+
+  if (
+    !bubbleState.active ||
+    bubbleState.popping
+  ) {
+
+    return;
+
+  }
+
+  bubbleState.popping =
+    true;
+
+  bubbleState.popTimer =
+    0;
+
+  /*
+    Вместо целого пузыря
+    показываем картинку лопания.
+  */
+
+  bubbleImage.src =
+    "bubble_pop.png";
+
+  bubble.classList.add(
+    "popping"
+  );
+
+}
+
+bubble.addEventListener(
+  "click",
+  popBubble
+);
+
+/* =====================================================
    ЛОДКА
 ===================================================== */
 
@@ -1530,10 +1832,6 @@ function getBoatPose() {
         145
 
     },
-
-    /*
-      ТОЧКА У НОГ МАЛЬЧИКА
-    */
 
     landing: {
 
@@ -1944,7 +2242,7 @@ function setFishEnabled(
 }
 
 /* =====================================================
-   ВЫБОР РЫБЫ
+   ВЫБОР РЫБКИ
 ===================================================== */
 
 function selectFish(
@@ -2038,10 +2336,6 @@ function animateCorrectCatch(
   current.elapsed +=
     dt;
 
-  /* -----------------------------------
-     1. КРЮЧОК К РЫБКЕ
-  ----------------------------------- */
-
   if (
     current.stage ===
     "lower"
@@ -2118,10 +2412,6 @@ function animateCorrectCatch(
     return;
 
   }
-
-  /* -----------------------------------
-     2. ДОЛЕТАЕТ ДО НОГ МАЛЬЧИКА
-  ----------------------------------- */
 
   if (
     current.stage ===
@@ -2259,10 +2549,6 @@ function animateCorrectCatch(
 
   }
 
-  /* -----------------------------------
-     3. МЯГКО ИСЧЕЗАЕТ НА МЕСТЕ
-  ----------------------------------- */
-
   if (
     current.stage ===
     "vanish"
@@ -2377,10 +2663,6 @@ function animateWrongCatch(
   current.elapsed +=
     dt;
 
-  /* -----------------------------------
-     1. КРЮЧОК К РЫБКЕ
-  ----------------------------------- */
-
   if (
     current.stage ===
     "hook"
@@ -2464,10 +2746,6 @@ function animateWrongCatch(
     return;
 
   }
-
-  /* -----------------------------------
-     2. ТЯНЕТ ВНИЗ
-  ----------------------------------- */
 
   if (
     current.stage ===
@@ -2569,10 +2847,6 @@ function animateWrongCatch(
     return;
 
   }
-
-  /* -----------------------------------
-     3. СРЫВАЕТСЯ
-  ----------------------------------- */
 
   if (
     current.stage ===
@@ -2693,10 +2967,6 @@ function animateWrongCatch(
     return;
 
   }
-
-  /* -----------------------------------
-     4. ПЛАВНОЕ ВОЗВРАЩЕНИЕ
-  ----------------------------------- */
 
   if (
     current.stage ===
@@ -2889,30 +3159,23 @@ function finishCatch(
 
   if (
     caughtCorrect.size ===
-    getTotalCorrect()
+    TOTAL_CORRECT
   ) {
 
-    /*
-      РАУНД 1 ЗАКОНЧЕН
-    */
+    setFishEnabled(
+      false
+    );
 
-    if (
-      currentRoundIndex === 0
-    ) {
+    bubble.style.display =
+      "none";
 
-      showRoundComplete();
+    bubbleState.active =
+      false;
 
-    }
+    finish.hidden =
+      false;
 
-    /*
-      РАУНД 2 ЗАКОНЧЕН
-    */
-
-    else {
-
-      showGameComplete();
-
-    }
+    restart.focus();
 
     return;
 
@@ -2929,179 +3192,7 @@ function finishCatch(
 }
 
 /* =====================================================
-   ОКНО ПОСЛЕ ПЕРВОГО РАУНДА
-===================================================== */
-
-function showRoundComplete() {
-
-  setFishEnabled(
-    false
-  );
-
-  finishIcon.textContent =
-    "🎣 🐟";
-
-  finishTitle.textContent =
-    "Отлично порыбачили!";
-
-  finishText.textContent =
-    "Продолжим?";
-
-  finishButton.textContent =
-    "Продолжить";
-
-  finishButton.dataset.action =
-    "next-round";
-
-  finish.hidden =
-    false;
-
-  finishButton.focus();
-
-}
-
-/* =====================================================
-   ФИНАЛ ВСЕЙ ИГРЫ
-===================================================== */
-
-function showGameComplete() {
-
-  setFishEnabled(
-    false
-  );
-
-  finishIcon.textContent =
-    "🏆 🎣 🐟";
-
-  finishTitle.textContent =
-    "Отличный улов!";
-
-  finishText.innerHTML =
-    "Все картинки со звуками С и Ш<br>пойманы!";
-
-  finishButton.textContent =
-    "Рыбачить ещё раз";
-
-  finishButton.dataset.action =
-    "restart";
-
-  finish.hidden =
-    false;
-
-  finishButton.focus();
-
-}
-
-/* =====================================================
-   УДАЛЯЕМ ТЕКУЩИХ РЫБ
-===================================================== */
-
-function clearFishes() {
-
-  for (
-    const fish
-    of fishes
-  ) {
-
-    fish.element.remove();
-
-  }
-
-  fishes =
-    [];
-
-}
-
-/* =====================================================
-   ЗАПУСК КОНКРЕТНОГО РАУНДА
-===================================================== */
-
-function startRound(
-  roundIndex
-) {
-
-  clearFishes();
-
-  currentRoundIndex =
-    roundIndex;
-
-  caughtCorrect =
-    new Set();
-
-  lastWrongId =
-    null;
-
-  action =
-    null;
-
-  spawnNumber =
-    0;
-
-  previousTime =
-    null;
-
-  finish.hidden =
-    true;
-
-  /*
-    Меняем букву сверху.
-  */
-
-  targetSound.textContent =
-    getRound().sound;
-
-  updateScore();
-
-  /*
-    На старте гарантируем,
-    что хотя бы одна правильная
-    рыбка уже есть на экране.
-  */
-
-  spawnFish(
-    0,
-    true,
-    true
-  );
-
-  spawnFish(
-    1,
-    true
-  );
-
-  spawnFish(
-    2,
-    true
-  );
-
-  const pose =
-    getBoatPose();
-
-  const tip =
-    drawRod(
-      pose
-    );
-
-  drawLine(
-
-    tip,
-
-    {
-
-      x:
-        tip.x + 6,
-
-      y:
-        tip.y + 58
-
-    }
-
-  );
-
-}
-
-/* =====================================================
-   ОБЫЧНОЕ ДВИЖЕНИЕ
+   ОБЫЧНОЕ ДВИЖЕНИЕ РЫБ
 ===================================================== */
 
 function moveFishes(
@@ -3227,6 +3318,10 @@ function frame(
 
     moveWaves();
 
+    moveBubble(
+      dt
+    );
+
     const pose =
       getBoatPose();
 
@@ -3318,70 +3413,132 @@ document.addEventListener(
 );
 
 /* =====================================================
-   КНОПКА ОКНА
+   НОВАЯ ИГРА
 ===================================================== */
 
-finishButton.addEventListener(
+function resetGame() {
+
+  for (
+    const fish
+    of fishes
+  ) {
+
+    fish.element.remove();
+
+  }
+
+  fishes =
+    [];
+
+  caughtCorrect =
+    new Set();
+
+  lastWrongId =
+    null;
+
+  action =
+    null;
+
+  clock =
+    0;
+
+  previousTime =
+    null;
+
+  spawnNumber =
+    0;
+
+  finish.hidden =
+    true;
+
+  /*
+    Сбрасываем пузырь.
+  */
+
+  bubble.style.display =
+    "none";
+
+  bubble.style.opacity =
+    "1";
+
+  bubble.classList.remove(
+    "popping"
+  );
+
+  bubbleState.active =
+    false;
+
+  bubbleState.popping =
+    false;
+
+  bubbleState.nextSpawn =
+    1.5 +
+    Math.random() *
+    2;
+
+  updateScore();
+
+  moveWaves();
+
+  spawnFish(
+    0,
+    true,
+    true
+  );
+
+  spawnFish(
+    1,
+    true
+  );
+
+  spawnFish(
+    2,
+    true
+  );
+
+  const pose =
+    getBoatPose();
+
+  const tip =
+    drawRod(
+      pose
+    );
+
+  drawLine(
+
+    tip,
+
+    {
+
+      x:
+        tip.x + 6,
+
+      y:
+        tip.y + 58
+
+    }
+
+  );
+
+}
+
+/* =====================================================
+   ПОВТОР
+===================================================== */
+
+restart.addEventListener(
 
   "click",
 
-  () => {
-
-    const actionType =
-      finishButton.dataset.action;
-
-    /*
-      После первого раунда
-      запускаем второй.
-    */
-
-    if (
-      actionType ===
-      "next-round"
-    ) {
-
-      startRound(
-        1
-      );
-
-      return;
-
-    }
-
-    /*
-      После второго —
-      начинаем всю игру заново.
-    */
-
-    if (
-      actionType ===
-      "restart"
-    ) {
-
-      clock =
-        0;
-
-      moveWaves();
-
-      startRound(
-        0
-      );
-
-    }
-
-  }
+  resetGame
 
 );
 
 /* =====================================================
-   СТАРТ ИГРЫ
+   СТАРТ
 ===================================================== */
 
-moveWaves();
-
-startRound(
-  0
-);
+resetGame();
 
 requestAnimationFrame(
   frame
