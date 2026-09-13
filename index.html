@@ -81,14 +81,27 @@ button {
 
 /* =====================================================
    ВОЛНЫ
+   Движение и покачивание разделены на два слоя.
+   Благодаря этому цикл не должен моргать.
 ===================================================== */
+
+.wave-bob {
+  position: absolute;
+  left: 0;
+
+  width: 100%;
+  height: 210px;
+
+  pointer-events: none;
+}
 
 .wave-track {
   position: absolute;
   left: 0;
+  top: 0;
 
   width: 200%;
-  height: 210px;
+  height: 100%;
 
   display: flex;
 
@@ -111,66 +124,98 @@ button {
   user-select: none;
 }
 
-#wavesBack {
+/* задняя волна */
+
+#wavesBackBob {
   top: 325px;
+
   z-index: 2;
+
   opacity: .60;
 
   animation:
-    wavesBackMove 18s linear infinite,
     wavesBackBob 4s ease-in-out infinite;
 }
 
-#wavesFront {
+#wavesBack {
+  animation:
+    wavesBackMove 18s linear infinite;
+}
+
+/* передняя волна */
+
+#wavesFrontBob {
   top: 350px;
+
   z-index: 8;
+
   opacity: .82;
 
   animation:
-    wavesFrontMove 12s linear infinite,
     wavesFrontBob 3s ease-in-out infinite;
 }
 
+#wavesFront {
+  transform: translateX(-50%);
+
+  animation:
+    wavesFrontMove 12s linear infinite;
+}
+
+/*
+Два изображения внутри каждого track абсолютно одинаковые.
+Поэтому при смещении ровно на 50% следующий кадр
+совпадает с первым.
+*/
+
 @keyframes wavesBackMove {
+
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
+
 }
 
 @keyframes wavesFrontMove {
+
   from {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 
   to {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
+
 }
 
 @keyframes wavesBackBob {
+
   0%,
   100% {
-    margin-top: 0;
+    transform: translateY(0);
   }
 
   50% {
-    margin-top: 8px;
+    transform: translateY(8px);
   }
+
 }
 
 @keyframes wavesFrontBob {
+
   0%,
   100% {
-    margin-top: 0;
+    transform: translateY(0);
   }
 
   50% {
-    margin-top: -7px;
+    transform: translateY(-7px);
   }
+
 }
 
 /* =====================================================
@@ -268,6 +313,7 @@ h1 {
 
 #score {
   font-size: 35px;
+
   font-weight: bold;
 }
 
@@ -320,7 +366,7 @@ h1 {
   will-change: transform;
 }
 
-#boy {
+#boyOpen {
   display: block;
 
   width: 100%;
@@ -437,8 +483,8 @@ h1 {
   left: 0;
   top: 0;
 
-  width: 245px;
-  height: 160px;
+  width: 230px;
+  height: 150px;
 
   padding: 0;
 
@@ -457,17 +503,18 @@ h1 {
   cursor: default;
 }
 
-/* Вся графика рыбы */
+/*
+Внутри этого контейнера находятся:
+тело + хвост + картинка.
+*/
 
 .fish-art {
   position: absolute;
 
   inset: 0;
 
-  width: 245px;
-  height: 160px;
-
-  pointer-events: none;
+  width: 230px;
+  height: 150px;
 
   filter:
     drop-shadow(
@@ -475,7 +522,9 @@ h1 {
     );
 }
 
-/* Тело */
+/* =====================================================
+   ТЕЛА
+===================================================== */
 
 .fish-body {
   position: absolute;
@@ -484,184 +533,195 @@ h1 {
   top: 0;
 
   width: 190px;
-  height: 160px;
+  height: 150px;
 
   object-fit: contain;
 
   z-index: 2;
 
   pointer-events: none;
+
   user-select: none;
 }
 
-/* Хвост */
+/* =====================================================
+   ХВОСТЫ
+===================================================== */
 
 .fish-tail {
   position: absolute;
 
-  left: 162px;
-  top: 35px;
-
-  width: 82px;
-  height: 92px;
-
   object-fit: contain;
+
+  pointer-events: none;
+
+  user-select: none;
 
   z-index: 1;
 
-  pointer-events: none;
-  user-select: none;
-
-  transform-origin: 8% 50%;
-
-  animation:
-    tailWag .55s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
-/* Немного разная скорость хвостов */
+/* ---------- РЫБКА 1 ---------- */
+
+.fish.type-1 .fish-tail {
+
+  /*
+  Хвост был слишком далеко справа.
+  Теперь придвигаем его к телу.
+  */
+
+  left: 132px;
+  top: 29px;
+
+  width: 86px;
+  height: 94px;
+
+  transform-origin: 10% 50%;
+}
+
+/* ---------- РЫБКА 2 ---------- */
 
 .fish.type-2 .fish-tail {
-  animation-duration: .48s;
+
+  /*
+  У синей хвост был отдельно слева.
+  Сдвигаем место соединения к телу.
+  */
+
+  left: 128px;
+  top: 31px;
+
+  width: 88px;
+  height: 92px;
+
+  transform-origin: 10% 50%;
 }
+
+/* ---------- РЫБКА 3 ---------- */
 
 .fish.type-3 .fish-tail {
-  animation-duration: .62s;
+
+  /*
+  Третья рыбка уже выглядела хорошо.
+  Оставляем её практически как была.
+  */
+
+  left: 142px;
+  top: 31px;
+
+  width: 82px;
+  height: 90px;
+
+  transform-origin: 10% 50%;
 }
 
-/* Движение хвоста */
+/* =====================================================
+   ВИЛЯНИЕ ХВОСТА
+===================================================== */
+
+.fish-tail {
+  animation:
+    tailWag .52s ease-in-out infinite alternate;
+}
 
 @keyframes tailWag {
 
   from {
-    transform:
-      rotate(-11deg)
-      scaleX(.96);
+    transform: rotate(-12deg);
   }
 
   to {
-    transform:
-      rotate(11deg)
-      scaleX(1.03);
+    transform: rotate(12deg);
   }
 
 }
 
 /* =====================================================
-   НАСТРОЙКИ КАЖДОЙ РЫБКИ
-   Здесь потом точно подгоним места соединения
+   РАЗВОРОТ РЫБКИ
 ===================================================== */
 
-/* Рыбка 1 */
+/*
+Разворачиваем ВСЮ рыбку одним блоком.
 
-.fish.type-1 .fish-body {
-  left: 0px;
-  top: 0px;
-
-  width: 190px;
-}
-
-.fish.type-1 .fish-tail {
-  left: 158px;
-  top: 34px;
-
-  width: 86px;
-  height: 94px;
-}
-
-/* Рыбка 2 */
-
-.fish.type-2 .fish-body {
-  left: 0px;
-  top: 0px;
-
-  width: 190px;
-}
-
-.fish.type-2 .fish-tail {
-  left: 158px;
-  top: 34px;
-
-  width: 86px;
-  height: 94px;
-}
-
-/* Рыбка 3 */
-
-.fish.type-3 .fish-body {
-  left: 0px;
-  top: 0px;
-
-  width: 190px;
-}
-
-.fish.type-3 .fish-tail {
-  left: 158px;
-  top: 34px;
-
-  width: 86px;
-  height: 94px;
-}
-
-/* =====================================================
-   РАЗВОРОТ РЫБЫ
-===================================================== */
+Поэтому тело и хвост не могут разъехаться
+при смене направления.
+*/
 
 .fish.right .fish-art {
   transform: scaleX(-1);
 }
 
 /* =====================================================
-   КАРТИНКА В ОКОШКЕ
+   КАРТИНКА В ГОТОВОМ ОКОШКЕ
 ===================================================== */
+
+/*
+Белое окошко уже нарисовано на теле рыбки.
+Поэтому здесь НЕТ:
+background,
+border,
+border-radius.
+
+Мы просто кладём картинку сверху.
+*/
 
 .picture {
   position: absolute;
 
-  left: 72px;
-  top: 47px;
-
-  width: 70px;
-  height: 65px;
-
-  display: grid;
-  place-items: center;
-
   z-index: 4;
 
-  background: transparent;
+  display: grid;
 
-  border: none;
-
-  box-shadow: none;
-
-  font-size: 48px;
-
-  line-height: 1;
+  place-items: center;
 
   pointer-events: none;
+
+  line-height: 1;
 }
 
-/*
-При развороте рыбы само окошко остаётся
-на нужном месте, а картинка не зеркалится.
-*/
+/* отдельное положение картинки для каждого тела */
 
-.fish.right .picture {
+.fish.type-1 .picture {
+  left: 73px;
+  top: 48px;
+
+  width: 62px;
+  height: 55px;
+
+  font-size: 43px;
+}
+
+.fish.type-2 .picture {
   left: 72px;
+  top: 48px;
+
+  width: 62px;
+  height: 55px;
+
+  font-size: 43px;
+}
+
+.fish.type-3 .picture {
+  left: 73px;
+  top: 48px;
+
+  width: 62px;
+  height: 55px;
+
+  font-size: 43px;
 }
 
 .picture img {
-  width: 88%;
-  height: 88%;
+  width: 90%;
+  height: 90%;
 
   object-fit: contain;
-
-  pointer-events: none;
 }
 
-/* Ошибка */
+/* неправильный ответ */
 
-.fish.wrong .fish-art {
+.fish.wrong .picture {
   animation:
     wobble .4s ease;
 }
@@ -669,13 +729,11 @@ h1 {
 @keyframes wobble {
 
   25% {
-    transform:
-      rotate(-7deg);
+    transform: rotate(-10deg);
   }
 
   75% {
-    transform:
-      rotate(7deg);
+    transform: rotate(10deg);
   }
 
 }
@@ -735,6 +793,7 @@ h1 {
   z-index: 40;
 
   display: grid;
+
   place-items: center;
 
   background:
@@ -749,7 +808,8 @@ h1 {
 
   padding: 46px;
 
-  border: 6px solid #fff;
+  border:
+    6px solid #fff;
 
   border-radius: 43px;
 
@@ -789,7 +849,8 @@ h1 {
 
   padding: 20px 36px;
 
-  border: 2px solid #ffe7ab;
+  border:
+    2px solid #ffe7ab;
 
   border-radius: 23px;
 
@@ -835,22 +896,31 @@ h1 {
   draggable="false"
 >
 
+<!-- ЗАДНИЕ ВОЛНЫ -->
+
 <div
-  id="wavesBack"
-  class="wave-track"
+  id="wavesBackBob"
+  class="wave-bob"
 >
 
-  <img
-    src="wave_back.png"
-    alt=""
-    draggable="false"
+  <div
+    id="wavesBack"
+    class="wave-track"
   >
 
-  <img
-    src="wave_back.png"
-    alt=""
-    draggable="false"
-  >
+    <img
+      src="wave_back.png"
+      alt=""
+      draggable="false"
+    >
+
+    <img
+      src="wave_back.png"
+      alt=""
+      draggable="false"
+    >
+
+  </div>
 
 </div>
 
@@ -863,13 +933,8 @@ h1 {
     </h1>
 
     <p class="subtitle">
-
       Лови картинки со звуком
-
-      <strong>
-        С
-      </strong>
-
+      <strong>С</strong>
     </p>
 
   </div>
@@ -885,11 +950,7 @@ h1 {
     </div>
 
     <div class="progress">
-
-      <div
-        id="progressFill"
-      ></div>
-
+      <div id="progressFill"></div>
     </div>
 
   </div>
@@ -898,14 +959,12 @@ h1 {
 
 <div id="boatShadow"></div>
 
-<!-- =================================================
-     ТЕПЕРЬ ТОЛЬКО ГОТОВЫЙ МАЛЬЧИК
-================================================== -->
+<!-- МАЛЬЧИК ЦЕЛИКОМ -->
 
 <div id="boat">
 
   <img
-    id="boy"
+    id="boyOpen"
     src="boy_open.png"
     alt="Мальчик в лодке"
     draggable="false"
@@ -913,22 +972,31 @@ h1 {
 
 </div>
 
+<!-- ПЕРЕДНИЕ ВОЛНЫ -->
+
 <div
-  id="wavesFront"
-  class="wave-track"
+  id="wavesFrontBob"
+  class="wave-bob"
 >
 
-  <img
-    src="wave_front.png"
-    alt=""
-    draggable="false"
+  <div
+    id="wavesFront"
+    class="wave-track"
   >
 
-  <img
-    src="wave_front.png"
-    alt=""
-    draggable="false"
-  >
+    <img
+      src="wave_front.png"
+      alt=""
+      draggable="false"
+    >
+
+    <img
+      src="wave_front.png"
+      alt=""
+      draggable="false"
+    >
+
+  </div>
 
 </div>
 
@@ -939,13 +1007,9 @@ h1 {
 >
 
   <path id="line"></path>
-
   <path id="rod"></path>
-
   <path id="rodLight"></path>
-
   <line id="rodHandle"></line>
-
   <path id="hook"></path>
 
 </svg>
@@ -954,7 +1018,7 @@ h1 {
   id="message"
   role="status"
 >
-  Найди рыбку с картинкой на звук С
+  Найди рыбку с картинкой, в названии которой есть звук С
 </div>
 
 <div
@@ -994,38 +1058,6 @@ h1 {
 <script>
 
 "use strict";
-
-/* =====================================================
-   ТРИ ВИДА НОВЫХ РЫБ
-===================================================== */
-
-const FISH_TYPES = [
-
-  {
-    body:
-      "fish/fish1_body.png",
-
-    tail:
-      "fish/fish1_tail.png"
-  },
-
-  {
-    body:
-      "fish/fish2_body.png",
-
-    tail:
-      "fish/fish2_tail.png"
-  },
-
-  {
-    body:
-      "fish/fish3_body.png",
-
-    tail:
-      "fish/fish3_tail.png"
-  }
-
-];
 
 /* =====================================================
    КАРТОЧКИ
@@ -1096,14 +1128,40 @@ const CARDS = [
 ];
 
 /* =====================================================
+   ТРИ ВИДА РЫБ
+===================================================== */
+
+const FISH_TYPES = [
+
+  {
+    type: 1,
+    body: "fish/fish1_body.png",
+    tail: "fish/fish1_tail.png"
+  },
+
+  {
+    type: 2,
+    body: "fish/fish2_body.png",
+    tail: "fish/fish2_tail.png"
+  },
+
+  {
+    type: 3,
+    body: "fish/fish3_body.png",
+    tail: "fish/fish3_tail.png"
+  }
+
+];
+
+/* =====================================================
    РАЗМЕРЫ
 ===================================================== */
 
 const WIDTH = 1920;
 const HEIGHT = 1080;
 
-const FISH_WIDTH = 245;
-const FISH_HEIGHT = 160;
+const FISH_WIDTH = 230;
+const FISH_HEIGHT = 150;
 
 const LANES = [
   500,
@@ -1121,80 +1179,50 @@ const WATER_Y = 390;
 ===================================================== */
 
 const game =
-  document.getElementById(
-    "game"
-  );
+  document.getElementById("game");
 
 const viewport =
-  document.getElementById(
-    "viewport"
-  );
+  document.getElementById("viewport");
 
 const boat =
-  document.getElementById(
-    "boat"
-  );
+  document.getElementById("boat");
 
-const boy =
-  document.getElementById(
-    "boy"
-  );
+const boyOpen =
+  document.getElementById("boyOpen");
 
 const rod =
-  document.getElementById(
-    "rod"
-  );
+  document.getElementById("rod");
 
 const rodLight =
-  document.getElementById(
-    "rodLight"
-  );
+  document.getElementById("rodLight");
 
 const rodHandle =
-  document.getElementById(
-    "rodHandle"
-  );
+  document.getElementById("rodHandle");
 
 const line =
-  document.getElementById(
-    "line"
-  );
+  document.getElementById("line");
 
 const hook =
-  document.getElementById(
-    "hook"
-  );
+  document.getElementById("hook");
 
 const score =
-  document.getElementById(
-    "score"
-  );
+  document.getElementById("score");
 
 const progressFill =
-  document.getElementById(
-    "progressFill"
-  );
+  document.getElementById("progressFill");
 
 const message =
-  document.getElementById(
-    "message"
-  );
+  document.getElementById("message");
 
 const finish =
-  document.getElementById(
-    "finish"
-  );
+  document.getElementById("finish");
 
 const restart =
-  document.getElementById(
-    "restart"
-  );
+  document.getElementById("restart");
 
 const total =
-
   CARDS.filter(
-    card =>
-      card.correct
+    card => card.correct
   ).length;
 
 /* =====================================================
@@ -1202,7 +1230,6 @@ const total =
 ===================================================== */
 
 let fishes = [];
-
 let queue = [];
 
 let caught = 0;
@@ -1226,7 +1253,6 @@ let spawnNumber = 0;
 function resizeGame() {
 
   const scale =
-
     Math.min(
 
       document.documentElement.clientWidth /
@@ -1261,7 +1287,7 @@ resizeGame();
 
 function measureBoat() {
 
-  if (!boy.naturalWidth) {
+  if (!boyOpen.naturalWidth) {
     return;
   }
 
@@ -1269,21 +1295,21 @@ function measureBoat() {
 
     BOAT_WIDTH *
 
-    boy.naturalHeight /
+    boyOpen.naturalHeight /
 
-    boy.naturalWidth;
+    boyOpen.naturalWidth;
 
   boat.style.height =
     `${boatHeight}px`;
 
 }
 
-boy.addEventListener(
+boyOpen.addEventListener(
   "load",
   measureBoat
 );
 
-if (boy.complete) {
+if (boyOpen.complete) {
   measureBoat();
 }
 
@@ -1297,21 +1323,15 @@ function shuffle(items) {
     [...items];
 
   for (
-    let i =
-      result.length - 1;
-
+    let i = result.length - 1;
     i > 0;
-
     i--
   ) {
 
     const j =
-
       Math.floor(
-
         Math.random() *
         (i + 1)
-
       );
 
     [
@@ -1328,11 +1348,7 @@ function shuffle(items) {
 
 }
 
-function mix(
-  a,
-  b,
-  t
-) {
+function mix(a, b, t) {
 
   return (
     a +
@@ -1344,8 +1360,7 @@ function mix(
 function smooth(t) {
 
   return (
-    t *
-    t *
+    t * t *
     (3 - 2 * t)
   );
 
@@ -1386,7 +1401,6 @@ function showMessage(
 function getBoatPose() {
 
   const bob =
-
     Math.sin(
       clock * 1.5
     ) * 3;
@@ -1411,7 +1425,9 @@ function getBoatPose() {
     }deg)`;
 
   /*
-    УДОЧКА ПОДВИНУТА К РУКАМ МАЛЬЧИКА.
+  Эти координаты рассчитаны под boy_open.png.
+  Начало удочки находится непосредственно
+  около рук мальчика.
   */
 
   return {
@@ -1420,11 +1436,11 @@ function getBoatPose() {
 
       x:
         BOAT_X +
-        BOAT_WIDTH * .585,
+        BOAT_WIDTH * .555,
 
       y:
         top +
-        boatHeight * .475
+        boatHeight * .455
 
     },
 
@@ -1432,13 +1448,13 @@ function getBoatPose() {
 
       x:
         BOAT_X +
-        BOAT_WIDTH * .585 +
-        300,
+        BOAT_WIDTH * .555 +
+        330,
 
       y:
         top +
-        boatHeight * .475 -
-        145
+        boatHeight * .455 -
+        170
 
     },
 
@@ -1477,8 +1493,8 @@ function drawRod(
     M ${hand.x - 8}
       ${hand.y + 12}
 
-    Q ${hand.x + 125}
-      ${hand.y - 185}
+    Q ${hand.x + 135}
+      ${hand.y - 190}
 
       ${tip.x}
       ${tip.y + bend}
@@ -1517,8 +1533,7 @@ function drawRod(
 
   return {
 
-    x:
-      tip.x,
+    x: tip.x,
 
     y:
       tip.y + bend
@@ -1605,7 +1620,7 @@ function drawLine(
 }
 
 /* =====================================================
-   СОЗДАНИЕ НОВОЙ РЫБКИ
+   СОЗДАНИЕ РЫБ
 ===================================================== */
 
 function spawnFish(
@@ -1623,30 +1638,25 @@ function spawnFish(
   const direction =
 
     spawnNumber++ % 2 === 0
-
       ? 1
-
       : -1;
 
   /*
-    СЛУЧАЙНО ВЫБИРАЕМ
-    ОДИН ИЗ ТРЁХ ВИДОВ.
+  Тип рыбки выбирается случайно.
+  Поэтому на экране могут повторяться одинаковые
+  виды рыб — как мы и хотели.
   */
 
-  const typeIndex =
-
-    Math.floor(
-
-      Math.random() *
-      FISH_TYPES.length
-
-    );
-
   const fishType =
-    FISH_TYPES[typeIndex];
+
+    FISH_TYPES[
+      Math.floor(
+        Math.random() *
+        FISH_TYPES.length
+      )
+    ];
 
   const element =
-
     document.createElement(
       "button"
     );
@@ -1656,13 +1666,11 @@ function spawnFish(
 
   element.className =
 
-    `fish type-${typeIndex + 1}` +
+    `fish type-${fishType.type}` +
 
     (
       direction === 1
-
         ? " right"
-
         : ""
     );
 
@@ -1670,12 +1678,6 @@ function spawnFish(
     "aria-label",
     card.name
   );
-
-  /*
-    ВАЖНО:
-    никаких старых CSS-тел,
-    глаз, ртов, плавников и хвостов.
-  */
 
   element.innerHTML = `
 
@@ -1695,12 +1697,12 @@ function spawnFish(
         draggable="false"
       >
 
-    </span>
+      <span
+        class="picture"
+        aria-hidden="true"
+      ></span>
 
-    <span
-      class="picture"
-      aria-hidden="true"
-    ></span>
+    </span>
 
   `;
 
@@ -1729,17 +1731,14 @@ function spawnFish(
 
     direction,
 
-    typeIndex,
+    type:
+      fishType.type,
 
     x:
       initial
-
         ? initialPositions[lane]
-
         : direction === 1
-
           ? -FISH_WIDTH - 30
-
           : WIDTH + 30,
 
     y:
@@ -1762,7 +1761,6 @@ function spawnFish(
   };
 
   element.disabled =
-
     Boolean(action) ||
     !finish.hidden;
 
@@ -1790,7 +1788,7 @@ function spawnFish(
 }
 
 /* =====================================================
-   РЕНДЕР
+   РЕНДЕР РЫБ
 ===================================================== */
 
 function renderFish(
@@ -1835,7 +1833,7 @@ function setFishEnabled(
 }
 
 /* =====================================================
-   ВЫБОР РЫБЫ
+   НАЖАТИЕ НА РЫБУ
 ===================================================== */
 
 function selectFish(
@@ -1850,9 +1848,7 @@ function selectFish(
     return;
   }
 
-  if (
-    !fish.card.correct
-  ) {
+  if (!fish.card.correct) {
 
     fish.element.classList.remove(
       "wrong"
@@ -1985,9 +1981,7 @@ function animateCatch(
 
     );
 
-    if (
-      t >= 1
-    ) {
+    if (t >= 1) {
 
       current.stage =
         "lift";
@@ -2082,9 +2076,7 @@ function animateCatch(
 
     );
 
-    if (
-      t >= 1
-    ) {
+    if (t >= 1) {
 
       current.stage =
         "drop";
@@ -2195,9 +2187,7 @@ function animateCatch(
 
   );
 
-  if (
-    t >= 1
-  ) {
+  if (t >= 1) {
 
     finishCatch(
       fish
@@ -2208,7 +2198,7 @@ function animateCatch(
 }
 
 /* =====================================================
-   ПОЙМАНА
+   РЫБКА ПОЙМАНА
 ===================================================== */
 
 function finishCatch(
@@ -2236,9 +2226,7 @@ function finishCatch(
   action =
     null;
 
-  if (
-    caught === total
-  ) {
+  if (caught === total) {
 
     setFishEnabled(
       false
@@ -2268,7 +2256,7 @@ function finishCatch(
 }
 
 /* =====================================================
-   ДВИЖЕНИЕ
+   ДВИЖЕНИЕ РЫБ
 ===================================================== */
 
 function moveFishes(
@@ -2293,7 +2281,6 @@ function moveFishes(
       fish.boostUntil
 
         ? 2.2
-
         : 1;
 
     fish.x +=
@@ -2332,9 +2319,7 @@ function moveFishes(
         : fish.x <
           -FISH_WIDTH - 35;
 
-    if (
-      outside
-    ) {
+    if (outside) {
 
       fish.removed =
         true;
@@ -2365,7 +2350,7 @@ function moveFishes(
 }
 
 /* =====================================================
-   ЦИКЛ
+   ГЛАВНЫЙ ЦИКЛ
 ===================================================== */
 
 function frame(
@@ -2407,9 +2392,7 @@ function frame(
       dt
     );
 
-    if (
-      action
-    ) {
+    if (action) {
 
       animateCatch(
         dt,
@@ -2524,10 +2507,7 @@ function resetGame() {
 
   for (
     let lane = 0;
-
-    lane <
-    LANES.length;
-
+    lane < LANES.length;
     lane++
   ) {
 
@@ -2576,7 +2556,11 @@ restart.addEventListener(
 
   "click",
 
-  resetGame
+  () => {
+
+    resetGame();
+
+  }
 
 );
 
