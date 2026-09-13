@@ -24,25 +24,15 @@ body {
 body {
   display: grid;
   place-items: center;
-
   background: #063951;
-
-  font-family:
-    "Trebuchet MS",
-    Arial,
-    sans-serif;
-
+  font-family: "Trebuchet MS", Arial, sans-serif;
   color: #194965;
 }
 
 button {
   font: inherit;
-
-  -webkit-tap-highlight-color:
-    transparent;
-
-  touch-action:
-    manipulation;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* =====================================================
@@ -56,7 +46,6 @@ button {
 
 #game {
   position: absolute;
-
   left: 0;
   top: 0;
 
@@ -64,14 +53,11 @@ button {
   height: 1080px;
 
   overflow: hidden;
-
   isolation: isolate;
 
-  transform-origin:
-    top left;
+  transform-origin: top left;
 
-  background:
-    #148aaf;
+  background: #148aaf;
 }
 
 /* =====================================================
@@ -80,7 +66,6 @@ button {
 
 #background {
   position: absolute;
-
   inset: 0;
 
   width: 100%;
@@ -100,7 +85,6 @@ button {
 
 .wave-track {
   position: absolute;
-
   left: 0;
 
   width: 200%;
@@ -129,17 +113,13 @@ button {
 
 #wavesBack {
   top: 325px;
-
   z-index: 2;
-
   opacity: .60;
 }
 
 #wavesFront {
   top: 350px;
-
   z-index: 8;
-
   opacity: .82;
 }
 
@@ -166,12 +146,8 @@ header {
 .title-card {
   padding: 20px 30px;
 
-  border:
-    2px solid
-    #ffffffb3;
-
-  border-radius:
-    30px;
+  border: 2px solid #ffffffb3;
+  border-radius: 30px;
 
   background:
     linear-gradient(
@@ -181,20 +157,17 @@ header {
     );
 
   box-shadow:
-    0 10px 30px
-    #1354711c;
+    0 10px 30px #1354711c;
 }
 
 .subtitle {
   margin: 0;
-
   font-size: 27px;
   font-weight: bold;
 }
 
 .subtitle strong {
   display: inline-grid;
-
   place-items: center;
 
   width: 40px;
@@ -205,7 +178,6 @@ header {
   border-radius: 11px;
 
   background: #ffdc7e;
-
   color: #755022;
 }
 
@@ -214,18 +186,13 @@ header {
 
   padding: 18px 25px;
 
-  border:
-    2px solid
-    #ffffffb3;
-
+  border: 2px solid #ffffffb3;
   border-radius: 28px;
 
-  background:
-    #ffffffed;
+  background: #ffffffed;
 
   box-shadow:
-    0 10px 30px
-    #1354711c;
+    0 10px 30px #1354711c;
 }
 
 .score-label {
@@ -234,16 +201,12 @@ header {
   color: #618293;
 
   font-size: 17px;
-
   letter-spacing: 2px;
-
-  text-transform:
-    uppercase;
+  text-transform: uppercase;
 }
 
 #score {
   font-size: 35px;
-
   font-weight: bold;
 }
 
@@ -272,8 +235,7 @@ header {
       #80d7a2
     );
 
-  transition:
-    width .4s ease;
+  transition: width .4s ease;
 }
 
 /* =====================================================
@@ -292,11 +254,9 @@ header {
 
   pointer-events: none;
 
-  transform-origin:
-    50% 75%;
+  transform-origin: 50% 75%;
 
-  will-change:
-    transform;
+  will-change: transform;
 }
 
 #boyBase {
@@ -324,11 +284,9 @@ header {
 
   border-radius: 50%;
 
-  background:
-    #075e7938;
+  background: #075e7938;
 
-  filter:
-    blur(8px);
+  filter: blur(8px);
 
   z-index: 3;
 
@@ -356,63 +314,41 @@ header {
 
 #rod {
   fill: none;
-
   stroke: #73472c;
-
   stroke-width: 7;
-
-  stroke-linecap:
-    round;
+  stroke-linecap: round;
 }
 
 #rodLight {
   fill: none;
-
   stroke: #d7a05c;
-
   stroke-width: 2.5;
-
-  stroke-linecap:
-    round;
+  stroke-linecap: round;
 }
 
 #rodHandle {
   stroke: #3d4248;
-
   stroke-width: 12;
-
-  stroke-linecap:
-    round;
+  stroke-linecap: round;
 }
 
 #line {
   fill: none;
-
   stroke: #ffffffdf;
-
   stroke-width: 2.4;
-
-  stroke-linecap:
-    round;
+  stroke-linecap: round;
 }
 
 #hook {
   fill: none;
-
   stroke: #dce9ee;
-
   stroke-width: 5;
-
-  stroke-linecap:
-    round;
-
-  stroke-linejoin:
-    round;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 
   filter:
     drop-shadow(
-      0 1px 1px
-      #174760
+      0 1px 1px #174760
     );
 }
 
@@ -430,18 +366,15 @@ header {
   height: 134px;
 
   padding: 0;
-
   border: 0;
 
-  background:
-    transparent;
+  background: transparent;
 
   cursor: pointer;
 
   z-index: 5;
 
-  will-change:
-    transform;
+  will-change: transform;
 }
 
 .fish:disabled {
@@ -450,19 +383,15 @@ header {
 
 .fish-shell {
   position: absolute;
-
   inset: 0;
 
-  transform-origin:
-    center center;
+  transform-origin: center center;
 
-  pointer-events:
-    none;
+  pointer-events: none;
 }
 
 .fish.right .fish-shell {
-  transform:
-    scaleX(-1);
+  transform: scaleX(-1);
 }
 
 /* =====================================================
@@ -487,8 +416,7 @@ header {
 
   filter:
     drop-shadow(
-      0 7px 5px
-      #064d6b22
+      0 7px 5px #064d6b22
     );
 }
 
@@ -507,8 +435,7 @@ header {
   user-select: none;
 
   animation:
-    tailSwim
-    .58s
+    tailSwim .58s
     ease-in-out
     infinite
     alternate;
@@ -521,8 +448,7 @@ header {
   left: 132px;
   top: 16px;
 
-  transform-origin:
-    34% 50%;
+  transform-origin: 34% 50%;
 }
 
 .fish.type2 .fish-tail-image {
@@ -532,8 +458,7 @@ header {
   left: 133px;
   top: 16px;
 
-  transform-origin:
-    34% 50%;
+  transform-origin: 34% 50%;
 }
 
 .fish.type3 .fish-tail-image {
@@ -543,20 +468,17 @@ header {
   left: 143px;
   top: 17px;
 
-  transform-origin:
-    22% 50%;
+  transform-origin: 22% 50%;
 }
 
 @keyframes tailSwim {
 
   from {
-    transform:
-      rotate(-11deg);
+    transform: rotate(-11deg);
   }
 
   to {
-    transform:
-      rotate(11deg);
+    transform: rotate(11deg);
   }
 
 }
@@ -575,20 +497,17 @@ header {
   height: 55px;
 
   display: grid;
-
   place-items: center;
 
   z-index: 4;
 
   line-height: 1;
 
-  pointer-events:
-    none;
+  pointer-events: none;
 }
 
 .fish.right .picture {
-  transform:
-    scaleX(-1);
+  transform: scaleX(-1);
 }
 
 .picture img {
@@ -599,11 +518,8 @@ header {
 
   object-fit: contain;
 
-  pointer-events:
-    none;
-
-  user-select:
-    none;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* =====================================================
@@ -612,8 +528,7 @@ header {
 
 .fish.wrong-pull .fish-shell {
   animation:
-    fishStruggle
-    .18s
+    fishStruggle .18s
     ease-in-out
     infinite
     alternate;
@@ -674,8 +589,7 @@ header {
   padding: 0;
   border: 0;
 
-  background:
-    transparent;
+  background: transparent;
 
   z-index: 9;
 
@@ -700,13 +614,11 @@ header {
   object-fit: contain;
 
   pointer-events: none;
-
   user-select: none;
 }
 
 #bubble.popping {
-  pointer-events:
-    none;
+  pointer-events: none;
 }
 
 /* =====================================================
@@ -725,7 +637,6 @@ header {
   z-index: 40;
 
   display: grid;
-
   place-items: center;
 
   background:
@@ -736,12 +647,11 @@ header {
 }
 
 .finish-card {
-  width: 588px;
+  width: 650px;
 
   padding: 46px;
 
-  border:
-    6px solid #fff;
+  border: 6px solid #fff;
 
   border-radius: 43px;
 
@@ -752,43 +662,47 @@ header {
     );
 
   box-shadow:
-    0 30px 96px
-    #052c554a;
+    0 30px 96px #052c554a;
 
   text-align: center;
 }
 
 .finish-icon {
-  font-size: 90px;
+  font-size: 80px;
 }
 
 .finish-card h2 {
   margin:
-    20px 0 14px;
+    18px 0 18px;
 
-  font-size: 47px;
+  font-size: 45px;
 }
 
 .finish-card p {
   margin: 0;
 
-  font-size: 28px;
+  font-size: 25px;
 
-  line-height: 1.5;
+  line-height: 1.55;
+}
+
+.rules-text {
+  text-align: left;
+}
+
+.rules-text strong {
+  color: #255c78;
 }
 
 #finishButton {
   margin-top: 31px;
 
-  padding:
-    20px 36px;
+  padding: 20px 36px;
 
   border:
-    2px solid
-    #ffe7ab;
+    2px solid #ffe7ab;
 
-  border-radius:
-    23px;
+  border-radius: 23px;
 
   background:
     linear-gradient(
@@ -796,27 +710,22 @@ header {
       #ffc15d
     );
 
-  color:
-    #694619;
+  color: #694619;
 
   box-shadow:
-    0 6px 0
-    #da9b3e;
+    0 6px 0 #da9b3e;
 
   font-size: 28px;
-
   font-weight: bold;
 
   cursor: pointer;
 }
 
 #finishButton:active {
-  transform:
-    translateY(3px);
+  transform: translateY(3px);
 
   box-shadow:
-    0 2px 0
-    #da9b3e;
+    0 2px 0 #da9b3e;
 }
 
 </style>
@@ -835,10 +744,7 @@ header {
   draggable="false"
 >
 
-<div
-  id="wavesBack"
-  class="wave-track"
->
+<div id="wavesBack" class="wave-track">
 
   <img
     src="wave_back.png"
@@ -859,10 +765,13 @@ header {
   <div class="title-card">
 
     <p class="subtitle">
+
       Лови рыбок со звуком
+
       <strong id="targetSound">
         С
       </strong>
+
     </p>
 
   </div>
@@ -898,10 +807,7 @@ header {
 
 </div>
 
-<div
-  id="wavesFront"
-  class="wave-track"
->
+<div id="wavesFront" class="wave-track">
 
   <img
     src="wave_front.png"
@@ -931,9 +837,7 @@ header {
 
 </svg>
 
-<!-- ==================================================
-     ПУЗЫРЬ
-================================================== -->
+<!-- ПУЗЫРЬ -->
 
 <button
   id="bubble"
@@ -943,22 +847,27 @@ header {
 
   <img
     id="bubbleImage"
-    src="https://propodgotovkaa-creator.github.io/fish/bubble_yellow.png"
+    src="bubble_yellow.png"
     alt=""
     draggable="false"
   >
 
 </button>
 
-<!-- ==================================================
-     ОКНО
-================================================== -->
+<!-- ЗВУК ЛОПАНИЯ -->
+
+<audio
+  id="bubblePopSound"
+  src="cbc4277e031bf4a.mp3"
+  preload="auto"
+></audio>
+
+<!-- ОКНО -->
 
 <div
   id="finish"
   role="dialog"
   aria-modal="true"
-  hidden
 >
 
   <div class="finish-card">
@@ -967,19 +876,42 @@ header {
       id="finishIcon"
       class="finish-icon"
     >
-      🎣 🐟
+      🎣 🫧
     </div>
 
     <h2 id="finishTitle">
-      Отлично порыбачили!
+      Правила
     </h2>
 
-    <p id="finishText">
-      Продолжим?
+    <p
+      id="finishText"
+      class="rules-text"
+    >
+
+      Лови рыбок с нужным звуком.
+      <br><br>
+
+      Если нужная рыба ещё не проплывает —
+      лопай пузыри.
+      <br><br>
+
+      🟡 Если пузырь жёлтый —
+      говори слог <strong>СА</strong>.
+      <br><br>
+
+      🟢 Если пузырь зелёный —
+      говори слог <strong>ША</strong>.
+      <br><br>
+
+      Лопай пузыри и жди свою рыбку!
+
     </p>
 
-    <button id="finishButton">
-      Продолжить
+    <button
+      id="finishButton"
+      data-action="start"
+    >
+      Начать
     </button>
 
   </div>
@@ -1239,6 +1171,9 @@ const bubble =
 const bubbleImage =
   document.getElementById("bubbleImage");
 
+const bubblePopSound =
+  document.getElementById("bubblePopSound");
+
 /* =====================================================
    СОСТОЯНИЕ
 ===================================================== */
@@ -1283,6 +1218,12 @@ let bubbleState = {
   x: 0,
 
   y: 0,
+
+  renderX: 0,
+
+  popX: 0,
+
+  popY: 0,
 
   endY: 420,
 
@@ -1355,7 +1296,7 @@ window.addEventListener(
 resizeGame();
 
 /* =====================================================
-   ЛОДКА — РАЗМЕР
+   ЛОДКА
 ===================================================== */
 
 function measureBoat() {
@@ -1691,7 +1632,7 @@ function moveWaves() {
 }
 
 /* =====================================================
-   ПУЗЫРЬ — СЛЕДУЮЩИЙ
+   СЛЕДУЮЩИЙ ПУЗЫРЬ
 ===================================================== */
 
 function scheduleNextBubble() {
@@ -1708,14 +1649,12 @@ function scheduleNextBubble() {
   bubble.style.opacity =
     "1";
 
+  bubble.style.transform =
+    "none";
+
   bubble.classList.remove(
     "popping"
   );
-
-  /*
-    ПУЗЫРИ ТЕПЕРЬ ПОЯВЛЯЮТСЯ ЧАЩЕ:
-    от 0.7 до 1.8 секунды.
-  */
 
   bubbleState.nextSpawn =
 
@@ -1734,10 +1673,6 @@ function spawnBubble() {
 
   const leftSide =
     Math.random() < .5;
-
-  /*
-    ЛЕВАЯ ИЛИ ПРАВАЯ СТОРОНА
-  */
 
   if (
     leftSide
@@ -1762,16 +1697,8 @@ function spawnBubble() {
 
   }
 
-  /*
-    НАЧИНАЕТ СНИЗУ
-  */
-
   bubbleState.y =
     HEIGHT + 30;
-
-  /*
-    ДОХОДИТ ДО ПОВЕРХНОСТИ
-  */
 
   bubbleState.endY =
 
@@ -1780,20 +1707,12 @@ function spawnBubble() {
     Math.random() *
     30;
 
-  /*
-    РАЗМЕР
-  */
-
   bubbleState.size =
 
     95 +
 
     Math.random() *
     25;
-
-  /*
-    СКОРОСТЬ
-  */
 
   bubbleState.speed =
 
@@ -1808,20 +1727,13 @@ function spawnBubble() {
     Math.PI *
     2;
 
-  /*
-    ЖЁЛТЫЙ ИЛИ ЗЕЛЁНЫЙ.
-
-    Используем абсолютные
-    GitHub Pages ссылки.
-  */
-
   bubbleImage.src =
 
     Math.random() < .5
 
-      ? "https://propodgotovkaa-creator.github.io/fish/bubble_yellow.png"
+      ? "bubble_yellow.png"
 
-      : "https://propodgotovkaa-creator.github.io/fish/bubble_green.png";
+      : "bubble_green.png";
 
   bubble.style.width =
     `${bubbleState.size}px`;
@@ -1831,6 +1743,9 @@ function spawnBubble() {
 
   bubble.style.opacity =
     "1";
+
+  bubble.style.transform =
+    "none";
 
   bubble.style.display =
     "block";
@@ -1850,10 +1765,6 @@ function spawnBubble() {
 function moveBubble(
   dt
 ) {
-
-  /*
-    ПОКА ПУЗЫРЯ НЕТ
-  */
 
   if (
     !bubbleState.active
@@ -1875,9 +1786,13 @@ function moveBubble(
 
   }
 
-  /*
-    ЛОПАЕТСЯ
-  */
+  /* ===================================================
+     ЛОПАНИЕ
+
+     ВАЖНО:
+     координаты зафиксированы.
+     Пузырь больше НЕ возвращается вниз.
+  =================================================== */
 
   if (
     bubbleState.popping
@@ -1900,13 +1815,13 @@ function moveBubble(
     const scale =
 
       1 +
-      t * .32;
+      t * .30;
 
     bubble.style.transform = `
 
       translate(
-        ${bubbleState.x}px,
-        ${bubbleState.y}px
+        ${bubbleState.popX}px,
+        ${bubbleState.popY}px
       )
 
       scale(
@@ -1933,18 +1848,14 @@ function moveBubble(
 
   }
 
-  /*
-    ПОДЪЁМ
-  */
+  /* ===================================================
+     ОБЫЧНЫЙ ПОДЪЁМ
+  =================================================== */
 
   bubbleState.y -=
 
     bubbleState.speed *
     dt;
-
-  /*
-    ЛЁГКОЕ ПОКАЧИВАНИЕ
-  */
 
   const sway =
 
@@ -1957,18 +1868,19 @@ function moveBubble(
 
     ) * 16;
 
+  bubbleState.renderX =
+
+    bubbleState.x +
+    sway;
+
   bubble.style.transform = `
 
     translate(
-      ${bubbleState.x + sway}px,
+      ${bubbleState.renderX}px,
       ${bubbleState.y}px
     )
 
   `;
-
-  /*
-    ДОШЁЛ ДО ВОЛН
-  */
 
   if (
     bubbleState.y <=
@@ -1996,6 +1908,16 @@ function popBubble() {
 
   }
 
+  /*
+    ФИКСИРУЕМ ТОЧНО ТЕКУЩЕЕ МЕСТО.
+  */
+
+  bubbleState.popX =
+    bubbleState.renderX;
+
+  bubbleState.popY =
+    bubbleState.y;
+
   bubbleState.popping =
     true;
 
@@ -2003,11 +1925,35 @@ function popBubble() {
     0;
 
   bubbleImage.src =
-    "https://propodgotovkaa-creator.github.io/fish/bubble_pop.png";
+    "bubble_pop.png";
 
   bubble.classList.add(
     "popping"
   );
+
+  /*
+    ЗВУК.
+
+    Каждый раз начинаем mp3 сначала.
+  */
+
+  try {
+
+    bubblePopSound.pause();
+
+    bubblePopSound.currentTime =
+      0;
+
+    bubblePopSound.play();
+
+  } catch (error) {
+
+    console.log(
+      "Не удалось проиграть звук пузыря",
+      error
+    );
+
+  }
 
 }
 
@@ -2017,7 +1963,7 @@ bubble.addEventListener(
 );
 
 /* =====================================================
-   ЛОДКА
+   ПОЗА ЛОДКИ
 ===================================================== */
 
 function getBoatPose() {
@@ -2452,7 +2398,7 @@ function spawnFish(
 }
 
 /* =====================================================
-   РЕНДЕР РЫБ
+   РЕНДЕР
 ===================================================== */
 
 function renderFish(
@@ -2481,7 +2427,7 @@ function renderFish(
 }
 
 /* =====================================================
-   ВКЛЮЧЕНИЕ РЫБ
+   ВКЛЮЧЕНИЕ
 ===================================================== */
 
 function setFishEnabled(
@@ -2501,7 +2447,7 @@ function setFishEnabled(
 }
 
 /* =====================================================
-   ВЫБОР РЫБКИ
+   НАЖАТИЕ НА РЫБУ
 ===================================================== */
 
 function selectFish(
@@ -2595,10 +2541,6 @@ function animateCorrectCatch(
   current.elapsed +=
     dt;
 
-  /* --------------------------
-     КРЮЧОК К РЫБКЕ
-  -------------------------- */
-
   if (
     current.stage ===
     "lower"
@@ -2675,10 +2617,6 @@ function animateCorrectCatch(
     return;
 
   }
-
-  /* --------------------------
-     К ЛОДКЕ
-  -------------------------- */
 
   if (
     current.stage ===
@@ -2821,10 +2759,6 @@ function animateCorrectCatch(
 
   }
 
-  /* --------------------------
-     ИСЧЕЗНОВЕНИЕ
-  -------------------------- */
-
   if (
     current.stage ===
     "vanish"
@@ -2937,10 +2871,6 @@ function animateWrongCatch(
   current.elapsed +=
     dt;
 
-  /* --------------------------
-     КРЮЧОК
-  -------------------------- */
-
   if (
     current.stage ===
     "hook"
@@ -3024,10 +2954,6 @@ function animateWrongCatch(
     return;
 
   }
-
-  /* --------------------------
-     ТЯНЕТ ВНИЗ
-  -------------------------- */
 
   if (
     current.stage ===
@@ -3132,10 +3058,6 @@ function animateWrongCatch(
     return;
 
   }
-
-  /* --------------------------
-     СРЫВАЕТСЯ
-  -------------------------- */
 
   if (
     current.stage ===
@@ -3254,10 +3176,6 @@ function animateWrongCatch(
     return;
 
   }
-
-  /* --------------------------
-     ПЛАВНО ВОЗВРАЩАЕТСЯ
-  -------------------------- */
 
   if (
     current.stage ===
@@ -3449,10 +3367,6 @@ function finishCatch(
   action =
     null;
 
-  /*
-    ВСЕ 8 ПОЙМАНЫ
-  */
-
   if (
     caughtCorrect.size ===
     getTotalCorrect()
@@ -3485,7 +3399,7 @@ function finishCatch(
 }
 
 /* =====================================================
-   ПОСЛЕ РАУНДА 1
+   РАУНД 1 ЗАКОНЧЕН
 ===================================================== */
 
 function showRoundComplete() {
@@ -3505,6 +3419,9 @@ function showRoundComplete() {
 
   finishTitle.textContent =
     "Отлично порыбачили!";
+
+  finishText.className =
+    "";
 
   finishText.textContent =
     "Продолжим?";
@@ -3543,6 +3460,9 @@ function showGameComplete() {
 
   finishTitle.textContent =
     "Отличный улов!";
+
+  finishText.className =
+    "";
 
   finishText.innerHTML =
     "Все картинки со звуками С и Ш<br>пойманы!";
@@ -3614,15 +3534,14 @@ function startRound(
   targetSound.textContent =
     getRound().sound;
 
-  /*
-    ПУЗЫРЬ СБРАСЫВАЕМ
-  */
-
   bubble.style.display =
     "none";
 
   bubble.style.opacity =
     "1";
+
+  bubble.style.transform =
+    "none";
 
   bubble.classList.remove(
     "popping"
@@ -3688,7 +3607,7 @@ function startRound(
 }
 
 /* =====================================================
-   ОБЫЧНОЕ ДВИЖЕНИЕ РЫБ
+   ОБЫЧНОЕ ДВИЖЕНИЕ
 ===================================================== */
 
 function moveFishes(
@@ -3922,6 +3841,29 @@ finishButton.addEventListener(
     const actionType =
       finishButton.dataset.action;
 
+    /*
+      ПЕРВЫЙ СТАРТ
+    */
+
+    if (
+      actionType ===
+      "start"
+    ) {
+
+      finish.hidden =
+        true;
+
+      previousTime =
+        null;
+
+      return;
+
+    }
+
+    /*
+      РАУНД 2
+    */
+
     if (
       actionType ===
       "next-round"
@@ -3934,6 +3876,10 @@ finishButton.addEventListener(
       return;
 
     }
+
+    /*
+      СНАЧАЛА
+    */
 
     if (
       actionType ===
@@ -3956,7 +3902,7 @@ finishButton.addEventListener(
 );
 
 /* =====================================================
-   СТАРТ
+   ПОДГОТОВКА ПЕРЕД ПРАВИЛАМИ
 ===================================================== */
 
 moveWaves();
@@ -3964,6 +3910,51 @@ moveWaves();
 startRound(
   0
 );
+
+/*
+  startRound скрывает окно,
+  поэтому сразу возвращаем
+  окно с правилами перед стартом.
+*/
+
+finishIcon.textContent =
+  "🎣 🫧";
+
+finishTitle.textContent =
+  "Правила";
+
+finishText.className =
+  "rules-text";
+
+finishText.innerHTML = `
+
+  Лови рыбок с нужным звуком.
+  <br><br>
+
+  Если нужная рыба ещё не проплывает —
+  лопай пузыри.
+  <br><br>
+
+  🟡 Если пузырь жёлтый —
+  говори слог <strong>СА</strong>.
+  <br><br>
+
+  🟢 Если пузырь зелёный —
+  говори слог <strong>ША</strong>.
+  <br><br>
+
+  Лопай пузыри и жди свою рыбку!
+
+`;
+
+finishButton.textContent =
+  "Начать";
+
+finishButton.dataset.action =
+  "start";
+
+finish.hidden =
+  false;
 
 requestAnimationFrame(
   frame
