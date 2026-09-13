@@ -668,8 +668,7 @@ h1 {
 }
 
 #restart:active {
-  transform:
-    translateY(3px);
+  transform: translateY(3px);
 
   box-shadow:
     0 2px 0 #da9b3e;
@@ -1440,10 +1439,7 @@ function getBoatPose() {
     },
 
     /*
-      ИЗМЕНЕНО ТОЛЬКО ЭТО:
-
-      Рыбка исчезает НИЖЕ,
-      у ног мальчика.
+      ТОЧКА У НОГ МАЛЬЧИКА
     */
 
     landing: {
@@ -1451,12 +1447,12 @@ function getBoatPose() {
       x:
         BOAT_X +
         BOAT_WIDTH *
-        .60,
+        .565,
 
       y:
         top +
         boatHeight *
-        .66
+        .72
 
     }
 
@@ -2031,7 +2027,7 @@ function animateCorrectCatch(
   }
 
   /* -----------------------------------
-     2. ТЯНЕМ В ЛОДКУ
+     2. ДОЛЕТАЕТ ДО НОГ МАЛЬЧИКА
   ----------------------------------- */
 
   if (
@@ -2045,7 +2041,7 @@ function animateCorrectCatch(
 
         Math.min(
           current.elapsed /
-          1.45,
+          1.55,
           1
         )
 
@@ -2091,7 +2087,7 @@ function animateCorrectCatch(
 
       mix(
         1,
-        .72,
+        .58,
         t
       );
 
@@ -2107,6 +2103,14 @@ function animateCorrectCatch(
       ) * 4
 
     );
+
+    /*
+      Пока рыбка летит,
+      она полностью видима.
+    */
+
+    fish.element.style.opacity =
+      "1";
 
     const tip =
 
@@ -2146,6 +2150,12 @@ function animateCorrectCatch(
       t >= 1
     ) {
 
+      /*
+        Только теперь,
+        когда рыбка уже у ног мальчика,
+        начинается исчезновение.
+      */
+
       current.stage =
         "vanish";
 
@@ -2168,7 +2178,7 @@ function animateCorrectCatch(
   }
 
   /* -----------------------------------
-     3. ИСЧЕЗАЕТ НА МЕСТЕ
+     3. МЯГКО ИСЧЕЗАЕТ НА МЕСТЕ
   ----------------------------------- */
 
   if (
@@ -2182,11 +2192,16 @@ function animateCorrectCatch(
 
         Math.min(
           current.elapsed /
-          .48,
+          .55,
           1
         )
 
       );
+
+    /*
+      Рыбка больше никуда
+      не двигается.
+    */
 
     fish.x =
       current.vanishX;
@@ -2197,8 +2212,8 @@ function animateCorrectCatch(
     const scale =
 
       mix(
-        .72,
-        .20,
+        .58,
+        .35,
         t
       );
 
